@@ -1,6 +1,6 @@
 [
   {
-    "_id": 1,
+    "_id": "1",
     "code": "PRDABC123DEFX",
     "name": "Paracetamol",
     "brand": "Cipla",
@@ -9,18 +9,18 @@
     "quantity": 49,
     "isActive": true,
     "category": {
-      "id": 1,
+      "id": "1",
       "catName": "Antipyretics",
       "catDesc": "This is for reducing fever or pyrexia or pyresis",
       "catImgUrl": "CAT_1.png",
       "catActive": true
     },
-    "supplierId": 2,
+    "supplierId": "2",
     "purchases": 0,
     "views": 0
   },
   {
-    "_id": 2,
+    "_id": "2",
     "code": "PRDDEF123GHIX",
     "name": "Combiflame",
     "brand": "Cipla",
@@ -29,18 +29,18 @@
     "quantity": 49,
     "isActive": true,
     "category": {
-      "id": 1,
+      "id": "1",
       "catName": "Antipyretics",
       "catDesc": "This is for reducing fever or pyrexia or pyresis",
       "catImgUrl": "CAT_1.png",
       "catActive": true
     },
-    "supplierId": 2,
+    "supplierId": "2",
     "purchases": 4,
     "views": 0
   },
   {
-    "_id": 3,
+    "_id": "3",
     "code": "PRDDEF123DEFX",
     "name": "Diclofenac",
     "brand": "Intas",
@@ -49,18 +49,18 @@
     "quantity": 20,
     "isActive": true,
     "category": {
-      "id": 2,
+      "id": "2",
       "catName": "Analgesics",
       "catDesc": "This is for reducing pain known as painkillers",
       "catImgUrl": "CAT_2.png",
       "catActive": true
     },
-    "supplierId": 3,
+    "supplierId": "3",
     "purchases": 1,
     "views": 1
   },
   {
-    "_id": 4,
+    "_id": "4",
     "code": "PRDPQR123WGTX",
     "name": "Aceclofenac",
     "brand": "Cipla",
@@ -69,18 +69,18 @@
     "quantity": 80,
     "isActive": true,
     "category": {
-      "id": 2,
+      "id": "2",
       "catName": "Analgesics",
       "catDesc": "This is for reducing pain known as painkillers",
       "catImgUrl": "CAT_2.png",
       "catActive": true
     },
-    "supplierId": 2,
+    "supplierId": "2",
     "purchases": 3,
     "views": 3
   },
   {
-    "_id": 5,
+    "_id": "5",
     "code": "PRDMNO123PQRX",
     "name": "Amoxicillin",
     "brand": "Sun Pharma",
@@ -89,18 +89,18 @@
     "quantity": 65,
     "isActive": true,
     "category": {
-      "id": 3,
+      "id": "3",
       "catName": "Antibiotics",
       "catDesc": "This is for inhibiting germ growth",
       "catImgUrl": "CAT_3.png",
       "catActive": true
     },
-    "supplierId": 2,
+    "supplierId": "2",
     "purchases": 3,
     "views": 0
   },
   {
-    "_id": 6,
+    "_id": "6",
     "code": "PRDABCXYZDEFX",
     "name": "Ciprofloxacin",
     "brand": "Sun Pharma",
@@ -109,13 +109,13 @@
     "quantity": 45,
     "isActive": true,
     "category": {
-      "id": 3,
+      "id": "3",
       "catName": "Antibiotics",
       "catDesc": "This is for inhibiting germ growth",
       "catImgUrl": "CAT_3.png",
       "catActive": true
     },
-    "supplierId": 3,
+    "supplierId": "3",
     "purchases": 0,
     "views": 0
   }

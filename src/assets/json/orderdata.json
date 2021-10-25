@@ -1,22 +1,22 @@
 {
-  "_id": 1,
-  "userId": 4,
+  "_id": "1",
+  "userId": "4",
   "orderTotal": 40.0,
   "orderCount": 2,
-  "shippingId": 1,
-  "billingId": 1,
+  "shippingId": "1",
+  "billingId": "1",
   "orderItems": [
     {
-      "itemId": 1,
+      "itemId": "1",
       "total": 18.0,
-      "productId": 1,
+      "productId": "1",
       "productCount": 1,
       "buyingPrice": 18.0
     },
     {
-      "itemId": 2,
+      "itemId": "2",
       "total": 22.0,
-      "productId": 2,
+      "productId": "2",
       "productCount": 1,
       "buyingPrice": 22.0
     }

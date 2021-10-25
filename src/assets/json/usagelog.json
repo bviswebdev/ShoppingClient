@@ -1,19 +1,19 @@
 [
   {
-    "_id": 1,
-    "userId": 4,
+    "_id": "1",
+    "userId": "4",
     "loggedIn": false,
     "loggedOut": false,
     "actions": [
       {
-        "actionId": 1,
+        "actionId": "1",
         "actionType": null,
         "actionInfo": null
       }
     ],
     "Errors": [
       {
-        "errorId": 1,
+        "errorId": "1",
         "errorType": null,
         "errorInfo": null
       }

@@ -1,6 +1,6 @@
 [
   {
-    "_id": 1,
+    "_id": "1",
     "firstName": "Vikas",
     "lastName": "Kashyap",
     "role": "ADMIN",
@@ -8,10 +8,10 @@
     "password": "admin",
     "email": "vk@gmail.com",
     "contactNumber": "8888888888",
-    "address": []
+    "address": null
   },
   {
-    "_id": 2,
+    "_id": "2",
     "firstName": "Ravindra",
     "lastName": "Jadeja",
     "role": "SUPPLIER",
@@ -19,10 +19,10 @@
     "password": "supplier",
     "email": "rj@gmail.com",
     "contactNumber": "9999999999",
-    "address": []
+    "address": null
   },
   {
-    "_id": 3,
+    "_id": "3",
     "firstName": "Ravichandra",
     "lastName": "Ashwin",
     "role": "SUPPLIER",
@@ -30,10 +30,10 @@
     "password": "supplier",
     "email": "ra@gmail.com",
     "contactNumber": "7777777777",
-    "address": []
+    "address": null
   },
   {
-    "_id": 4,
+    "_id": "4",
     "firstName": "Kavita",
     "lastName": "Nigam",
     "role": "USER",
@@ -43,7 +43,7 @@
     "contactNumber": "7777777777",
     "address": [
       {
-        "addrId": 1,
+        "addrId": "1",
         "addressLineOne": "102 Sabarmati Society, Mahatma Gandhi Road",
         "addressLineTwo": "Near Salt Lake, Gandhi Nagar",
         "city": "Ahmedabad",
