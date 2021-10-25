@@ -1,0 +1,122 @@
+[
+  {
+    "_id": 1,
+    "code": "PRDABC123DEFX",
+    "name": "Paracetamol",
+    "brand": "Cipla",
+    "description": "An antipyretic medicine used for fever.",
+    "unitPrice": 18.0,
+    "quantity": 49,
+    "isActive": true,
+    "category": {
+      "id": 1,
+      "catName": "Antipyretics",
+      "catDesc": "This is for reducing fever or pyrexia or pyresis",
+      "catImgUrl": "CAT_1.png",
+      "catActive": true
+    },
+    "supplierId": 2,
+    "purchases": 0,
+    "views": 0
+  },
+  {
+    "_id": 2,
+    "code": "PRDDEF123GHIX",
+    "name": "Combiflame",
+    "brand": "Cipla",
+    "description": "An antipyretic medicine used for fever.",
+    "unitPrice": 22.0,
+    "quantity": 49,
+    "isActive": true,
+    "category": {
+      "id": 1,
+      "catName": "Antipyretics",
+      "catDesc": "This is for reducing fever or pyrexia or pyresis",
+      "catImgUrl": "CAT_1.png",
+      "catActive": true
+    },
+    "supplierId": 2,
+    "purchases": 4,
+    "views": 0
+  },
+  {
+    "_id": 3,
+    "code": "PRDDEF123DEFX",
+    "name": "Diclofenac",
+    "brand": "Intas",
+    "description": "An pain killer medicine.",
+    "unitPrice": 30.0,
+    "quantity": 20,
+    "isActive": true,
+    "category": {
+      "id": 2,
+      "catName": "Analgesics",
+      "catDesc": "This is for reducing pain known as painkillers",
+      "catImgUrl": "CAT_2.png",
+      "catActive": true
+    },
+    "supplierId": 3,
+    "purchases": 1,
+    "views": 1
+  },
+  {
+    "_id": 4,
+    "code": "PRDPQR123WGTX",
+    "name": "Aceclofenac",
+    "brand": "Cipla",
+    "description": "A muscle relaxant medicine.",
+    "unitPrice": 42.0,
+    "quantity": 80,
+    "isActive": true,
+    "category": {
+      "id": 2,
+      "catName": "Analgesics",
+      "catDesc": "This is for reducing pain known as painkillers",
+      "catImgUrl": "CAT_2.png",
+      "catActive": true
+    },
+    "supplierId": 2,
+    "purchases": 3,
+    "views": 3
+  },
+  {
+    "_id": 5,
+    "code": "PRDMNO123PQRX",
+    "name": "Amoxicillin",
+    "brand": "Sun Pharma",
+    "description": "A commonly used antibiotic for bacterial infection.",
+    "unitPrice": 54.0,
+    "quantity": 65,
+    "isActive": true,
+    "category": {
+      "id": 3,
+      "catName": "Antibiotics",
+      "catDesc": "This is for inhibiting germ growth",
+      "catImgUrl": "CAT_3.png",
+      "catActive": true
+    },
+    "supplierId": 2,
+    "purchases": 3,
+    "views": 0
+  },
+  {
+    "_id": 6,
+    "code": "PRDABCXYZDEFX",
+    "name": "Ciprofloxacin",
+    "brand": "Sun Pharma",
+    "description": "A commonly used antibiotic for bacterial infection.",
+    "unitPrice": 48.0,
+    "quantity": 45,
+    "isActive": true,
+    "category": {
+      "id": 3,
+      "catName": "Antibiotics",
+      "catDesc": "This is for inhibiting germ growth",
+      "catImgUrl": "CAT_3.png",
+      "catActive": true
+    },
+    "supplierId": 3,
+    "purchases": 0,
+    "views": 0
+  }
+]
