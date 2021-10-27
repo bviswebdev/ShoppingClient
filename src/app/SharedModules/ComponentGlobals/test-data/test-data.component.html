@@ -1,0 +1,24 @@
+<ng-container *ngIf="showData.user">
+  <br />
+  <h3><b> Users Data</b></h3>
+  <pre><p>{{ users | json }}</p></pre>
+  <br />
+</ng-container>
+<ng-container *ngIf="showData.product">
+  <br />
+  <h3><b>Products Data</b></h3>
+  <pre><p>{{ products | json }}</p></pre>
+  <br />
+</ng-container>
+<ng-container *ngIf="showData.cart">
+  <br />
+  <h3><b>Cart Data</b></h3>
+  <pre><p>{{ cart | json }}</p></pre>
+  <br />
+</ng-container>
+<ng-container *ngIf="showData.order">
+  <br />
+  <h3><b>Order Data</b></h3>
+  <pre><p>{{ order | json }}</p></pre>
+  <br />
+</ng-container>
