@@ -1,112 +1,140 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row
-    style="height: 75px"
-    fxLayout="row"
-    fxLayoutAlign="space-between center"
-  >
-    <div>
-      <button mat-button>
-        <span class="logotxt">Medicare</span>
-      </button>
-      <button mat-button fxHide.lt-sm="true">About</button>
-      <button mat-button fxHide.lt-sm="true">Contact</button>
-      <button mat-button fxHide.lt-sm="true">View Products</button>
-    </div>
-
-    <div>
-      <button
-        mat-icon-button
-        fxHide.gt-xs="true"
-        aria-label="Example icon-button with menu icon"
-      >
-        <mat-icon (click)="showMobileMenu()">menu</mat-icon>
-      </button>
-      <button mat-button fxHide.lt-sm="true">Sign Up</button>
-      <button mat-button fxHide.lt-sm="true">Login</button>
-    </div>
-  </mat-toolbar-row>
-
-  <mat-toolbar-row
-    *ngIf="mobileMenu"
-    fxLayout="row"
-    fxLayoutAlign="center center"
-  >
-    <button mat-button>About</button>
-  </mat-toolbar-row>
-  <mat-toolbar-row
-    *ngIf="mobileMenu"
-    fxLayout="row"
-    fxLayoutAlign="center center"
-  >
-    <button mat-button>Contact</button>
-  </mat-toolbar-row>
-  <mat-toolbar-row
-    *ngIf="mobileMenu"
-    fxLayout="row"
-    fxLayoutAlign="center center"
-  >
-    <button mat-button>View Products</button>
-  </mat-toolbar-row>
-  <mat-toolbar-row
-    *ngIf="mobileMenu"
-    fxLayout="row"
-    fxLayoutAlign="center center"
-  >
-    <button mat-button>Sign Up</button>
-  </mat-toolbar-row>
-  <mat-toolbar-row
-    fxLayout="row"
-    *ngIf="mobileMenu"
-    fxLayoutAlign="center center"
-  >
-    <button mat-button>Login</button>
-  </mat-toolbar-row>
-</mat-toolbar>
-
-<!--
-<mat-toolbar-row fxLayout="row" fxLayoutAlign="center center">
-  <button mat-button>About</button>
-</mat-toolbar-row>
-<mat-toolbar-row fxLayout="row" fxLayoutAlign="center center">
-  <button mat-button>Contact</button>
-</mat-toolbar-row>
-<mat-toolbar-row fxLayout="row" fxLayoutAlign="center center">
-  <button mat-button>View Products</button>
-</mat-toolbar-row>
-<mat-toolbar-row fxLayout="row" fxLayoutAlign="center center">
-  <button mat-button>Sign Up</button>
-</mat-toolbar-row>
-<mat-toolbar-row fxLayout="row" fxLayoutAlign="center center">
-  <button mat-button>Login</button>
-</mat-toolbar-row>
--->
-
-<!--<div
-  background-color="primary"
-  fxLayout="column"
-  fxLayoutAlign="center stretch"
-  fxLayoutGap="10px"
->
-  <div style="background-color: #3f51b5">
-    <div fxLayout="row" fxLayoutAlign="center center">
-      <button mat-button color="primary">About</button>
-    </div>
-  </div>
-  <button mat-button fxFlex="100">Contact</button>
-  <button mat-button>View Products</button>
-  <button mat-button>Sign Up</button>
-  <button mat-button>Login</button>
-</div>-->
-
-<!--<p>
-  fxLayoutAlign="space-between center"
+<nav>
   <mat-toolbar color="primary">
-    <button mat-button><span class="logotxt">Medicare</span></button>
-    <button mat-button>About</button>
-    <button mat-button>Contact</button>
-    <button mat-button>View Products</button>
-    <span class="example-spacer"></span>
-    <button mat-button>Sign Up</button>
-    <button mat-button>Login</button>
+    <mat-toolbar-row
+      style="height: 75px"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <div>
+        <button mat-button routerLink="/home">
+          <span class="logotxt">Medicare</span>
+        </button>
+        <button
+          mat-button
+          fxHide.lt-sm="true"
+          routerLink="/aboutus"
+          routerLinkActive="activelink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          About
+        </button>
+        <button
+          mat-button
+          fxHide.lt-sm="true"
+          routerLink="/contactus"
+          routerLinkActive="activelink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Contact
+        </button>
+        <button
+          mat-button
+          fxHide.lt-sm="true"
+          routerLink="/viewpub-prod"
+          routerLinkActive="activelink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          View Products
+        </button>
+      </div>
+
+      <div>
+        <button
+          mat-icon-button
+          fxHide.gt-xs="true"
+          aria-label="Example icon-button with menu icon"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+        <!-- <mat-menu #belowMenu="matMenu" yPosition="below">
+          <button mat-menu-item>Item 1</button>
+          <button mat-menu-item>Item 2</button>
+        </mat-menu>
+        [matMenuTriggerFor]="belowMenu"
+       -->
+        <button
+          mat-button
+          fxHide.lt-sm="true"
+          routerLink="/register"
+          routerLinkActive="activelink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Sign Up
+        </button>
+        <button
+          mat-button
+          fxHide.lt-sm="true"
+          routerLink="/signin"
+          routerLinkActive="activelink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Login
+        </button>
+      </div>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row
+      fxHide.gt-xs="true"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <div>
+        <button
+          mat-button
+          routerLink="/aboutus"
+          routerLinkActive="activelink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          About
+        </button>
+      </div>
+      <div>
+        <button
+          mat-button
+          routerLink="/contactus"
+          routerLinkActive="activelink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Contact
+        </button>
+      </div>
+      <div>
+        <button
+          mat-button
+          routerLink="/viewpub-prod"
+          routerLinkActive="activelink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          View Products
+        </button>
+      </div>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row
+      fxHide.gt-xs="true"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <div>
+        <button
+          mat-button
+          routerLink="/register"
+          routerLinkActive="activelink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Sign Up
+        </button>
+      </div>
+      <div>
+        <button
+          mat-button
+          routerLink="/signin"
+          routerLinkActive="activelink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Login
+        </button>
+      </div>
+    </mat-toolbar-row>
   </mat-toolbar>
-</p>-->
+</nav>

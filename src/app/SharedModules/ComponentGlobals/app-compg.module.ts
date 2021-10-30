@@ -6,6 +6,8 @@ import { AppHeaderComponent } from './app-header/app-header.component';
 import { AppNavComponent } from './app-nav/app-nav.component';
 import { AppFooterComponent } from './app-footer/app-footer.component';
 import { AppContentComponent } from './app-content/app-content.component';
+import { AppNotfoundComponent } from './app-notfound/app-notfound.component';
+import { RouterModule, Routes } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -14,8 +16,9 @@ import { AppContentComponent } from './app-content/app-content.component';
     AppNavComponent,
     AppFooterComponent,
     AppContentComponent,
+    AppNotfoundComponent,
   ],
-  imports: [AppMaterialModule, CommonModule],
+  imports: [AppMaterialModule, RouterModule, CommonModule],
   exports: [
     TestDataComponent,
     AppHeaderComponent,

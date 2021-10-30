@@ -3,3 +3,12 @@
   position: relative;
   bottom: 3px;
 }
+
+.activelink {
+  background-color: #29298f;
+}
+
+nav .mat-button:hover {
+  background: #000;
+  color: rgb(250, 154, 170);
+}

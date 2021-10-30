@@ -6,8 +6,10 @@
   gdRows="auto auto auto"
 >
   <div gdArea="header"><app-header></app-header></div>
-  <div gdArea="content">Content</div>
-  <div gdArea="footer">Footer</div>
+  <div gdArea="content" style="min-height: 72vh">
+    <router-outlet></router-outlet>
+  </div>
+  <div gdArea="footer"><app-footer></app-footer></div>
 </div>
 
 <!--<div fxLayout="row" fxLayoutAlign="space-between">
