@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { BreakpointService } from 'src/app/Services/GlobalService/breakpoint.service';
 
 @Component({
   selector: 'app-header',
@@ -6,7 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app-header.component.scss'],
 })
 export class AppHeaderComponent implements OnInit {
-  constructor() {}
+  @Input('breakpoint')
+  viewWidth: string = '';
 
-  ngOnInit(): void {}
+  constructor(public breakPoint: BreakpointService) {}
+
+  ngOnInit(): void {
+    console.log(this.viewWidth);
+  }
 }

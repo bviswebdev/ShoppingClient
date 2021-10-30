@@ -8,6 +8,7 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
 import { AppContentComponent } from './app-content/app-content.component';
 import { AppNotfoundComponent } from './app-notfound/app-notfound.component';
 import { RouterModule, Routes } from '@angular/router';
+import { AppXsnavComponent } from './app-xsnav/app-xsnav.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { RouterModule, Routes } from '@angular/router';
     AppFooterComponent,
     AppContentComponent,
     AppNotfoundComponent,
+    AppXsnavComponent,
   ],
   imports: [AppMaterialModule, RouterModule, CommonModule],
   exports: [

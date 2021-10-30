@@ -5,8 +5,12 @@
   gdGap="16px"
   gdRows="auto auto auto"
 >
-  <div gdArea="header"><app-header></app-header></div>
+  <div gdArea="header">
+    <app-header></app-header>
+  </div>
   <div gdArea="content" style="min-height: 72vh">
+    <h1 style="text-align: center">{{ showMobile }}</h1>
+
     <router-outlet></router-outlet>
   </div>
   <div gdArea="footer"><app-footer></app-footer></div>

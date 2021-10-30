@@ -1,1 +1,15 @@
-<header><app-nav></app-nav></header>
+<header>
+  <nav class="nav">
+    <ng-container *ngIf="breakPoint.Xs; else navdesktop">
+      <app-xsnav></app-xsnav>
+    </ng-container>
+    <ng-template #navdesktop><app-nav></app-nav></ng-template>
+  </nav>
+</header>
+
+<!-- <nav class="nav">
+    <ng-container *ngIf="viewWidth == 'xs'; else navdesktop">
+      <app-xsnav></app-xsnav>
+    </ng-container>
+    <ng-template #navdesktop><app-nav></app-nav></ng-template>
+  </nav>-->

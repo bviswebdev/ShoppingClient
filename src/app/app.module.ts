@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { AppSharedModule } from './SharedModules/app-shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,6 +15,8 @@ import { AppSharedModule } from './SharedModules/app-shared.module';
     BrowserAnimationsModule,
     AppSharedModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
