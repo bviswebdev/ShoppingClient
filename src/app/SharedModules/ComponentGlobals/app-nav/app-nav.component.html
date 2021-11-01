@@ -36,6 +36,31 @@
 
     <div>
       <button
+        *ngIf="authService.IsAuthenticated"
+        mat-button
+        (click)="appSignOut()"
+      >
+        Sign Out
+      </button>
+      <button
+        mat-button
+        *ngIf="authService.IsAuthenticated && authService.IsAdmin"
+        routerLink="/admin"
+        routerLinkActive="activelink"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Admin
+      </button>
+      <button
+        mat-button
+        *ngIf="authService.IsAuthenticated && authService.IsUser"
+        routerLink="/customer"
+        routerLinkActive="activelink"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Customer
+      </button>
+      <button
         mat-button
         routerLink="/register"
         routerLinkActive="activelink"
@@ -45,7 +70,7 @@
       </button>
       <button
         mat-button
-        routerLink="/signin"
+        (click)="appSignIn()"
         routerLinkActive="activelink"
         [routerLinkActiveOptions]="{ exact: true }"
       >

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { AuthService } from './Services/GlobalService/auth.service';
 import { BreakpointService } from './Services/GlobalService/breakpoint.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class AppComponent {
 
   constructor(
     public mediaObserver: MediaObserver,
-    public breakPoint: BreakpointService
+    public breakPoint: BreakpointService,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {
