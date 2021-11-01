@@ -9,8 +9,8 @@ import { PubHomeComponent } from './Public/PublicComp/pub-home/pub-home.componen
 import { PubLoginComponent } from './Public/PublicComp/pub-login/pub-login.component';
 import { PubRegisterComponent } from './Public/PublicComp/pub-register/pub-register.component';
 import { PubViewprodComponent } from './Public/PublicComp/pub-viewprod/pub-viewprod.component';
-import { AppSharedModule } from './SharedModules/app-shared.module';
-import { AppNotfoundComponent } from './SharedModules/ComponentGlobals/app-notfound/app-notfound.component';
+import { AppSharedModule } from './Shared/app-shared.module';
+import { AppNotfoundComponent } from './Shared/ComponentGlobals/app-notfound/app-notfound.component';
 
 const routes: Routes = [
   { path: 'home', component: PubHomeComponent },

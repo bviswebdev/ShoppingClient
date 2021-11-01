@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/Models/user.model';
-import { Product } from 'src/app/Models/product.model';
-import { Cart } from 'src/app/Models/cart.model';
-import { Order } from 'src/app/Models/order.model';
+import { User } from 'src/app/User/Model/user.model';
+import { Product } from 'src/app/Product/Model/product.model';
+import { Cart } from 'src/app/Cart/Model/cart.model';
+import { Order } from 'src/app/Order/Model/order.model';
 
 @Injectable()
 export class LoaddataService {

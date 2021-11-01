@@ -4,8 +4,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { AppSharedModule } from './SharedModules/app-shared.module';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppMaterialModule } from './app-material.module';
+import { LayoutModule } from './Layout/layout.module';
+import { AppSharedModule } from './Shared/app-shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,6 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    AppMaterialModule,
+    LayoutModule,
     AppSharedModule,
     HttpClientModule,
     FormsModule,

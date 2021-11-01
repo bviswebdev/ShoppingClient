@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Cart } from 'src/app/Models/cart.model';
-import { Order } from 'src/app/Models/order.model';
-import { Product } from 'src/app/Models/product.model';
-import { User } from 'src/app/Models/user.model';
+import { Cart } from 'src/app/Cart/Model/cart.model';
+import { Order } from 'src/app/Order/Model/order.model';
+import { Product } from 'src/app/Product/Model/product.model';
 import { LoaddataService } from 'src/app/Services/TestDataService/loaddata.service';
+import { User } from 'src/app/User/Model/user.model';
 
 @Injectable()
 export class Loadtestdata {
