@@ -11,13 +11,15 @@ export class Product {
     public category: Category,
     public supplierId: string,
     public purchases: number,
-    public views: number
+    public views: number,
+    public imageUrl?: string
   ) {}
 }
 
 export class Category {
   constructor(
     public id: string,
+    public catName: string,
     public catDesc: string,
     public catImgUrl: string,
     public catActive: boolean

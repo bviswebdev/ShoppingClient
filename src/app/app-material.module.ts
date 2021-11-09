@@ -6,6 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatCarouselModule } from '@ngmodule/material-carousel';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [],
@@ -16,7 +20,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
+    MatSidenavModule,
+    MatListModule,
+    MatCardModule,
     FlexLayoutModule,
+    MatCarouselModule.forRoot(),
   ],
   exports: [
     MatSliderModule,
@@ -25,7 +33,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
+    MatSidenavModule,
+    MatListModule,
+    MatCardModule,
     FlexLayoutModule,
+    MatCarouselModule,
   ],
 })
 export class AppMaterialModule {}

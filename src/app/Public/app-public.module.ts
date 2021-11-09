@@ -6,6 +6,9 @@ import { PubLoginComponent } from './PublicComp/pub-login/pub-login.component';
 import { PubRegisterComponent } from './PublicComp/pub-register/pub-register.component';
 import { PubViewprodComponent } from './PublicComp/pub-viewprod/pub-viewprod.component';
 import { PubHomeComponent } from './PublicComp/pub-home/pub-home.component';
+import { AppMaterialModule } from '../app-material.module';
+import { AppSharedModule } from '../Shared/app-shared.module';
+import { ProductModule } from '../Product/product.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,7 @@ import { PubHomeComponent } from './PublicComp/pub-home/pub-home.component';
     PubViewprodComponent,
     PubHomeComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, AppMaterialModule, ProductModule],
   exports: [
     PubAboutComponent,
     PubContactComponent,

@@ -1,1 +1,18 @@
-<p>pub-home works!</p>
+<main>
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side" opened="true">
+      <app-product-category></app-product-category>
+    </mat-sidenav>
+    <mat-sidenav-content
+      ><app-product-banner></app-product-banner>
+
+      <h1 class="prod-heading">Most Viewed Medicines</h1>
+
+      <app-product-card [cardData]="viewedProducts"></app-product-card>
+
+      <h1 class="prod-heading">Most Purchased Medicines</h1>
+
+      <app-product-card [cardData]="popularProducts"></app-product-card>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</main>
