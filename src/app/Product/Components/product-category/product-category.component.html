@@ -1,6 +1,6 @@
-<h1>Categories</h1>
+<h1 class="cat-head">Categories</h1>
 <mat-nav-list>
-  <mat-list-item *ngFor="let category of categories">
+  <mat-list-item *ngFor="let category of categories" class="cat-item">
     <a matLine routerLink="/aboutus">{{ category.catName }}</a>
   </mat-list-item>
 </mat-nav-list>
