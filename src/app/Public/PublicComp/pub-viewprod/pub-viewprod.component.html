@@ -1,1 +1,10 @@
-<p>pub-viewprod works!</p>
+<main>
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side" opened="true">
+      <app-product-category></app-product-category>
+    </mat-sidenav>
+    <mat-sidenav-content
+      ><app-product-view></app-product-view>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</main>

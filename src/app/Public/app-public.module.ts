@@ -9,6 +9,7 @@ import { PubHomeComponent } from './PublicComp/pub-home/pub-home.component';
 import { AppMaterialModule } from '../app-material.module';
 import { AppSharedModule } from '../Shared/app-shared.module';
 import { ProductModule } from '../Product/product.module';
+import { PubProddetailComponent } from './PublicComp/pub-proddetail/pub-proddetail.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ProductModule } from '../Product/product.module';
     PubRegisterComponent,
     PubViewprodComponent,
     PubHomeComponent,
+    PubProddetailComponent,
   ],
   imports: [CommonModule, AppMaterialModule, ProductModule],
   exports: [
@@ -26,6 +28,7 @@ import { ProductModule } from '../Product/product.module';
     PubLoginComponent,
     PubRegisterComponent,
     PubViewprodComponent,
+    PubProddetailComponent,
   ],
 })
 export class AppPublicModule {}

@@ -1,12 +1,12 @@
 export class Product {
   constructor(
-    public id: string,
+    public _id: string,
     public code: string,
     public name: string,
     public brand: string,
     public description: string,
     public unitPrice: number,
-    public Quantity: number,
+    public quantity: number,
     public isActive: boolean,
     public category: Category,
     public supplierId: string,

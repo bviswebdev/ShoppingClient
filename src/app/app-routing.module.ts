@@ -7,6 +7,7 @@ import { PubAboutComponent } from './Public/PublicComp/pub-about/pub-about.compo
 import { PubContactComponent } from './Public/PublicComp/pub-contact/pub-contact.component';
 import { PubHomeComponent } from './Public/PublicComp/pub-home/pub-home.component';
 import { PubLoginComponent } from './Public/PublicComp/pub-login/pub-login.component';
+import { PubProddetailComponent } from './Public/PublicComp/pub-proddetail/pub-proddetail.component';
 import { PubRegisterComponent } from './Public/PublicComp/pub-register/pub-register.component';
 import { PubViewprodComponent } from './Public/PublicComp/pub-viewprod/pub-viewprod.component';
 import { AppSharedModule } from './Shared/app-shared.module';
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'home', component: PubHomeComponent },
   { path: 'aboutus', component: PubAboutComponent },
   { path: 'contactus', component: PubContactComponent },
-  { path: 'viewpub-prod', component: PubViewprodComponent },
+  { path: 'view-prod', component: PubViewprodComponent },
+  { path: 'view-prod/:productId', component: PubProddetailComponent },
   { path: 'register', component: PubRegisterComponent },
   { path: 'signin', component: PubLoginComponent },
   {
