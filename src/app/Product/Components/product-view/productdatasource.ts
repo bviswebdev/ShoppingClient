@@ -2,7 +2,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
-import { Product } from '../../Model/product.model';
+import { Category, Product } from '../../Model/product.model';
 
 export interface ProductData {
   productId: string;
@@ -37,13 +37,20 @@ export class Productdatasource extends MatTableDataSource<ProductData> {
 
   constructor(
     transactions: Observable<Array<Product>>,
-    public authService: AuthService
+    public authService: AuthService,
+    categoryId: string | null
   ) {
     super();
     this.transactions$ = transactions
       .pipe(
         map((products: Array<Product>) => {
-          return products.map((product) => {
+          if (categoryId) {
+            return products.filter((prod) => prod.category.id === categoryId);
+          }
+          return products;
+        }),
+        map((prods: Array<Product>) => {
+          return prods.map((product) => {
             product.imageUrl = `../../assets/images/${product.code}.jpg`;
             return {
               productId: product._id,

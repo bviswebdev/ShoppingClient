@@ -17,8 +17,15 @@ const routes: Routes = [
   { path: 'home', component: PubHomeComponent },
   { path: 'aboutus', component: PubAboutComponent },
   { path: 'contactus', component: PubContactComponent },
+  {
+    path: 'view-prod/category/:categoryId',
+    component: PubViewprodComponent,
+  },
+  {
+    path: 'view-prod/product/:productId',
+    component: PubProddetailComponent,
+  },
   { path: 'view-prod', component: PubViewprodComponent },
-  { path: 'view-prod/:productId', component: PubProddetailComponent },
   { path: 'register', component: PubRegisterComponent },
   { path: 'signin', component: PubLoginComponent },
   {

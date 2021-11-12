@@ -7,6 +7,7 @@ import { ProductDataService } from '../../Service/productservice.service';
 import { ProductData, Productdatasource } from './productdatasource';
 import { productServiceFactory } from './productfactory';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-view',
@@ -17,7 +18,7 @@ import { AuthService } from 'src/app/Services/GlobalService/auth.service';
     {
       provide: Productdatasource,
       useFactory: productServiceFactory,
-      deps: [ProductDataService, AuthService],
+      deps: [ProductDataService, AuthService, ActivatedRoute],
     },
   ],
 })
@@ -30,7 +31,13 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(public productDataSource: Productdatasource) {}
+  constructor(
+    public productDataSource: Productdatasource,
+    private router: Router
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    console.log('hello world');
+  }
 
   ngOnInit(): void {
     this.products = this.productDataSource;

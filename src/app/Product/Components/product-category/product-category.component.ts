@@ -3,6 +3,7 @@ import { map, tap } from 'rxjs/operators';
 import { Category, Product } from '../../Model/product.model';
 import { ProductDataService } from '../../Service/productservice.service';
 import * as _ from 'lodash';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-category',
@@ -11,7 +12,10 @@ import * as _ from 'lodash';
 })
 export class ProductCategoryComponent implements OnInit {
   categories: Array<Category> = new Array<Category>();
-  constructor(private productDataService: ProductDataService) {}
+  constructor(
+    private productDataService: ProductDataService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.subscribeCategory();
@@ -29,6 +33,12 @@ export class ProductCategoryComponent implements OnInit {
         let resultArr = _.uniqBy(data, (obj) => obj.catName);
         resultArr = _.sortBy(resultArr, 'catName');
         this.categories = resultArr;
+        console.log('categories');
+        console.log(resultArr);
       });
+  }
+
+  goToDetail(val: string): void {
+    this.router.navigate([`/view-prod/${val}`]);
   }
 }
