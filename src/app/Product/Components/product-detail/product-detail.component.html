@@ -1,1 +1,117 @@
-<p>product-detail works!</p>
+<section fxLayout="row wrap" fxLayoutGap="10px">
+  <article fxFlex="30%" fxFlex.lt-md="100%">
+    <mat-card class="example-image-card">
+      <img
+        mat-card-image
+        src="{{ product?.imageUrl }}"
+        alt="Photo of a Shiba Inu"
+      />
+    </mat-card>
+  </article>
+  <article fxFlex="66%" fxFlex.lt-md="100%">
+    <mat-card class="example-card">
+      <mat-card-content>
+        <h1 style="margin-bottom: 10px">
+          <b>{{ product?.name }}</b>
+        </h1>
+        <div class="detail-text">{{ product?.description }}</div>
+        <div class="detail-text">
+          <span>Price:</span>&nbsp;
+          <b>{{ product?.unitPrice | currency: "&#8377;" }}</b>
+        </div>
+        <div class="detail-text">
+          <span>Quantity Available:</span>&nbsp; <b>{{ product?.quantity }}</b>
+        </div>
+        <div class="detail-text">About Product:</div>
+        <div class="detail-text">
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum
+            officiis modi aperiam dolorem minus vel corrupti nulla labore
+            quisquam voluptatem rerum, voluptatibus voluptate molestiae id nobis
+            tempore fugit ea dolor ad qui et libero unde laudantium vitae.
+            Voluptates hic debitis optio dignissimos eaque magni soluta deleniti
+            illum alias laborum? Magnam voluptate distinctio dolores vitae
+            aspernatur reiciendis dicta, repudiandae ut. Voluptates eveniet
+            animi nemo assumenda minus sunt aliquid at recusandae, ipsum culpa
+            soluta? Cupiditate corporis voluptate vel provident voluptas? Quas
+            animi molestias minus illo distinctio dolores aliquid harum ex,
+            accusantium ullam magnam fugiat ea quis optio, porro ab rem,
+            laboriosam minima.
+          </p>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium
+            accusamus iure officiis unde eaque? Dolores corporis illum eveniet
+            alias dignissimos officiis eligendi ipsam magnam? Non quas facilis
+            dolorem, sit illum error sequi ullam reiciendis quaerat velit qui
+            recusandae voluptate libero, aut amet harum quisquam voluptatem
+            dolor sint ipsa. Consequatur, nostrum tempora facilis repellendus
+            quam corrupti, illum pariatur animi veniam ipsam rerum sint nemo
+            dolore earum ut quibusdam expedita doloribus, fuga incidunt
+            voluptatem suscipit nisi delectus aliquid? Alias sit praesentium
+            quos, consequatur culpa rerum doloremque aspernatur, impedit eaque
+            obcaecati quidem veritatis, officiis aut voluptatum magni
+            exercitationem! Fugit sit officiis ipsam iure.
+          </p>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium
+            accusamus iure officiis unde eaque? Dolores corporis illum eveniet
+            alias dignissimos officiis eligendi ipsam magnam? Non quas facilis
+            dolorem, sit illum error sequi ullam reiciendis quaerat velit qui
+            recusandae voluptate libero, aut amet harum quisquam voluptatem
+            dolor sint ipsa. Consequatur, nostrum tempora facilis repellendus
+            quam corrupti, illum pariatur animi veniam ipsam rerum sint nemo
+            dolore earum ut quibusdam expedita doloribus, fuga incidunt
+            voluptatem suscipit nisi delectus aliquid? Alias sit praesentium
+            quos, consequatur culpa rerum doloremque aspernatur, impedit eaque
+            obcaecati quidem veritatis, officiis aut voluptatum magni
+            exercitationem! Fugit sit officiis ipsam iure.
+          </p>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium
+            accusamus iure officiis unde eaque? Dolores corporis illum eveniet
+            alias dignissimos officiis eligendi ipsam magnam? Non quas facilis
+            dolorem, sit illum error sequi ullam reiciendis quaerat velit qui
+            recusandae voluptate libero, aut amet harum quisquam voluptatem
+            dolor sint ipsa. Consequatur, nostrum tempora facilis repellendus
+            quam corrupti, illum pariatur animi veniam ipsam rerum sint nemo
+            dolore earum ut quibusdam expedita doloribus, fuga incidunt
+            voluptatem suscipit nisi delectus aliquid? Alias sit praesentium
+            quos, consequatur culpa rerum doloremque aspernatur, impedit eaque
+            obcaecati quidem veritatis, officiis aut voluptatum magni
+            exercitationem! Fugit sit officiis ipsam iure.
+          </p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="!authService.IsAuthenticated && !authService.IsAdmin"
+        >
+          Add to Cart
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          *ngIf="!authService.IsAuthenticated && !authService.IsAdmin"
+        >
+          Continue Shopping
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="authService.IsAuthenticated && authService.IsAdmin"
+        >
+          Edit
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          *ngIf="authService.IsAuthenticated && authService.IsAdmin"
+        >
+          Back
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </article>
+</section>

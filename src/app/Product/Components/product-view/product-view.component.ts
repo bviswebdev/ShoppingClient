@@ -5,12 +5,21 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ProductView } from './productview';
 import { ProductDataService } from '../../Service/productservice.service';
 import { ProductData, Productdatasource } from './productdatasource';
+import { productServiceFactory } from './productfactory';
+import { AuthService } from 'src/app/Services/GlobalService/auth.service';
 
 @Component({
   selector: 'app-product-view',
   templateUrl: './product-view.component.html',
   styleUrls: ['./product-view.component.scss'],
-  providers: [{ provide: ProductView, useClass: ProductView }],
+  providers: [
+    { provide: ProductView, useClass: ProductView },
+    {
+      provide: Productdatasource,
+      useFactory: productServiceFactory,
+      deps: [ProductDataService, AuthService],
+    },
+  ],
 })
 export class ProductViewComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [];
@@ -21,17 +30,11 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(
-    private productDataService: ProductDataService,
-    private productView: ProductView
-  ) {
-    //this.applyRoleDisplayedColumns();
-  }
+  constructor(public productDataSource: Productdatasource) {}
 
   ngOnInit(): void {
-    const productstream$ = this.productDataService.getProductsJson();
-    this.products = new Productdatasource(productstream$);
-    this.displayedColumns = this.productView.getDisplayColumnsRoleBased();
+    this.products = this.productDataSource;
+    this.displayedColumns = this.productDataSource.getDisplayColumnsRoleBased();
   }
 
   ngAfterViewInit() {

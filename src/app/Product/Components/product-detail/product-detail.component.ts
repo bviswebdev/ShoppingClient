@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, tap } from 'rxjs/operators';
+import { AuthService } from 'src/app/Services/GlobalService/auth.service';
 import { Product } from '../../Model/product.model';
 import { ProductDataService } from '../../Service/productservice.service';
 
@@ -10,11 +11,13 @@ import { ProductDataService } from '../../Service/productservice.service';
   styleUrls: ['./product-detail.component.scss'],
 })
 export class ProductDetailComponent implements OnInit {
-  product: Product | undefined;
+  product!: Product;
 
   constructor(
     private route: ActivatedRoute,
-    private productDataService: ProductDataService
+    private productDataService: ProductDataService,
+    public authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
