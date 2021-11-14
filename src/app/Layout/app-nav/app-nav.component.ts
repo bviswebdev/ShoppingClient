@@ -25,6 +25,6 @@ export class AppNavComponent implements OnInit {
 
   appSignOut(): void {
     this.authService.resetAuthSessionStorage();
-    this.router.navigate(['/signin']);
+    this.router.navigate(['/medicare/signin']);
   }
 }

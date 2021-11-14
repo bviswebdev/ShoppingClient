@@ -7,9 +7,10 @@ import { PubRegisterComponent } from './PublicComp/pub-register/pub-register.com
 import { PubViewprodComponent } from './PublicComp/pub-viewprod/pub-viewprod.component';
 import { PubHomeComponent } from './PublicComp/pub-home/pub-home.component';
 import { AppMaterialModule } from '../app-material.module';
-import { AppSharedModule } from '../Shared/app-shared.module';
 import { ProductModule } from '../Product/product.module';
 import { PubProddetailComponent } from './PublicComp/pub-proddetail/pub-proddetail.component';
+import { PubProductsComponent } from './PublicComp/pub-products/pub-products.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -20,8 +21,9 @@ import { PubProddetailComponent } from './PublicComp/pub-proddetail/pub-proddeta
     PubViewprodComponent,
     PubHomeComponent,
     PubProddetailComponent,
+    PubProductsComponent,
   ],
-  imports: [CommonModule, AppMaterialModule, ProductModule],
+  imports: [CommonModule, AppMaterialModule, ProductModule, RouterModule],
   exports: [
     PubAboutComponent,
     PubContactComponent,

@@ -1,8 +1,10 @@
 <h1 class="cat-head">Categories</h1>
 <mat-nav-list>
   <mat-list-item *ngFor="let category of categories" class="cat-item">
-    <a matLine [routerLink]="['/view-prod/category', category.id]">{{
-      category.catName
-    }}</a>
+    <a
+      matLine
+      [routerLink]="['/medicare/viewproducts/category', category.id]"
+      >{{ category.catName }}</a
+    >
   </mat-list-item>
 </mat-nav-list>

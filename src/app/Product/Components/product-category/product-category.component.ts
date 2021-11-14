@@ -15,9 +15,12 @@ export class ProductCategoryComponent implements OnInit {
   constructor(
     private productDataService: ProductDataService,
     private router: Router
-  ) {}
+  ) {
+    //this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
 
   ngOnInit(): void {
+    this.categories = [];
     this.subscribeCategory();
   }
 

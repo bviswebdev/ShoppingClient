@@ -7,6 +7,7 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
 import { AppContentComponent } from './app-content/app-content.component';
 import { RouterModule } from '@angular/router';
 import { AppMaterialModule } from '../app-material.module';
+import { AppMedicareComponent } from './app-medicare/app-medicare.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { AppMaterialModule } from '../app-material.module';
     AppNavComponent,
     AppXsnavComponent,
     AppContentComponent,
+    AppMedicareComponent,
   ],
   imports: [RouterModule, AppMaterialModule, CommonModule],
   exports: [
@@ -23,6 +25,7 @@ import { AppMaterialModule } from '../app-material.module';
     AppNavComponent,
     AppXsnavComponent,
     AppContentComponent,
+    AppMedicareComponent,
   ],
 })
 export class LayoutModule {}
