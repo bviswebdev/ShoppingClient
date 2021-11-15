@@ -11,6 +11,7 @@ import { ProductModule } from '../Product/product.module';
 import { PubProddetailComponent } from './PublicComp/pub-proddetail/pub-proddetail.component';
 import { PubProductsComponent } from './PublicComp/pub-products/pub-products.component';
 import { RouterModule } from '@angular/router';
+import { AppSharedModule } from '../Shared/app-shared.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,13 @@ import { RouterModule } from '@angular/router';
     PubProddetailComponent,
     PubProductsComponent,
   ],
-  imports: [CommonModule, AppMaterialModule, ProductModule, RouterModule],
+  imports: [
+    CommonModule,
+    AppMaterialModule,
+    ProductModule,
+    RouterModule,
+    AppSharedModule,
+  ],
   exports: [
     PubAboutComponent,
     PubContactComponent,

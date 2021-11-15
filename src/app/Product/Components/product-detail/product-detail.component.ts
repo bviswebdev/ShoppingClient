@@ -27,16 +27,16 @@ export class ProductDetailComponent implements OnInit {
     this.productDataService
       .getProductsJson()
       .pipe(
-        tap((data) => console.log(data)),
+        //tap((data) => console.log(data)),
         map((prods: Array<Product>) =>
           prods.filter((prod) => prod._id === productIdFromRoute)
-        ),
-        tap((data) => console.log(data))
+        )
+        //tap((data) => console.log(data))
       )
       .subscribe((data) => {
         this.product = data[0];
         this.product.imageUrl = `../../assets/images/${this.product.code}.jpg`;
-        console.log(this.product);
+        //console.log(this.product);
       });
 
     // Find the product that correspond with the id provided in route.

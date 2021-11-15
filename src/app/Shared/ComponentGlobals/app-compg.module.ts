@@ -7,8 +7,12 @@ import { AppMaterialModule } from 'src/app/app-material.module';
 import { AppBreadcrumbComponent } from './app-breadcrumb/app-breadcrumb.component';
 
 @NgModule({
-  declarations: [TestDataComponent, AppNotfoundComponent, AppBreadcrumbComponent],
+  declarations: [
+    TestDataComponent,
+    AppNotfoundComponent,
+    AppBreadcrumbComponent,
+  ],
   imports: [AppMaterialModule, RouterModule, CommonModule],
-  exports: [TestDataComponent],
+  exports: [TestDataComponent, AppBreadcrumbComponent],
 })
 export class AppCompgModule {}

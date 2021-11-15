@@ -36,7 +36,7 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
     private router: Router
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    console.log('hello world');
+    //console.log('hello world');
   }
 
   ngOnInit(): void {

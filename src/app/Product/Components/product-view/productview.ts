@@ -53,7 +53,7 @@ export class ProductView {
       dpColumns.splice(dpColumns.indexOf(e), 1);
     });
 
-    console.log(dpColumns);
+    //console.log(dpColumns);
 
     return dpColumns;
   }

@@ -25,7 +25,7 @@ export class PubHomeComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log(this.sidenavContainer.scrollable);
+    //console.log(this.sidenavContainer.scrollable);
   }
 
   private subscribeMostViewedProduct(): void {

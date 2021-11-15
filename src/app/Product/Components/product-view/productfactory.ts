@@ -11,14 +11,14 @@ export const productServiceFactory = (
   route: ActivatedRoute
 ) => {
   //let categoryIdFromRoute!: string | null;
-  console.log('router');
-  console.log(route);
+  //console.log('router');
+  //console.log(route);
   /*route.params.subscribe((routeParams) => {
     categoryIdFromRoute = routeParams.categoryId;
   });*/
   const routeParams = route.snapshot.paramMap;
   const categoryIdFromRoute = routeParams.get('categoryId');
-  console.log(`categoryid is - ${categoryIdFromRoute}`);
+  // console.log(`categoryid is - ${categoryIdFromRoute}`);
   const productstream$ = productDataService.getProductsJson();
 
   if (categoryIdFromRoute) {

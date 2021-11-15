@@ -1,4 +1,19 @@
 <p>app-breadcrumb works!</p>
+<section>
+  <mat-card class="example-card">
+    <ol class="breadcrumb">
+      <li *ngFor="let breadcrumb of breadcrumbs">
+        <span
+          class="breadurl"
+          [routerLink]="breadcrumb.url"
+          routerLinkActive="router-link-active"
+        >
+          {{ breadcrumb.label }}
+        </span>
+      </li>
+    </ol>
+  </mat-card>
+</section>
 
 <!--
 bgColor	Optional	To set background-color for Breadcrumb, default #eee

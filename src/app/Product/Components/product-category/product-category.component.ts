@@ -36,8 +36,8 @@ export class ProductCategoryComponent implements OnInit {
         let resultArr = _.uniqBy(data, (obj) => obj.catName);
         resultArr = _.sortBy(resultArr, 'catName');
         this.categories = resultArr;
-        console.log('categories');
-        console.log(resultArr);
+        //.log('categories');
+        //console.log(resultArr);
       });
   }
 

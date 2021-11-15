@@ -21,6 +21,9 @@ const routes: Routes = [
   {
     path: 'medicare',
     component: AppContentComponent,
+    data: {
+      breadcrumb: 'Home',
+    },
     children: [
       {
         path: '',
@@ -34,36 +37,76 @@ const routes: Routes = [
       {
         path: 'aboutus',
         component: PubAboutComponent,
+        data: {
+          breadcrumb: 'Aboutus',
+        },
       },
       {
         path: 'contactus',
         component: PubContactComponent,
+        data: {
+          breadcrumb: 'Contactus',
+        },
       },
       {
         path: 'viewproducts',
-        component: PubProductsComponent,
+        data: {
+          breadcrumb: 'Products',
+        },
         children: [
           {
             path: '',
             component: PubViewprodComponent,
           },
           {
-            path: 'category/:categoryId',
-            component: PubViewprodComponent,
+            path: 'category',
+            data: {
+              breadcrumb: 'Category',
+            },
+            children: [
+              { path: '', component: PubViewprodComponent },
+              {
+                path: ':categoryId',
+                component: PubViewprodComponent,
+                data: {
+                  breadcrumb: '',
+                  breadcrumbkey: 'category',
+                },
+              },
+            ],
           },
           {
-            path: 'product/:productId',
-            component: PubProddetailComponent,
+            path: 'product',
+            data: {
+              breadcrumb: 'Product',
+            },
+            children: [
+              { path: '', component: PubViewprodComponent },
+              {
+                path: ':productId',
+                component: PubProddetailComponent,
+                data: {
+                  breadcrumb: '',
+                  breadcrumbkey: 'product',
+                },
+              },
+            ],
           },
         ],
       },
       {
         path: 'register',
         component: PubRegisterComponent,
+        data: {
+          breadcrumb: 'Register',
+        },
       },
       {
         path: 'signin',
         component: PubLoginComponent,
+        data: {
+          breadcrumb: 'Login',
+        },
       },
     ],
   },
