@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { IBreadCrumb } from './breadcrumb.interface';
@@ -10,6 +10,9 @@ import { BreadcrumbService } from './breadcrumb.service';
   styleUrls: ['./app-breadcrumb.component.scss'],
 })
 export class AppBreadcrumbComponent implements OnInit {
+  @Input('singleColPage')
+  singleColumn: boolean = false;
+
   public breadcrumbs!: IBreadCrumb[];
   constructor(
     private router: Router,

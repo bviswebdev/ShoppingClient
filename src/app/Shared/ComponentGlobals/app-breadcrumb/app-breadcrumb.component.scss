@@ -1,7 +1,12 @@
 .breadcrumb {
   background: none;
-  font-size: 1.5em;
-  margin: 0;
+  font-size: 1.2em;
+
+  .breadcrumbitem {
+    margin-left: 5px;
+    margin-right: 25px;
+    position: relative;
+  }
   a,
   span {
     color: rgb(119, 117, 117);
@@ -15,28 +20,22 @@
   span.breadurl {
     font-weight: 500;
   }
-  li {
-    list-style: none;
-    float: left;
-    margin: 5px;
+  mat-icon {
+    position: absolute;
+    top: -1px;
   }
-  li:last-child {
-    margin-right: 20px;
-  }
-  li::after {
-    content: "->";
-    color: darkgrey;
-  }
-  li:last-child::after {
-    content: "";
+  .breadcrumbitem:last-child mat-icon {
+    background-color: green;
+    display: none;
   }
 }
 
-.example-card {
-  width: 96%;
-  margin-top: 50px;
+.breadpagemargin {
   margin-left: 20px;
-  margin-right: 20px;
-  background-color: #f5f5f5;
-  height: 30px;
 }
+
+/*
+.breadcrumb > .breadcrumbitem:last-child mat-icon {
+  background-color: green;
+  display: none;
+}*/
