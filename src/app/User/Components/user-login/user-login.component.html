@@ -1,0 +1,42 @@
+<section class="loginsec" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <h1>Medicare Login</h1>
+        <mat-error *ngIf="loginInvalid">
+          The username and password were not recognised
+        </mat-error>
+
+        <mat-form-field class="full-width-input">
+          <input matInput placeholder="Email" formControlName="username" />
+          <mat-error *ngIf="username?.errors?.['required']">
+            Email address required
+          </mat-error>
+          <mat-error *ngIf="username?.errors?.['email']">
+            Please provide a valid email address
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            type="password"
+            placeholder="Password"
+            formControlName="password"
+          />
+
+          <mat-error *ngIf="password?.errors?.['required']">
+            Password required
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" class="btnlogin">
+          Login
+        </button>
+        <button mat-raised-button color="primary" class="btnlogin">
+          Register
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>

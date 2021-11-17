@@ -12,6 +12,7 @@ import { PubProddetailComponent } from './PublicComp/pub-proddetail/pub-proddeta
 import { PubProductsComponent } from './PublicComp/pub-products/pub-products.component';
 import { RouterModule } from '@angular/router';
 import { AppSharedModule } from '../Shared/app-shared.module';
+import { UserModule } from '../User/user.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AppSharedModule } from '../Shared/app-shared.module';
     ProductModule,
     RouterModule,
     AppSharedModule,
+    UserModule,
   ],
   exports: [
     PubAboutComponent,

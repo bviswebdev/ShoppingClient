@@ -20,7 +20,7 @@ export class AppNavComponent implements OnInit {
   }
 
   appSignIn(): void {
-    this.authService.setAdminToSessionStorage('admin', 'test');
+    //this.authService.setAdminToSessionStorage('admin', 'test');
   }
 
   appSignOut(): void {

@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { IBreadCrumb } from './breadcrumb.interface';
 import { BreadcrumbService } from './breadcrumb.service';
 
