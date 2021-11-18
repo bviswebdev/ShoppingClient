@@ -4,14 +4,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './Components/admin/admin.component';
 import { AdmintestComponent } from './Components/admintest/admintest.component';
 import { AuthadminGuard } from '../Guards/authadmin.guard';
+import { PubHomeComponent } from '../Public/PublicComp/pub-home/pub-home.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminComponent,
     canActivate: [AuthadminGuard],
     canActivateChild: [AuthadminGuard],
     children: [
+      {
+        path: '',
+        component: PubHomeComponent,
+      },
       {
         path: 'test',
         component: AdmintestComponent,

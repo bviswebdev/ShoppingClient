@@ -40,6 +40,7 @@ import { UserModule } from '../User/user.module';
     PubRegisterComponent,
     PubViewprodComponent,
     PubProddetailComponent,
+    PubHomeComponent,
   ],
 })
 export class AppPublicModule {}

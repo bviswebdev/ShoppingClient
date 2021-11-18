@@ -26,6 +26,10 @@ export class AuthService {
     this.auth.authToken = val;
   }
 
+  set setUserName(val: string) {
+    this.auth.userName = val;
+  }
+
   get IsAuthenticated(): boolean {
     return this.auth.isAuthenticated;
   }
@@ -39,6 +43,10 @@ export class AuthService {
 
   get IsAdmin() {
     return this.auth.isAdmin;
+  }
+
+  get UserName() {
+    return this.auth.userName;
   }
 
   get AuthToken() {
@@ -68,24 +76,31 @@ export class AuthService {
     this.setIsUser = loggedAuth.isUser;
     this.setRole = loggedAuth.role;
     this.setAuthToken = loggedAuth.authToken;
+    this.setUserName = loggedAuth.userName;
     sessionStorage.setItem('medauth', JSON.stringify(this.auth));
   }
 
-  setAdminToSessionStorage(role: string, token: string): void {
+  setAdminToSessionStorage(
+    role: string,
+    token: string,
+    userName: string
+  ): void {
     this.setIsAuthenticated = true;
     this.setIsAdmin = true;
     this.setIsUser = false;
     this.setRole = role;
     this.setAuthToken = token;
+    this.setUserName = userName;
     sessionStorage.setItem('medauth', JSON.stringify(this.auth));
   }
 
-  setUserToSessionStorage(role: string, token: string): void {
+  setUserToSessionStorage(role: string, token: string, userName: string): void {
     this.setIsAuthenticated = true;
     this.setIsAdmin = false;
     this.setIsUser = true;
     this.setRole = role;
     this.setAuthToken = token;
+    this.setUserName = userName;
     sessionStorage.setItem('medauth', JSON.stringify(this.auth));
   }
 
@@ -95,6 +110,7 @@ export class AuthService {
     this.setIsUser = false;
     this.setRole = '';
     this.setAuthToken = '';
+    this.setUserName = '';
     sessionStorage.clear();
   }
 }

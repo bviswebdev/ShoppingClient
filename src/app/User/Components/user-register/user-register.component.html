@@ -1,1 +1,111 @@
-<p>user-register works!</p>
+<section class="registersec" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <h1>Medicare Register</h1>
+        <mat-error class="errText" *ngIf="loginInvalid">
+          Please enter correct username and password.
+        </mat-error>
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            placeholder="First Name"
+            formControlName="firstname"
+          />
+          <mat-error *ngIf="firstname?.errors?.['required']">
+            Firstname is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width-input">
+          <input matInput placeholder="Last Name" formControlName="lastname" />
+          <mat-error *ngIf="lastname?.errors?.['required']">
+            Lastname is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width-input">
+          <input matInput placeholder="Email" formControlName="email" />
+          <mat-error *ngIf="email?.errors?.['required']">
+            Email address required
+          </mat-error>
+          <mat-error *ngIf="email?.errors?.['email']">
+            Please provide a valid email address
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            placeholder="Contact Number"
+            formControlName="contactnumber"
+          />
+          <mat-error *ngIf="contactnumber?.errors?.['required']">
+            Phone Number required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            type="password"
+            placeholder="Password"
+            formControlName="password"
+          />
+
+          <mat-error *ngIf="password?.errors?.['required']">
+            Password required
+          </mat-error>
+          <mat-error
+            *ngIf="password?.errors?.['minlength']||password?.errors?.['maxlength']"
+          >
+            Password length should be minimum 3 - 12 characters. characters
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            type="password"
+            placeholder="Confirm Password"
+            formControlName="confirmpassword"
+          />
+          <mat-error *ngIf="confirmpassword?.errors?.['required']">
+            Confirm Password required
+          </mat-error>
+
+          <mat-error *ngIf="confirmpassword?.hasError('mismatch')">
+            Password and Confirm Password didn't match.
+          </mat-error>
+        </mat-form-field>
+        <div>
+          <mat-radio-group
+            aria-label="Select an option"
+            formControlName="selectrole"
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            class="example-radio-group"
+          >
+            <mat-radio-button class="example-radio-button" value="user"
+              >User</mat-radio-button
+            >
+            <mat-radio-button class="example-radio-button" value="Supplier"
+              >Supplier</mat-radio-button
+            >
+          </mat-radio-group>
+          <mat-error *ngIf="selectrole?.errors?.['required']">
+            Please select a role
+          </mat-error>
+        </div>
+
+        <button
+          mat-raised-button
+          color="primary"
+          class="btnregister"
+          routerLink="/medicare/register"
+        >
+          Next - Billing
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>

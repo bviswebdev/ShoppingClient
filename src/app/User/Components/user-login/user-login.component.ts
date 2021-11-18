@@ -32,32 +32,65 @@ export class UserLoginComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(12),
+        ],
+      ],
     });
 
     this.returnUrl = this.route.snapshot.queryParams.returnUrl;
+    console.log(`return url ${this.returnUrl}`);
 
     /* if (await this.authService.checkAuthenticated()) {
       await this.router.navigate([this.returnUrl]);
     }*/
   }
 
+  appSignIn(): void {
+    //this.authService.setAdminToSessionStorage('admin', 'test');
+  }
+
+  appSignOut(): void {
+    this.authService.resetAuthSessionStorage();
+    this.router.navigate(['/medicare/signin']);
+  }
+
   async onSubmit() {
     this.loginInvalid = false;
     this.formSubmitAttempt = false;
+    console.log(this.form);
 
     if (this.form.valid) {
       try {
-        const username = this.form.get('username')
-          ? this.form.get('username')?.value
-          : '';
-        const password = this.form.get('password')
-          ? this.form.get('password')?.value
-          : '';
-
         console.log(this.form);
-        console.log(username);
-        console.log(password);
+        if (
+          this.username?.value === 'admin@abc.com' &&
+          this.password?.value === 'password'
+        ) {
+          this.authService.setAdminToSessionStorage(
+            'admin',
+            'test',
+            this.username.value
+          );
+          this.router.navigate(['/medicare']);
+        } else if (
+          this.username?.value === 'user@abc.com' &&
+          this.password?.value === 'password'
+        ) {
+          this.authService.setUserToSessionStorage(
+            'user',
+            'test',
+            this.username.value
+          );
+          this.router.navigate(['/medicare']);
+        } else {
+          this.loginInvalid = true;
+        }
+
         // await this.authService.login(username, password);
       } catch (err) {
         this.loginInvalid = true;

@@ -11,9 +11,34 @@
     </div>
 
     <div>
-      <button mat-icon-button aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
+      <button
+        mat-icon-button
+        *ngIf="!authService.IsAuthenticated"
+        aria-label="Example icon-button with a menu"
+      >
+        <mat-icon>more_vert</mat-icon>
       </button>
+      <button
+        mat-icon-button
+        *ngIf="authService.IsAuthenticated"
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+        style="margin-right: 100px"
+      >
+        {{ authService.UserName }}
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="appSignOut()">
+          <mat-icon style="font-size: large">Logout</mat-icon>
+          <span>Logout</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>Disable alerts</span>
+        </button>
+      </mat-menu>
+
       <!-- <mat-menu #belowMenu="matMenu" yPosition="below">
           <button mat-menu-item>Item 1</button>
           <button mat-menu-item>Item 2</button>
@@ -75,11 +100,18 @@
 
   <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
     <div>
+      <button mat-icon-button aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <div>
       <button
         mat-button
+        *ngIf="!authService.IsAuthenticated"
         routerLink="/register"
         routerLinkActive="activelink"
         [routerLinkActiveOptions]="{ exact: true }"
+        style="margin-left: 175px"
       >
         Sign Up
       </button>
@@ -87,11 +119,22 @@
     <div>
       <button
         mat-button
+        *ngIf="!authService.IsAuthenticated"
         routerLink="/signin"
         routerLinkActive="activelink"
         [routerLinkActiveOptions]="{ exact: true }"
+        style="margin-left: 200px"
       >
         Login
+      </button>
+    </div>
+    <div>
+      <button
+        mat-button
+        *ngIf="authService.IsAuthenticated"
+        (click)="appSignOut()"
+      >
+        Logout
       </button>
     </div>
   </mat-toolbar-row>

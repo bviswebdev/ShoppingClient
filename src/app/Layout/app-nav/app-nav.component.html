@@ -36,32 +36,8 @@
 
     <div>
       <button
-        *ngIf="authService.IsAuthenticated"
         mat-button
-        (click)="appSignOut()"
-      >
-        Sign Out
-      </button>
-      <button
-        mat-button
-        *ngIf="authService.IsAuthenticated && authService.IsAdmin"
-        routerLink="/admin"
-        routerLinkActive="activelink"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        Admin
-      </button>
-      <button
-        mat-button
-        *ngIf="authService.IsAuthenticated && authService.IsUser"
-        routerLink="/customer"
-        routerLinkActive="activelink"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        Customer
-      </button>
-      <button
-        mat-button
+        *ngIf="!authService.IsAuthenticated"
         routerLink="/medicare/register"
         routerLinkActive="activelink"
         [routerLinkActiveOptions]="{ exact: true }"
@@ -70,12 +46,33 @@
       </button>
       <button
         mat-button
+        *ngIf="!authService.IsAuthenticated"
         routerLink="/medicare/signin"
         routerLinkActive="activelink"
         [routerLinkActiveOptions]="{ exact: true }"
       >
         Login
       </button>
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+        *ngIf="authService.IsAuthenticated"
+        style="margin-right: 100px"
+      >
+        {{ authService.UserName }}
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="appSignOut()">
+          <mat-icon style="font-size: large">Logout</mat-icon>
+          <span>Logout</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>Disable alerts</span>
+        </button>
+      </mat-menu>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

@@ -14,6 +14,7 @@ export class Auth {
     public role: string = '',
     public isUser: boolean = false,
     public isAdmin: boolean = false,
-    public authToken: string = ''
+    public authToken: string = '',
+    public userName: string = ''
   ) {}
 }
