@@ -19,7 +19,7 @@ export class Address {
     public addressLineTwo: string,
     public city: string,
     public state: string,
-    public country: boolean,
+    public country: string,
     public postalCode: string,
     public isBilling: boolean,
     public isShipping: boolean
