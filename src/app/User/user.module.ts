@@ -5,10 +5,15 @@ import { UserRegisterComponent } from './Components/user-register/user-register.
 import { RouterModule } from '@angular/router';
 import { AppMaterialModule } from '../app-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserAddressComponent } from './Components/user-address/user-address.component';
 
 @NgModule({
-  declarations: [UserLoginComponent, UserRegisterComponent],
+  declarations: [
+    UserLoginComponent,
+    UserRegisterComponent,
+    UserAddressComponent,
+  ],
   imports: [CommonModule, AppMaterialModule, RouterModule, ReactiveFormsModule],
-  exports: [UserLoginComponent, UserRegisterComponent],
+  exports: [UserLoginComponent, UserRegisterComponent, UserAddressComponent],
 })
 export class UserModule {}

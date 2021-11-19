@@ -12,8 +12,7 @@ import { PasswordErrorStateMatcher } from './passerrorstate.matcher';
 })
 export class UserRegisterComponent implements OnInit {
   form!: FormGroup;
-  public loginInvalid!: boolean;
-  private formSubmitAttempt!: boolean;
+  public formSubmitAttempt!: boolean;
   private returnUrl!: string;
   confirmPasswordMatcher = new PasswordErrorStateMatcher();
   constructor(
@@ -55,13 +54,30 @@ export class UserRegisterComponent implements OnInit {
     return this.form;
   }
 
+  keyPress(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+
+    let inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
   ngOnInit(): void {
     this.form = this.fb.group(
       {
         firstname: ['', [Validators.required]],
         lastname: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
-        contactnumber: ['', [Validators.required]],
+        contactnumber: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('^[0-9]*$'),
+            Validators.minLength(10),
+            Validators.maxLength(10),
+          ],
+        ],
         password: [
           '',
           [
@@ -71,7 +87,7 @@ export class UserRegisterComponent implements OnInit {
           ],
         ],
         confirmpassword: ['', [Validators.required]],
-        selectrole: [''],
+        selectrole: ['', [Validators.required]],
       },
       {
         validators: identityRevealedValidator,
@@ -87,22 +103,21 @@ export class UserRegisterComponent implements OnInit {
   }
 
   async onSubmit() {
-    this.loginInvalid = false;
-    this.formSubmitAttempt = false;
-    console.log(this.form);
+    this.formSubmitAttempt = true;
 
-    if (this.form.valid) {
-      try {
-        console.log(this.form);
+    // stop here if form is invalid
+    if (this.form.invalid) {
+      return;
+    }
 
-        //this.router.navigate(['/medicare']);
+    try {
+      console.log(this.form);
 
-        // await this.authService.login(username, password);
-      } catch (err) {
-        this.loginInvalid = true;
-      }
-    } else {
-      this.formSubmitAttempt = true;
+      //this.router.navigate(['/medicare']);
+
+      // await this.authService.login(username, password);
+    } catch (err) {
+      console.log(err);
     }
   }
 }
