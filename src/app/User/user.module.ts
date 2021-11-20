@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserAddressComponent } from './Components/user-address/user-address.component';
 import { UserConfirmComponent } from './Components/user-confirm/user-confirm.component';
 import { UserWelcomeComponent } from './Components/user-welcome/user-welcome.component';
+import { UserSignupComponent } from './Components/user-signup/user-signup.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { UserWelcomeComponent } from './Components/user-welcome/user-welcome.com
     UserAddressComponent,
     UserConfirmComponent,
     UserWelcomeComponent,
+    UserSignupComponent,
   ],
   imports: [CommonModule, AppMaterialModule, RouterModule, ReactiveFormsModule],
   exports: [
@@ -24,6 +26,7 @@ import { UserWelcomeComponent } from './Components/user-welcome/user-welcome.com
     UserAddressComponent,
     UserConfirmComponent,
     UserWelcomeComponent,
+    UserSignupComponent,
   ],
 })
 export class UserModule {}

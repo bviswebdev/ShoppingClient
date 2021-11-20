@@ -16,6 +16,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [],
@@ -35,6 +36,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
+    MatStepperModule,
     FlexLayoutModule,
     MatCarouselModule.forRoot(),
   ],
@@ -54,6 +56,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
+    MatStepperModule,
     FlexLayoutModule,
     MatCarouselModule,
   ],
