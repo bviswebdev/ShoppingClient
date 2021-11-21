@@ -1,9 +1,14 @@
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { IfStmt } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
 import { BreakpointService } from 'src/app/Services/GlobalService/breakpoint.service';
+import { Address, User } from '../../Model/user.model';
+import { AddressService } from '../../Service/addressservice.service';
+import { UserService } from '../../Service/userservice.service';
 import { identityRevealedValidator } from '../user-register/confpass.validator';
 import { PasswordErrorStateMatcher } from '../user-register/passerrorstate.matcher';
 
@@ -13,11 +18,14 @@ import { PasswordErrorStateMatcher } from '../user-register/passerrorstate.match
   styleUrls: ['./user-signup.component.scss'],
 })
 export class UserSignupComponent implements OnInit {
-  firstFormGroup!: FormGroup;
   formRegister!: FormGroup;
   formAddress!: FormGroup;
+  userObj!: User;
+  addrObj!: Address;
   public formSubmitAttempt!: boolean;
+  public formError!: boolean;
   private returnUrl!: string;
+
   confirmPasswordMatcher = new PasswordErrorStateMatcher();
   //@ViewChild('stepper') private myStepper: MatStepper;
   constructor(
@@ -25,8 +33,26 @@ export class UserSignupComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    public breakPointService: BreakpointService
+    public breakPointService: BreakpointService,
+    public userService: UserService,
+    public addressService: AddressService
   ) {}
+
+  get fullname() {
+    return (
+      this.formRegister.get('firstname')?.value +
+      '' +
+      this.formRegister.get('lastname')?.value
+    );
+  }
+
+  get citywithzip() {
+    return (
+      this.formAddress.get('city')?.value +
+      ' - ' +
+      this.formAddress.get('postalcode')?.value
+    );
+  }
 
   get firstname() {
     return this.formRegister.get('firstname');
@@ -159,17 +185,56 @@ export class UserSignupComponent implements OnInit {
     });
   }
 
+  selectionChange(event: StepperSelectionEvent, stepper: MatStepper) {
+    console.log(`current index - ${stepper.selectedIndex}`);
+
+    if (stepper.selectedIndex === 2) {
+      console.log('confirm tab clicked before');
+
+      return;
+    }
+
+    if (stepper.selectedIndex === 0 && this.formRegister.valid) {
+      console.log('Personal Details tab clicked before');
+      this.userObj.id = '';
+      this.userObj.firstName = this.firstname?.value;
+      this.userObj.lastName = this.lastname?.value;
+      this.userObj.email = this.email?.value;
+      this.userObj.contactNumber = this.contactnumber?.value;
+      this.userObj.password = this.password?.value;
+      this.userObj.enabled = true;
+      this.userObj.role = this.selectrole?.value;
+      return;
+    }
+
+    if (stepper.selectedIndex === 1 && this.formAddress.valid) {
+      console.log('Address Details tab clicked before');
+      this.userObj.addresses = [];
+      this.addrObj.addressLineOne = this.addrlineone?.value;
+      this.addrObj.addressLineTwo = this.addrlinetwo?.value;
+      this.addrObj.id = '';
+      this.addrObj.city = this.city?.value;
+      this.addrObj.country = this.country?.value;
+      this.addrObj.state = this.state?.value;
+      this.addrObj.postalCode = this.postalcode?.value;
+      this.addrObj.isBilling = true;
+      this.addrObj.isShipping = true;
+      this.userObj.addresses.push(this.addrObj);
+      return;
+    }
+  }
+
   async onSubmit() {
     this.formSubmitAttempt = true;
 
     // stop here if form is invalid
-    if (this.formRegister.invalid) {
+    if (this.formRegister.invalid || this.formAddress.invalid) {
+      this.formError = true;
       return;
     }
 
     try {
-      console.log(this.formRegister);
-
+      console.log(this.userObj);
       //this.router.navigate(['/medicare']);
 
       // await this.authService.login(username, password);

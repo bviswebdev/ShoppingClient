@@ -1,6 +1,7 @@
 <mat-stepper
   labelPosition="bottom"
   linear="false"
+  (selectionChange)="selectionChange($event, stepper)"
   [orientation]="
     breakPointService.Sm || breakPointService.Xs ? 'vertical' : 'horizontal'
   "
@@ -224,6 +225,10 @@
       fxLayoutGap="2px"
       fxLayoutAlign="center center"
     >
+      <mat-error *ngIf="formError">
+        Please correct all the errors in previous steps before
+        submitting</mat-error
+      >
       <article class="confirm-card">
         <mat-card>
           <mat-card-title-group
@@ -235,11 +240,11 @@
           </mat-card-title-group>
           <mat-card-content>
             <h4>
-              <b>Name:Balaji Visvanathan</b>
+              <b>Name:{{ fullname }}</b>
             </h4>
-            <div>Email:balaji.visvanathan@gmail.com</div>
-            <div>Contact:12345678</div>
-            <div>Role:USER</div>
+            <div>Email:{{ email?.value }}</div>
+            <div>Contact:{{ contactnumber?.value }}</div>
+            <div>Role:{{ selectrole?.value | uppercase }}</div>
           </mat-card-content>
           <mat-card-actions>
             <button mat-button (click)="moveStepper(0, stepper)">EDIT</button>
@@ -256,11 +261,11 @@
             <mat-card-title>Billing Address</mat-card-title>
           </mat-card-title-group>
           <mat-card-content>
-            <div>No 55 Kumaran st Vivekananda Nagar</div>
-            <div>kknagar west Nesapakkam</div>
-            <div>chennai - 600078</div>
-            <div>Tamilnadu</div>
-            <div>India</div>
+            <div>{{ addrlineone?.value }}</div>
+            <div>{{ addrlinetwo?.value }}</div>
+            <div>{{ citywithzip }}</div>
+            <div>{{ state?.value }}</div>
+            <div>{{ country?.value }}</div>
           </mat-card-content>
           <mat-card-actions>
             <button mat-button (click)="moveStepper(1, stepper)">EDIT</button>
@@ -277,8 +282,13 @@
       >
         Back
       </button>
-      <button mat-raised-button color="accent" class="btnconfirm">
-        Confirm
+      <button
+        mat-raised-button
+        color="accent"
+        class="btnconfirm"
+        (click)="onSubmit()"
+      >
+        Submit
       </button>
 
       <button

@@ -4,7 +4,7 @@ import { Address } from '../Model/user.model';
 @Injectable({
   providedIn: 'root',
 })
-export class AddressserviceService {
+export class AddressService {
   addr!: Address;
   constructor() {}
 
