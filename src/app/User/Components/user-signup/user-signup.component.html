@@ -11,7 +11,7 @@
     <section class="registersec" fxLayout="row" fxLayoutAlign="center center">
       <mat-card>
         <mat-card-content>
-          <form [formGroup]="formRegister" (ngSubmit)="onSubmit()">
+          <form [formGroup]="formRegister">
             <ng-template matStepLabel>Personal Details</ng-template>
             <h1>Medicare Register - Personal</h1>
             <mat-form-field class="full-width-input">
@@ -111,7 +111,7 @@
                 >
               </mat-radio-group>
               <mat-error
-                *ngIf="selectrole?.errors?.['required'] && formSubmitAttempt"
+                *ngIf="selectrole?.errors?.['required'] && formPersonalSubmitAttempt"
               >
                 Please select a role
               </mat-error>
@@ -121,8 +121,7 @@
               mat-raised-button
               color="primary"
               class="btnregister"
-              (click)="submitPersonal()"
-              matStepperNext
+              (click)="submitPersonal(stepper)"
             >
               Next - Address
             </button>
@@ -135,7 +134,7 @@
     <section class="registeraddr" fxLayout="row" fxLayoutAlign="center center">
       <mat-card>
         <mat-card-content>
-          <form [formGroup]="formAddress" (ngSubmit)="onSubmit()">
+          <form [formGroup]="formAddress">
             <ng-template matStepLabel>Address Details</ng-template>
             <h1>Medicare Register - Address</h1>
             <mat-form-field class="full-width-input">
@@ -200,7 +199,7 @@
               mat-raised-button
               color="primary"
               class="btnaddress"
-              matStepperPrevious
+              (click)="submitAddress(stepper, 'previous')"
             >
               Back - Personal
             </button>
@@ -208,7 +207,7 @@
               mat-raised-button
               color="primary"
               class="btnaddress"
-              matStepperNext
+              (click)="submitAddress(stepper, 'next')"
             >
               Next - Confirm
             </button>
@@ -219,16 +218,19 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Submit</ng-template>
+    <mat-error
+      *ngIf="formSubmitAttempt && formError"
+      style="text-align: center"
+    >
+      Please correct all the errors in previous steps before
+      submitting</mat-error
+    >
     <section
       class="confirmsec"
       fxLayout="row wrap"
       fxLayoutGap="2px"
       fxLayoutAlign="center center"
     >
-      <mat-error *ngIf="formError">
-        Please correct all the errors in previous steps before
-        submitting</mat-error
-      >
       <article class="confirm-card">
         <mat-card>
           <mat-card-title-group
@@ -286,7 +288,7 @@
         mat-raised-button
         color="accent"
         class="btnconfirm"
-        (click)="onSubmit()"
+        (click)="submitForm()"
       >
         Submit
       </button>

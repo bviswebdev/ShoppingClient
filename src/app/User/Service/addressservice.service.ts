@@ -5,7 +5,7 @@ import { Address } from '../Model/user.model';
   providedIn: 'root',
 })
 export class AddressService {
-  addr!: Address;
+  addr: Address = new Address();
   constructor() {}
 
   set setId(val: string) {

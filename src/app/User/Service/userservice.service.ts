@@ -5,7 +5,7 @@ import { Address, User } from '../Model/user.model';
   providedIn: 'root',
 })
 export class UserService {
-  user!: User;
+  user: User = new User();
   address: Array<Address> = new Array<Address>();
 
   constructor() {}

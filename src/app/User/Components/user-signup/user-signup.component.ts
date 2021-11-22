@@ -20,9 +20,9 @@ import { PasswordErrorStateMatcher } from '../user-register/passerrorstate.match
 export class UserSignupComponent implements OnInit {
   formRegister!: FormGroup;
   formAddress!: FormGroup;
-  userObj!: User;
-  addrObj!: Address;
   public formSubmitAttempt!: boolean;
+  formPersonalSubmitAttempt!: boolean;
+  formAddressSubmitAttempt!: boolean;
   public formError!: boolean;
   private returnUrl!: string;
 
@@ -114,8 +114,23 @@ export class UserSignupComponent implements OnInit {
     stepper.selectedIndex = index;
   }
 
-  submitPersonal(): void {
-    this.formSubmitAttempt = true;
+  submitPersonal(stepper: MatStepper): void {
+    this.formPersonalSubmitAttempt = true;
+    if (!this.formRegister.valid) {
+      return;
+    }
+    this.formPersonalSubmitAttempt = false;
+    stepper.next();
+  }
+
+  submitAddress(stepper: MatStepper, action: string): void {
+    this.formAddressSubmitAttempt = true;
+    if (!this.formAddress.valid) {
+      return;
+    }
+    this.formAddressSubmitAttempt = false;
+    if (action === 'next') stepper.next();
+    else stepper.previous();
   }
 
   keyConfirmPasswordPress(event: any) {
@@ -196,36 +211,39 @@ export class UserSignupComponent implements OnInit {
 
     if (stepper.selectedIndex === 0 && this.formRegister.valid) {
       console.log('Personal Details tab clicked before');
-      this.userObj.id = '';
-      this.userObj.firstName = this.firstname?.value;
-      this.userObj.lastName = this.lastname?.value;
-      this.userObj.email = this.email?.value;
-      this.userObj.contactNumber = this.contactnumber?.value;
-      this.userObj.password = this.password?.value;
-      this.userObj.enabled = true;
-      this.userObj.role = this.selectrole?.value;
+      this.userService.setId = '';
+      this.userService.setFirstName = this.firstname?.value;
+      this.userService.setLastName = this.lastname?.value;
+      this.userService.setEmail = this.email?.value;
+      this.userService.setcontactNumber = this.contactnumber?.value;
+      this.userService.setPassword = this.password?.value;
+      this.userService.setEnabled = true;
+      this.userService.setRole = this.selectrole?.value;
+
+      console.log(this.userService.user);
       return;
     }
 
     if (stepper.selectedIndex === 1 && this.formAddress.valid) {
       console.log('Address Details tab clicked before');
-      this.userObj.addresses = [];
-      this.addrObj.addressLineOne = this.addrlineone?.value;
-      this.addrObj.addressLineTwo = this.addrlinetwo?.value;
-      this.addrObj.id = '';
-      this.addrObj.city = this.city?.value;
-      this.addrObj.country = this.country?.value;
-      this.addrObj.state = this.state?.value;
-      this.addrObj.postalCode = this.postalcode?.value;
-      this.addrObj.isBilling = true;
-      this.addrObj.isShipping = true;
-      this.userObj.addresses.push(this.addrObj);
+      this.userService.setAddresses = [];
+      this.addressService.setId = '';
+      this.addressService.setAddressLineOne = this.addrlineone?.value;
+      this.addressService.setAddressLineTwo = this.addrlinetwo?.value;
+      this.addressService.setCity = this.city?.value;
+      this.addressService.setCountry = this.country?.value;
+      this.addressService.setState = this.state?.value;
+      this.addressService.setPostalCode = this.postalcode?.value;
+      this.addressService.setIsBilling = true;
+      this.addressService.setIsShipping = true;
+      this.userService.addresses.push(this.addressService.addr);
       return;
     }
   }
 
-  async onSubmit() {
+  async submitForm() {
     this.formSubmitAttempt = true;
+    this.formError = false;
 
     // stop here if form is invalid
     if (this.formRegister.invalid || this.formAddress.invalid) {
@@ -234,7 +252,7 @@ export class UserSignupComponent implements OnInit {
     }
 
     try {
-      console.log(this.userObj);
+      console.log(this.userService.user);
       //this.router.navigate(['/medicare']);
 
       // await this.authService.login(username, password);
