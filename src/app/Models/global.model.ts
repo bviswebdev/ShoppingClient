@@ -1,3 +1,6 @@
+import { Injectable } from '@angular/core';
+import { User } from '../User/Model/user.model';
+
 export class Breakpoints {
   constructor(
     public xs: boolean = false,
@@ -17,4 +20,11 @@ export class Auth {
     public authToken: string = '',
     public userName: string = ''
   ) {}
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MedicareApp {
+  constructor(public user: User = new User()) {}
 }

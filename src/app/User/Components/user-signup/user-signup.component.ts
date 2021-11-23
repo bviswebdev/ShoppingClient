@@ -6,6 +6,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
 import { BreakpointService } from 'src/app/Services/GlobalService/breakpoint.service';
+import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
 import { Address, User } from '../../Model/user.model';
 import { AddressService } from '../../Service/addressservice.service';
 import { UserService } from '../../Service/userservice.service';
@@ -25,6 +26,8 @@ export class UserSignupComponent implements OnInit {
   formAddressSubmitAttempt!: boolean;
   public formError!: boolean;
   private returnUrl!: string;
+  public userObj: User = new User();
+  public addrObj: Address = new Address();
 
   confirmPasswordMatcher = new PasswordErrorStateMatcher();
   //@ViewChild('stepper') private myStepper: MatStepper;
@@ -35,8 +38,11 @@ export class UserSignupComponent implements OnInit {
     private authService: AuthService,
     public breakPointService: BreakpointService,
     public userService: UserService,
-    public addressService: AddressService
-  ) {}
+    public addressService: AddressService,
+    public med: MedicareappService
+  ) {
+    console.log(med.appUser);
+  }
 
   get fullname() {
     return (
@@ -211,32 +217,32 @@ export class UserSignupComponent implements OnInit {
 
     if (stepper.selectedIndex === 0 && this.formRegister.valid) {
       console.log('Personal Details tab clicked before');
-      this.userService.setId = '';
-      this.userService.setFirstName = this.firstname?.value;
-      this.userService.setLastName = this.lastname?.value;
-      this.userService.setEmail = this.email?.value;
-      this.userService.setcontactNumber = this.contactnumber?.value;
-      this.userService.setPassword = this.password?.value;
-      this.userService.setEnabled = true;
-      this.userService.setRole = this.selectrole?.value;
+      this.userObj.id = '';
+      this.userObj.firstName = this.firstname?.value;
+      this.userObj.lastName = this.lastname?.value;
+      this.userObj.email = this.email?.value;
+      this.userObj.contactNumber = this.contactnumber?.value;
+      this.userObj.password = this.password?.value;
+      this.userObj.enabled = true;
+      this.userObj.role = this.selectrole?.value;
 
-      console.log(this.userService.user);
+      console.log(this.userObj);
       return;
     }
 
     if (stepper.selectedIndex === 1 && this.formAddress.valid) {
       console.log('Address Details tab clicked before');
-      this.userService.setAddresses = [];
-      this.addressService.setId = '';
-      this.addressService.setAddressLineOne = this.addrlineone?.value;
-      this.addressService.setAddressLineTwo = this.addrlinetwo?.value;
-      this.addressService.setCity = this.city?.value;
-      this.addressService.setCountry = this.country?.value;
-      this.addressService.setState = this.state?.value;
-      this.addressService.setPostalCode = this.postalcode?.value;
-      this.addressService.setIsBilling = true;
-      this.addressService.setIsShipping = true;
-      this.userService.addresses.push(this.addressService.addr);
+      this.userObj.addresses = [];
+      this.addrObj.id = '';
+      this.addrObj.addressLineOne = this.addrlineone?.value;
+      this.addrObj.addressLineTwo = this.addrlinetwo?.value;
+      this.addrObj.city = this.city?.value;
+      this.addrObj.country = this.country?.value;
+      this.addrObj.state = this.state?.value;
+      this.addrObj.postalCode = this.postalcode?.value;
+      this.addrObj.isBilling = true;
+      this.addrObj.isShipping = true;
+      this.userObj.addresses.push(this.addrObj);
       return;
     }
   }
@@ -252,7 +258,7 @@ export class UserSignupComponent implements OnInit {
     }
 
     try {
-      console.log(this.userService.user);
+      console.log(this.userObj);
       //this.router.navigate(['/medicare']);
 
       // await this.authService.login(username, password);

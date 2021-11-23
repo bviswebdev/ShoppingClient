@@ -1,0 +1,145 @@
+<section class="registersec" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="formProductAdd" (ngSubmit)="onProductAddFormSubmit()">
+        <h1>Product Management - Add Product</h1>
+        <mat-error *ngIf="formProductAdd?.errors?.['productBrandExists']">
+          Product name with same brand already exists!
+        </mat-error>
+
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            placeholder="Product Name"
+            formControlName="productname"
+          />
+          <mat-error *ngIf="productname?.errors?.['required']">
+            Please enter the product name!
+          </mat-error>
+          <mat-error *ngIf="productname?.errors?.['maxlength']">
+            Product Name should not be more than 50 characters.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            placeholder="Brand Name"
+            formControlName="brandname"
+          />
+          <mat-error *ngIf="brandname?.errors?.['required']">
+            Please enter the brand name!
+          </mat-error>
+          <mat-error *ngIf="brandname?.errors?.['maxlength']">
+            Brand Name should not be more than 50 characters.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <textarea
+            matInput
+            placeholder="Desription"
+            rows="3"
+            cols="30"
+            formControlName="description"
+          ></textarea>
+          <mat-error *ngIf="description?.errors?.['required']">
+            Please enter the description!
+          </mat-error>
+          <mat-error
+            *ngIf="description?.errors?.['minlength']||description?.errors?.['maxlength']"
+          >
+            Description length should be minimum 10 - 20 characters.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <input
+            type="number"
+            matInput
+            placeholder="Unit Price e.g. 1.78"
+            min="0"
+            max="100000"
+            step="0.01"
+            formControlName="unitprice"
+          />
+          <mat-error *ngIf="unitprice?.errors?.['required']">
+            Please enter the unitprice!
+          </mat-error>
+          <mat-error
+            *ngIf="unitprice?.errors?.['min']||unitprice?.errors?.['max']"
+          >
+            Please enter positive values for unitprice with a maximum limit of
+            100000.
+          </mat-error>
+          <mat-error *ngIf="unitprice?.errors?.['pattern']">
+            Please enter unitprice not more than 2 decimal places for non zero
+            decimal numbers.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <input
+            type="number"
+            min="0"
+            max="1000"
+            step="1"
+            matInput
+            placeholder="Quantity"
+            formControlName="quantity"
+          />
+          <mat-error *ngIf="quantity?.errors?.['required']">
+            Please enter the quantity!
+          </mat-error>
+          <mat-error
+            *ngIf="quantity?.errors?.['min']||quantity?.errors?.['max']"
+          >
+            Please enter positive values for quantity with a maximum limit of
+            1000.
+          </mat-error>
+          <mat-error *ngIf="quantity?.errors?.['pattern']">
+            Please enter quantity as whole numbers and not decimal values.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            placeholder="File Upload"
+            formControlName="fileupload"
+          />
+          <mat-error *ngIf="fileupload?.errors?.['required']">
+            Please upload a file!
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width-input">
+          <input matInput placeholder="Category" formControlName="category" />
+          <mat-error *ngIf="category?.errors?.['required']">
+            Please enter a category!
+          </mat-error>
+        </mat-form-field>
+        <div>
+          <button
+            fxLayout="row"
+            fxLayoutAlign="end center"
+            mat-raised-button
+            color="accent"
+            class="btnregister"
+            routerLink="/medicare/register"
+          >
+            Add New Category
+          </button>
+        </div>
+
+        <button mat-raised-button color="primary" class="btnregister">
+          Save
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          class="btnregister"
+          routerLink="/medicare/register"
+        >
+          Cancel
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>
