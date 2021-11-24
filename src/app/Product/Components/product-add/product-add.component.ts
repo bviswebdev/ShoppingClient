@@ -5,6 +5,10 @@ import { AuthService } from 'src/app/Services/GlobalService/auth.service';
 import { PdbrandasyncValidator } from '../../Service/pdbrandasync-validator.service';
 import { Productasyncvalidators } from '../../Service/productasyncvalidators';
 import { ProductDataService } from '../../Service/productservice.service';
+import {
+  fileFormatValidator,
+  fileSizeValidator,
+} from '../../Service/productsyncvalidators';
 
 @Component({
   selector: 'app-product-add',
@@ -17,6 +21,8 @@ import { ProductDataService } from '../../Service/productservice.service';
 export class ProductAddComponent implements OnInit {
   formProductAdd!: FormGroup;
   public formSubmitAttempt!: boolean;
+  public fileUploadAttempt!: boolean;
+  fileName = '';
 
   constructor(
     private fb: FormBuilder,
@@ -28,13 +34,14 @@ export class ProductAddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(`form submit attempt ${this.formSubmitAttempt}`);
     this.pdbrndValidator.productService = this.productDataService;
     this.formProductAdd = this.fb.group(
       {
-        productname: ['', [Validators.required, Validators.maxLength(30)]],
-        brandname: ['', [Validators.required, Validators.maxLength(30)]],
+        productname: ['test', [Validators.required, Validators.maxLength(30)]],
+        brandname: ['test', [Validators.required, Validators.maxLength(30)]],
         description: [
-          '',
+          'testtesttesttest',
           [
             Validators.required,
             Validators.minLength(10),
@@ -42,14 +49,18 @@ export class ProductAddComponent implements OnInit {
           ],
         ],
         unitprice: [
-          '',
+          '0.00',
           [
             Validators.required,
             //Validators.pattern(/^[0-9]+\.[0-9]{2}$/),
             Validators.pattern('^([0-9]+|[0-9]+.[0-9]{1,2})$'),
           ],
         ],
-        quantity: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+        quantity: ['0', [Validators.required, Validators.pattern('^[0-9]+$')]],
+        filesource: [
+          '',
+          [Validators.required, fileFormatValidator, fileSizeValidator],
+        ],
         fileupload: [''],
         category: [''],
       },
@@ -62,6 +73,33 @@ export class ProductAddComponent implements OnInit {
         updateOn: 'blur',
       }
     );
+  }
+
+  onFileSelected(event: any) {
+    console.log('iam selected');
+    const file: File = event.target.files[0];
+    if (file) {
+      console.log(file);
+      this.fileName = file.name;
+      this.formProductAdd.patchValue({
+        filesource: file,
+      });
+    }
+
+    this.fileUploadAttempt = true;
+
+    /*if (file) {
+
+        this.fileName = file.name;
+
+        const formData = new FormData();
+
+        formData.append("thumbnail", file);
+
+        const upload$ = this.http.post("/api/thumbnail-upload", formData);
+
+        upload$.subscribe();
+    }*/
   }
 
   get productname() {
@@ -86,6 +124,10 @@ export class ProductAddComponent implements OnInit {
 
   get category() {
     return this.formProductAdd.get('category');
+  }
+
+  get filesource() {
+    return this.formProductAdd.get('filesource');
   }
 
   get fileupload() {

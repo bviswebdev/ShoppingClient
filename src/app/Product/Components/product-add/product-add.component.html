@@ -1,7 +1,7 @@
 <section class="registersec" fxLayout="row" fxLayoutAlign="center center">
   <mat-card>
     <mat-card-content>
-      <form [formGroup]="formProductAdd" (ngSubmit)="onProductAddFormSubmit()">
+      <form [formGroup]="formProductAdd">
         <h1>Product Management - Add Product</h1>
         <mat-error *ngIf="formProductAdd?.errors?.['productBrandExists']">
           Product name with same brand already exists!
@@ -98,16 +98,49 @@
             Please enter quantity as whole numbers and not decimal values.
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="full-width-input">
-          <input
-            matInput
-            placeholder="File Upload"
-            formControlName="fileupload"
-          />
-          <mat-error *ngIf="fileupload?.errors?.['required']">
-            Please upload a file!
-          </mat-error>
-        </mat-form-field>
+        <!--File Upload -->
+
+        <input
+          type="file"
+          class="file-input"
+          id="uploadpicture"
+          accept="image/png,image/jpg"
+          (change)="onFileSelected($event)"
+          formControlName="fileupload"
+          #fileUpld
+        />
+
+        <div class="file-upload">
+          <label for="uploadpicture" class="filelabel">
+            Please upload image for product -
+          </label>
+          <span class="filenametxt">{{
+            fileName || "No file uploaded yet."
+          }}</span>
+          <button
+            mat-mini-fab
+            color="primary"
+            class="upload-btn"
+            (click)="fileUpld.click()"
+          >
+            <mat-icon>attach_file</mat-icon>
+          </button>
+        </div>
+        <mat-error
+          *ngIf="filesource?.errors?.['required'] && formSubmitAttempt"
+        >
+          Please upload a image for product.
+        </mat-error>
+        <mat-error
+          *ngIf="filesource?.errors?.['incorrectformat'] && fileUploadAttempt"
+        >
+          Please upload image in following formats - png,jpg,jpeg.
+        </mat-error>
+        <mat-error
+          *ngIf="filesource?.errors?.['incorrectsize'] && fileUploadAttempt"
+        >
+          Please upload a file size less than 1 MB.
+        </mat-error>
 
         <mat-form-field class="full-width-input">
           <input matInput placeholder="Category" formControlName="category" />
@@ -128,7 +161,12 @@
           </button>
         </div>
 
-        <button mat-raised-button color="primary" class="btnregister">
+        <button
+          mat-raised-button
+          color="primary"
+          class="btnregister"
+          (click)="onProductAddFormSubmit()"
+        >
           Save
         </button>
         <button
