@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Productasyncvalidators } from '../../Service/productasyncvalidators';
+import { ProductDataService } from '../../Service/productservice.service';
 
 @Component({
   selector: 'app-product-addcategory',
@@ -16,12 +23,22 @@ export class ProductAddcategoryComponent implements OnInit {
     public dialogRef: MatDialogRef<ProductAddcategoryComponent>,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private productDataService: ProductDataService
   ) {}
 
   ngOnInit(): void {
     this.formCategoryAdd = this.fb.group({
-      categoryname: ['', [Validators.required, Validators.maxLength(30)]],
+      categoryname: [
+        '',
+        {
+          validators: [Validators.required, Validators.maxLength(30)],
+          asyncValidators: Productasyncvalidators.createCategoryValidator(
+            this.productDataService
+          ),
+          updateOn: 'blur',
+        },
+      ],
       description: [
         '',
         [
@@ -35,6 +52,7 @@ export class ProductAddcategoryComponent implements OnInit {
 
   onCategoryAddFormSubmit() {
     this.formSubmitAttempt = true;
+
     if (this.formCategoryAdd.invalid) {
       return;
     }
@@ -42,6 +60,7 @@ export class ProductAddcategoryComponent implements OnInit {
       console.log(this.formCategoryAdd);
 
       //this.router.navigate(['/medicare']);
+      this.dialogRef.close(this.formCategoryAdd.value);
 
       // await this.authService.login(username, password);
     } catch (err) {
@@ -58,6 +77,6 @@ export class ProductAddcategoryComponent implements OnInit {
   }
 
   closeDialog() {
-    this.dialogRef.close('Pizza!');
+    this.dialogRef.close();
   }
 }

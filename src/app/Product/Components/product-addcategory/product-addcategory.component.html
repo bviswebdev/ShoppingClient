@@ -1,12 +1,6 @@
 <h1 mat-dialog-title>Add Category</h1>
 <div mat-dialog-content>
   <form [formGroup]="formCategoryAdd">
-    <mat-error
-      style="text-align: center"
-      *ngIf="formCategoryAdd?.errors?.['categoryExists'] && formSubmitAttempt"
-    >
-      Category name already exists!
-    </mat-error>
     <mat-form-field class="full-width-input">
       <input matInput placeholder="Category" formControlName="categoryname" />
       <mat-error *ngIf="categoryname?.errors?.['required']">
@@ -14,6 +8,9 @@
       </mat-error>
       <mat-error *ngIf="categoryname?.errors?.['maxlength']">
         Category Name should not be more than 50 characters.
+      </mat-error>
+      <mat-error *ngIf="categoryname?.errors?.['categoryNameExists']">
+        Category name already exists!
       </mat-error>
     </mat-form-field>
     <mat-form-field class="full-width-input">

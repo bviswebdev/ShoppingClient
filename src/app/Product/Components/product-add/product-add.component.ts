@@ -31,6 +31,7 @@ export class ProductAddComponent implements OnInit {
   fileName = '';
   selectMatcher = new DtsErrorStateMatcher();
   categories: Array<Category> = new Array<Category>();
+  public productObj: Product = new Product();
 
   constructor(
     private fb: FormBuilder,
@@ -89,12 +90,18 @@ export class ProductAddComponent implements OnInit {
 
   openDialog() {
     let dialogRef = this.dialog.open(ProductAddcategoryComponent, {
-      height: '400px',
+      height: '350px',
       width: '600px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`); // Pizza!
+      if (result && result.categoryname) {
+        let categoryTemp: Category = new Category();
+        categoryTemp.catName = result.categoryname;
+        categoryTemp.catDesc = result.description;
+        this.categories.push(categoryTemp);
+      }
     });
   }
 
@@ -185,7 +192,18 @@ export class ProductAddComponent implements OnInit {
 
     try {
       console.log(this.formProductAdd);
-
+      this.productObj.brand = this.brandname?.value;
+      this.productObj.description = this.description?.value;
+      this.productObj.name = this.productname?.value;
+      this.productObj.isActive = true;
+      this.productObj.quantity = this.quantity?.value;
+      this.productObj.unitPrice = this.unitprice?.value;
+      this.productObj.category = this.category?.value;
+      this.productObj.fileSource = this.filesource?.value;
+      this.productObj.fileName = this.filesource?.value.name;
+      this.productObj.fileSize = this.filesource?.value.size;
+      this.productObj.fileType = this.filesource?.value.type;
+      console.log(this.productObj);
       //this.router.navigate(['/medicare']);
 
       // await this.authService.login(username, password);
