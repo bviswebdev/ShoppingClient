@@ -1,0 +1,48 @@
+<h1 mat-dialog-title>Add Category</h1>
+<div mat-dialog-content>
+  <form [formGroup]="formCategoryAdd">
+    <mat-error
+      style="text-align: center"
+      *ngIf="formCategoryAdd?.errors?.['categoryExists'] && formSubmitAttempt"
+    >
+      Category name already exists!
+    </mat-error>
+    <mat-form-field class="full-width-input">
+      <input matInput placeholder="Category" formControlName="categoryname" />
+      <mat-error *ngIf="categoryname?.errors?.['required']">
+        Please enter the category name!
+      </mat-error>
+      <mat-error *ngIf="categoryname?.errors?.['maxlength']">
+        Category Name should not be more than 50 characters.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width-input">
+      <textarea
+        matInput
+        placeholder="Desription"
+        rows="3"
+        cols="30"
+        formControlName="description"
+      ></textarea>
+      <mat-error *ngIf="description?.errors?.['required']">
+        Please enter the description!
+      </mat-error>
+      <mat-error
+        *ngIf="description?.errors?.['minlength']||description?.errors?.['maxlength']"
+      >
+        Description length should be minimum 10 - 20 characters.
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button
+    mat-raised-button
+    color="primary"
+    class="btnregister"
+    (click)="onCategoryAddFormSubmit()"
+  >
+    Save
+  </button>
+  <button mat-raised-button color="warn" (click)="closeDialog()">Close</button>
+</div>

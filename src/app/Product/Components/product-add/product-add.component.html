@@ -143,10 +143,20 @@
         </mat-error>
 
         <mat-form-field class="full-width-input">
-          <input matInput placeholder="Category" formControlName="category" />
-          <mat-error *ngIf="category?.errors?.['required']">
-            Please enter a category!
-          </mat-error>
+          <mat-label>Category</mat-label>
+          <mat-select
+            formControlName="category"
+            [errorStateMatcher]="selectMatcher"
+          >
+            <mat-option
+              *ngFor="let category of categories"
+              [value]="category.catName"
+              >{{ category.catName }}</mat-option
+            >
+          </mat-select>
+          <mat-error *ngIf="category?.errors?.['required']"
+            >You must make a selection</mat-error
+          >
         </mat-form-field>
         <div>
           <button
@@ -154,8 +164,8 @@
             fxLayoutAlign="end center"
             mat-raised-button
             color="accent"
+            (click)="openDialog()"
             class="btnregister"
-            routerLink="/medicare/register"
           >
             Add New Category
           </button>

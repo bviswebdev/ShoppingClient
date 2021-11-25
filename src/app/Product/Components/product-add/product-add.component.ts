@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as _ from 'lodash';
+import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
+import { Category, Product } from '../../Model/product.model';
+import { DtsErrorStateMatcher } from '../../Service/errorstatematcher';
 import { PdbrandasyncValidator } from '../../Service/pdbrandasync-validator.service';
 import { Productasyncvalidators } from '../../Service/productasyncvalidators';
 import { ProductDataService } from '../../Service/productservice.service';
@@ -9,6 +14,7 @@ import {
   fileFormatValidator,
   fileSizeValidator,
 } from '../../Service/productsyncvalidators';
+import { ProductAddcategoryComponent } from '../product-addcategory/product-addcategory.component';
 
 @Component({
   selector: 'app-product-add',
@@ -23,6 +29,8 @@ export class ProductAddComponent implements OnInit {
   public formSubmitAttempt!: boolean;
   public fileUploadAttempt!: boolean;
   fileName = '';
+  selectMatcher = new DtsErrorStateMatcher();
+  categories: Array<Category> = new Array<Category>();
 
   constructor(
     private fb: FormBuilder,
@@ -30,7 +38,8 @@ export class ProductAddComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private pdbrndValidator: PdbrandasyncValidator,
-    private productDataService: ProductDataService
+    private productDataService: ProductDataService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -62,7 +71,7 @@ export class ProductAddComponent implements OnInit {
           [Validators.required, fileFormatValidator, fileSizeValidator],
         ],
         fileupload: [''],
-        category: [''],
+        category: ['', [Validators.required]],
       },
       {
         validators: null,
@@ -73,6 +82,20 @@ export class ProductAddComponent implements OnInit {
         updateOn: 'blur',
       }
     );
+
+    this.categories = [];
+    this.subscribeCategory();
+  }
+
+  openDialog() {
+    let dialogRef = this.dialog.open(ProductAddcategoryComponent, {
+      height: '400px',
+      width: '600px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`); // Pizza!
+    });
   }
 
   onFileSelected(event: any) {
@@ -100,6 +123,23 @@ export class ProductAddComponent implements OnInit {
 
         upload$.subscribe();
     }*/
+  }
+
+  private subscribeCategory(): void {
+    this.productDataService
+      .getProductsJson()
+      .pipe(
+        map((products: Array<Product>) =>
+          products.map((product) => product.category)
+        )
+      )
+      .subscribe((data) => {
+        let resultArr = _.uniqBy(data, (obj) => obj.catName);
+        resultArr = _.sortBy(resultArr, 'catName');
+        this.categories = resultArr;
+        //.log('categories');
+        //console.log(resultArr);
+      });
   }
 
   get productname() {
