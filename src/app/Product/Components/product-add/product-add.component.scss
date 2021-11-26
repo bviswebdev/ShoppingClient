@@ -3,6 +3,7 @@ mat-card {
   max-width: 500px;
   margin: 2em auto;
   text-align: center;
+  border: 5px solid cornflowerblue;
 }
 
 mat-form-field {
@@ -11,13 +12,17 @@ mat-form-field {
   font-size: 1.2em;
 }
 
+.cardtitle {
+  margin-bottom: 40px;
+}
+
 .registersec {
   margin-bottom: 450px;
 }
 
 .filelabel {
   font-size: larger;
-  margin-left: -40px;
+  //margin-left: 40px;
   margin-right: 5px;
   color: #6e6969;
 }
@@ -30,7 +35,7 @@ mat-form-field {
 
 .file-upload {
   margin-top: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 .errText {

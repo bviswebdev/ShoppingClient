@@ -19,6 +19,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [],
@@ -41,6 +42,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatStepperModule,
     MatSelectModule,
     MatDialogModule,
+    MatSnackBarModule,
     FlexLayoutModule,
     MatCarouselModule.forRoot(),
   ],
@@ -63,6 +65,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatStepperModule,
     MatSelectModule,
     MatDialogModule,
+    MatSnackBarModule,
     FlexLayoutModule,
     MatCarouselModule,
   ],

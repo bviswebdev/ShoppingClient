@@ -11,6 +11,7 @@ import { ProductAddComponent } from './Components/product-add/product-add.compon
 import { ProductEditComponent } from './Components/product-edit/product-edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductAddcategoryComponent } from './Components/product-addcategory/product-addcategory.component';
+import { ProductSnackComponent } from './Components/product-snack/product-snack.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ProductAddcategoryComponent } from './Components/product-addcategory/pr
     ProductAddComponent,
     ProductEditComponent,
     ProductAddcategoryComponent,
+    ProductSnackComponent,
   ],
   imports: [RouterModule, CommonModule, AppMaterialModule, ReactiveFormsModule],
   exports: [

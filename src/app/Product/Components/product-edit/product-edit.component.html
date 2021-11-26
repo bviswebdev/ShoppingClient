@@ -1,1 +1,194 @@
-<p>product-edit works!</p>
+<section class="registersec" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card>
+    <mat-card-title class="cardtitle"
+      >Product Management - Edit Product</mat-card-title
+    >
+
+    <mat-card-content>
+      <form [formGroup]="formProductEdit">
+        <mat-error *ngIf="formProductEdit?.errors?.['productBrandExists']">
+          Product name with same brand already exists!
+        </mat-error>
+
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            placeholder="Product Name"
+            formControlName="productname"
+          />
+          <mat-error *ngIf="productname?.errors?.['required']">
+            Please enter the product name!
+          </mat-error>
+          <mat-error *ngIf="productname?.errors?.['maxlength']">
+            Product Name should not be more than 50 characters.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width-input">
+          <input
+            matInput
+            placeholder="Brand Name"
+            formControlName="brandname"
+          />
+          <mat-error *ngIf="brandname?.errors?.['required']">
+            Please enter the brand name!
+          </mat-error>
+          <mat-error *ngIf="brandname?.errors?.['maxlength']">
+            Brand Name should not be more than 50 characters.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <textarea
+            matInput
+            placeholder="Desription"
+            rows="2"
+            cols="30"
+            formControlName="description"
+          ></textarea>
+          <mat-error *ngIf="description?.errors?.['required']">
+            Please enter the description!
+          </mat-error>
+          <mat-error
+            *ngIf="description?.errors?.['minlength']||description?.errors?.['maxlength']"
+          >
+            Description length should be minimum 10 - 20 characters.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <input
+            type="number"
+            matInput
+            placeholder="Unit Price e.g. 1.78"
+            min="0"
+            max="100000"
+            step="0.01"
+            formControlName="unitprice"
+          />
+          <mat-error *ngIf="unitprice?.errors?.['required']">
+            Please enter the unitprice!
+          </mat-error>
+          <mat-error
+            *ngIf="unitprice?.errors?.['min']||unitprice?.errors?.['max']"
+          >
+            Please enter positive values for unitprice with a maximum limit of
+            100000.
+          </mat-error>
+          <mat-error *ngIf="unitprice?.errors?.['pattern']">
+            Please enter unitprice not more than 2 decimal places for non zero
+            decimal numbers.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <input
+            type="number"
+            min="0"
+            max="1000"
+            step="1"
+            matInput
+            placeholder="Quantity"
+            formControlName="quantity"
+          />
+          <mat-error *ngIf="quantity?.errors?.['required']">
+            Please enter the quantity!
+          </mat-error>
+          <mat-error
+            *ngIf="quantity?.errors?.['min']||quantity?.errors?.['max']"
+          >
+            Please enter positive values for quantity with a maximum limit of
+            1000.
+          </mat-error>
+          <mat-error *ngIf="quantity?.errors?.['pattern']">
+            Please enter quantity as whole numbers and not decimal values.
+          </mat-error>
+        </mat-form-field>
+        <!--File Upload -->
+
+        <input
+          type="file"
+          class="file-input"
+          id="uploadpicture"
+          accept="image/png,image/jpg"
+          (change)="onFileSelected($event)"
+          formControlName="fileupload"
+          #fileUpld
+        />
+
+        <div class="file-upload" fxLayout="row" fxLayoutAlign="start center">
+          <label for="uploadpicture" class="filelabel">
+            Please upload image for product -
+          </label>
+          <span class="filenametxt">{{
+            fileName || "No file uploaded yet."
+          }}</span>
+          <button
+            mat-mini-fab
+            color="primary"
+            class="upload-btn"
+            (click)="fileUpld.click()"
+          >
+            <mat-icon>attach_file</mat-icon>
+          </button>
+        </div>
+        <mat-error
+          *ngIf="filesource?.errors?.['required'] && formSubmitAttempt"
+        >
+          Please upload a image for product.
+        </mat-error>
+        <mat-error
+          *ngIf="filesource?.errors?.['incorrectformat'] && fileUploadAttempt"
+        >
+          Please upload image in following formats - png,jpg,jpeg.
+        </mat-error>
+        <mat-error
+          *ngIf="filesource?.errors?.['incorrectsize'] && fileUploadAttempt"
+        >
+          Please upload a file size less than 1 MB.
+        </mat-error>
+
+        <mat-form-field class="full-width-input">
+          <mat-label>Category</mat-label>
+          <mat-select
+            formControlName="category"
+            [errorStateMatcher]="selectMatcher"
+          >
+            <mat-option
+              *ngFor="let category of categories"
+              [value]="category.catName"
+              >{{ category.catName }}</mat-option
+            >
+          </mat-select>
+          <mat-error *ngIf="category?.errors?.['required']"
+            >You must make a selection</mat-error
+          >
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="end center">
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="openDialog()"
+            class="btnCategory"
+          >
+            Add New Category
+          </button>
+        </div>
+
+        <button
+          mat-raised-button
+          color="primary"
+          class="btnregister"
+          (click)="onProductEditFormSubmit()"
+        >
+          Save
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          class="btnregister"
+          routerLink="/medicare/register"
+        >
+          Cancel
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>

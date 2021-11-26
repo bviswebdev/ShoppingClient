@@ -1,8 +1,11 @@
 <section class="registersec" fxLayout="row" fxLayoutAlign="center center">
   <mat-card>
+    <mat-card-title class="cardtitle"
+      >Product Management - Add Product</mat-card-title
+    >
+
     <mat-card-content>
       <form [formGroup]="formProductAdd">
-        <h1>Product Management - Add Product</h1>
         <mat-error *ngIf="formProductAdd?.errors?.['productBrandExists']">
           Product name with same brand already exists!
         </mat-error>
@@ -38,7 +41,7 @@
           <textarea
             matInput
             placeholder="Desription"
-            rows="3"
+            rows="2"
             cols="30"
             formControlName="description"
           ></textarea>
@@ -110,7 +113,7 @@
           #fileUpld
         />
 
-        <div class="file-upload">
+        <div class="file-upload" fxLayout="row" fxLayoutAlign="start center">
           <label for="uploadpicture" class="filelabel">
             Please upload image for product -
           </label>

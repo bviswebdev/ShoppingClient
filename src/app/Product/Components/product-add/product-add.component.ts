@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { map } from 'rxjs/operators';
@@ -15,6 +16,8 @@ import {
   fileSizeValidator,
 } from '../../Service/productsyncvalidators';
 import { ProductAddcategoryComponent } from '../product-addcategory/product-addcategory.component';
+import { ProductSnackComponent } from '../product-snack/product-snack.component';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-product-add',
@@ -40,7 +43,8 @@ export class ProductAddComponent implements OnInit {
     private authService: AuthService,
     private pdbrndValidator: PdbrandasyncValidator,
     private productDataService: ProductDataService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private addSnackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -192,6 +196,7 @@ export class ProductAddComponent implements OnInit {
 
     try {
       console.log(this.formProductAdd);
+      this.productObj.code = uuidv4();
       this.productObj.brand = this.brandname?.value;
       this.productObj.description = this.description?.value;
       this.productObj.name = this.productname?.value;
@@ -204,6 +209,12 @@ export class ProductAddComponent implements OnInit {
       this.productObj.fileSize = this.filesource?.value.size;
       this.productObj.fileType = this.filesource?.value.type;
       console.log(this.productObj);
+      this.addSnackBar.openFromComponent(ProductSnackComponent, {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        data: 'Product added press cancel to go back to view changes.',
+      });
       //this.router.navigate(['/medicare']);
 
       // await this.authService.login(username, password);
