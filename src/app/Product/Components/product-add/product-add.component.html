@@ -6,7 +6,9 @@
 
     <mat-card-content>
       <form [formGroup]="formProductAdd">
-        <mat-error *ngIf="formProductAdd?.errors?.['productBrandExists']">
+        <mat-error
+          *ngIf="formProductAdd?.errors?.['productBrandExists'] && formSubmitAttempt"
+        >
           Product name with same brand already exists!
         </mat-error>
 

@@ -33,6 +33,8 @@ export class ProductEditComponent implements OnInit {
   categories: Array<Category> = new Array<Category>();
   public productObj: Product = new Product();
   public selectedCategory: string = '';
+  defalutProductName: string = '';
+  defaultBrandName: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -68,28 +70,28 @@ export class ProductEditComponent implements OnInit {
           ],
         ],
         quantity: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-        filesource: [
-          '',
-          [Validators.required, fileFormatValidator, fileSizeValidator],
-        ],
+        filesource: ['', [fileFormatValidator, fileSizeValidator]],
         fileupload: [''],
         category: ['', [Validators.required]],
       },
       {
         validators: null,
-        asyncValidators: Productasyncvalidators.createProductBrandValidator(
-          this.productDataService
-        ),
+        /* asyncValidators: Productasyncvalidators.createProductBrandValidator(
+          this.productDataService,
+          this.defalutProductName,
+          this.defaultBrandName
+        ),*/
 
         updateOn: 'blur',
       }
     );
-
     this.categories = [];
     //this.subscribeCategory();
     //this.subscribeProduct();
     this.forkProductAndCategory();
   }
+
+  buildForm() {}
 
   openDialog() {
     let dialogRef = this.dialog.open(ProductAddcategoryComponent, {
@@ -98,7 +100,6 @@ export class ProductEditComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`); // Pizza!
       if (result && result.categoryname) {
         let categoryTemp: Category = new Category();
         categoryTemp.catName = result.categoryname;
@@ -109,7 +110,6 @@ export class ProductEditComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    console.log('iam selected');
     const file: File = event.target.files[0];
     if (file) {
       console.log(file);
@@ -145,11 +145,14 @@ export class ProductEditComponent implements OnInit {
           let resultArr = _.uniqBy(res[0], (obj) => obj.catName);
           resultArr = _.sortBy(resultArr, 'catName');
           this.categories = resultArr;
-          console.log(this.categories);
         }
         if (res[1] && res[1][0]) {
           this.productObj = res[1][0];
           console.log(this.productObj);
+          this.fileName = this.productObj.fileName || 'testfile.png';
+          this.defalutProductName = this.productObj.name;
+          this.defaultBrandName = this.productObj.brand;
+          // this.buildForm();
           this.formProductEdit.patchValue({
             productname: this.productObj.name,
             brandname: this.productObj.brand,
@@ -158,9 +161,14 @@ export class ProductEditComponent implements OnInit {
             quantity: this.productObj.quantity,
             category: this.productObj.category.catName,
           });
-          this.fileName = this.productObj.fileName || 'testfile.png';
+          this.formProductEdit.addAsyncValidators(
+            Productasyncvalidators.createProductBrandValidator(
+              this.productDataService,
+              this.defalutProductName,
+              this.defaultBrandName
+            )
+          );
         }
-        console.log(this.category);
       },
       (err) => {
         console.log(err);
@@ -228,7 +236,6 @@ export class ProductEditComponent implements OnInit {
     }
 
     try {
-      console.log(this.formProductEdit);
       this.productObj.brand = this.brandname?.value;
       this.productObj.description = this.description?.value;
       this.productObj.name = this.productname?.value;

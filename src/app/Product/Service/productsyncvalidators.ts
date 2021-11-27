@@ -8,9 +8,6 @@ import {
 export const fileFormatValidator: ValidatorFn = (
   control: AbstractControl
 ): ValidationErrors | null => {
-  console.log('inside validator');
-  console.log(control.value.name);
-  console.log(control.get('fileupload'));
   if (control.value && control.value.name) {
     const ext = control.value.name.substring(
       control.value.name.lastIndexOf('.') + 1
@@ -31,10 +28,6 @@ export const fileFormatValidator: ValidatorFn = (
 export const fileSizeValidator: ValidatorFn = (
   control: AbstractControl
 ): ValidationErrors | null => {
-  console.log('inside file size validator');
-  console.log(control.value.size);
-
-  console.log(control.get('fileupload'));
   if (control.value && control.value.size) {
     if (control.value.size < 1000000) {
       return null;

@@ -12,15 +12,28 @@ import { ProductDataService } from './productservice.service';
 @Injectable()
 export class Productasyncvalidators {
   static createProductBrandValidator(
-    productDataService: ProductDataService
+    productDataService: ProductDataService,
+    dpname?: string,
+    dpbrand?: string
   ): AsyncValidatorFn {
-    console.log('inside async');
-    console.log(productDataService);
+    console.log(dpname);
+    console.log(dpbrand);
     return (
       control: AbstractControl
     ):
       | Promise<ValidationErrors | null>
       | Observable<ValidationErrors | null> => {
+      console.log('inside async brand product');
+      console.log(dpname);
+      console.log(dpbrand);
+
+      if (
+        control.get('productname')?.value === dpname &&
+        control.get('brandname')?.value === dpbrand
+      ) {
+        return of(null);
+      }
+
       return productDataService.getProductsJson().pipe(
         //tap((data) => console.log(data)),
         map((prods: Array<Product>) =>
@@ -40,11 +53,19 @@ export class Productasyncvalidators {
     };
   }
 
+  private static pbDefaultValidator(): AsyncValidatorFn {
+    return (
+      control: AbstractControl
+    ):
+      | Promise<ValidationErrors | null>
+      | Observable<ValidationErrors | null> => {
+      return of(null);
+    };
+  }
+
   static createCategoryValidator(
     productDataService: ProductDataService
   ): AsyncValidatorFn {
-    console.log('inside async');
-    console.log(productDataService);
     return (
       control: AbstractControl
     ):
