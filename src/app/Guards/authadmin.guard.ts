@@ -51,6 +51,7 @@ export class AuthadminGuard
     if (this.authService.IsAuthenticated && this.authService.IsAdmin) {
       return true;
     }
+
     return false;
   }
   canDeactivate(

@@ -76,7 +76,7 @@ export class UserLoginComponent implements OnInit {
             'test',
             this.username.value
           );
-          this.router.navigate(['/medicare']);
+          this.router.navigate(['/admin']);
         } else if (
           this.username?.value === 'user@abc.com' &&
           this.password?.value === 'password'
@@ -86,7 +86,7 @@ export class UserLoginComponent implements OnInit {
             'test',
             this.username.value
           );
-          this.router.navigate(['/medicare']);
+          this.router.navigate(['/customer']);
         } else {
           this.loginInvalid = true;
         }

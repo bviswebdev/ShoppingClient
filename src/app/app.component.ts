@@ -24,6 +24,8 @@ export class AppComponent {
   ) {}
 
   ngOnInit(): void {
+    this.authService.getAuthFromSessionStorage();
+
     const getAlias = (MediaChange: MediaChange[]) => {
       return MediaChange[0].mqAlias;
     };

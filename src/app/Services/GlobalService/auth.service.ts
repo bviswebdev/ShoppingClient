@@ -67,6 +67,7 @@ export class AuthService {
       this.setIsUser = sessionStore.isUser;
       this.setRole = sessionStore.role;
       this.setAuthToken = sessionStore.authToken;
+      this.setUserName = sessionStore.userName;
     }
   }
 

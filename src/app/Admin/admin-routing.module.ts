@@ -5,6 +5,8 @@ import { AdminComponent } from './Components/admin/admin.component';
 import { AdmintestComponent } from './Components/admintest/admintest.component';
 import { AuthadminGuard } from '../Guards/authadmin.guard';
 import { PubHomeComponent } from '../Public/PublicComp/pub-home/pub-home.component';
+import { AdminProductaddComponent } from './Components/admin-productadd/admin-productadd.component';
+import { AdminProductupdateComponent } from './Components/admin-productupdate/admin-productupdate.component';
 
 const routes: Routes = [
   {
@@ -21,12 +23,12 @@ const routes: Routes = [
         component: AdmintestComponent,
       },
       {
-        path: 'create',
-        component: AdmintestComponent,
+        path: 'add',
+        component: AdminProductaddComponent,
       },
       {
         path: 'update',
-        component: AdmintestComponent,
+        component: AdminProductupdateComponent,
       },
     ],
   },

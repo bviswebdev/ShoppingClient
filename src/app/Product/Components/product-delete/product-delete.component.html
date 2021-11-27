@@ -1,0 +1,16 @@
+<mat-dialog-content>
+  <p style="font-size: large">
+    {{ message }}
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button
+    mat-raised-button
+    color="primary"
+    [mat-dialog-close]="true"
+    tabindex="1"
+  >
+    Delete
+  </button>
+  <button mat-raised-button tabindex="-1" (click)="onNoClick()">Cancel</button>
+</mat-dialog-actions>

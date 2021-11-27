@@ -8,6 +8,10 @@ import { ProductData, Productdatasource } from './productdatasource';
 import { productServiceFactory } from './productfactory';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ProductDeleteComponent } from '../product-delete/product-delete.component';
+import { ProductSnackComponent } from '../product-snack/product-snack.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-view',
@@ -33,7 +37,9 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
 
   constructor(
     public productDataSource: Productdatasource,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
+    private addSnackBar: MatSnackBar
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     //console.log('hello world');
@@ -56,6 +62,25 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
     if (this.products.paginator) {
       this.products.paginator.firstPage();
     }
+  }
+
+  openDeleteDialog(prodDelete: ProductData): void {
+    const dialogRef = this.dialog.open(ProductDeleteComponent, {
+      data: 'Are you sure to delete this product?',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Yes clicked');
+        console.log(prodDelete);
+        // DO SOMETHING
+        this.addSnackBar.openFromComponent(ProductSnackComponent, {
+          duration: 2000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          data: 'Product deleted sucessfully!!!',
+        });
+      }
+    });
   }
 
   viewDetails(viewId: string): void {}
