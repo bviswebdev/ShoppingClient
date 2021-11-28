@@ -1,0 +1,55 @@
+<div gdAreas="header | content | footer" gdGap="25px" class="cartcontainer">
+  <div gdArea="header" class="cartheader">
+    <div>Product</div>
+    <div></div>
+    <div>Price</div>
+    <div>Quantity</div>
+    <div>Subtotal</div>
+    <div></div>
+  </div>
+  <div gdArea="content" class="cartcontent">
+    <ng-container *ngFor="let prod of prods">
+      <div>
+        <img
+          mat-card-image
+          src="{{ prod.productImageUrl }}"
+          alt="Photo of a Shiba Inu"
+        />
+      </div>
+      <div class="cartproductdetail">
+        <div>
+          <span>{{ prod.productName }}</span>
+        </div>
+        <div>Brand:{{ prod.productBrand }}</div>
+        <div>Description:{{ prod.productDescription }}</div>
+      </div>
+      <div>{{ prod.productPrice }}</div>
+      <div>{{ prod.productQtyAvailable }}</div>
+      <div>{{ prod.productPrice }}</div>
+      <div>
+        <button mat-icon-button color="primary">
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+        <button mat-icon-button color="warn">
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+  </div>
+  <div gdArea="footer" class="cartfooter">
+    <div>
+      <button mat-raised-button color="accent" class="btnCategory">
+        Continue Shopping
+      </button>
+    </div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div>Total</div>
+    <div>
+      <button mat-raised-button color="primary" class="btnCategory">
+        Checkout
+      </button>
+    </div>
+  </div>
+</div>

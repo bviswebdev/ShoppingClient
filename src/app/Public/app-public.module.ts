@@ -13,6 +13,7 @@ import { PubProductsComponent } from './PublicComp/pub-products/pub-products.com
 import { RouterModule } from '@angular/router';
 import { AppSharedModule } from '../Shared/app-shared.module';
 import { UserModule } from '../User/user.module';
+import { CartModule } from '../Cart/cart.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { UserModule } from '../User/user.module';
     RouterModule,
     AppSharedModule,
     UserModule,
+    CartModule,
   ],
   exports: [
     PubAboutComponent,
