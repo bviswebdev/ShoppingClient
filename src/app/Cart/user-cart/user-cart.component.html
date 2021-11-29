@@ -1,32 +1,41 @@
-<div gdAreas="header | content | footer" gdGap="25px" class="cartcontainer">
+<div
+  gdAreas="header | content | footer"
+  gdGap="25px"
+  class="cartcontainer"
+  [ngClass.lt-md]="{ cartcontainer: false }"
+>
   <div gdArea="header" class="cartheader">
     <div>Product</div>
     <div></div>
-    <div>Price</div>
-    <div>Quantity</div>
-    <div>Subtotal</div>
+    <div style="margin-left: -20px">Price</div>
+    <div style="margin-left: -20px">Quantity</div>
+    <div style="margin-left: -20px">Subtotal</div>
     <div></div>
   </div>
   <div gdArea="content" class="cartcontent">
-    <ng-container *ngFor="let prod of prods">
-      <div>
+    <ng-container *ngFor="let prod of prods" class="cartcontentcontainer">
+      <div class="cartcontentitems" style="margin-left: 10px">
         <img
           mat-card-image
           src="{{ prod.productImageUrl }}"
           alt="Photo of a Shiba Inu"
         />
       </div>
-      <div class="cartproductdetail">
+      <div class="cartproductdetail cartcontentitems">
         <div>
-          <span>{{ prod.productName }}</span>
+          <span style="font-size: x-large; font-weight: 400">{{
+            prod.productName
+          }}</span>
         </div>
         <div>Brand:{{ prod.productBrand }}</div>
         <div>Description:{{ prod.productDescription }}</div>
       </div>
-      <div>{{ prod.productPrice }}</div>
-      <div>{{ prod.productQtyAvailable }}</div>
-      <div>{{ prod.productPrice }}</div>
-      <div>
+      <div class="cartcontentitems">
+        {{ prod.productPrice }}
+      </div>
+      <div class="cartcontentitems">{{ prod.productQtyAvailable }}</div>
+      <div class="cartcontentitems">{{ prod.productPrice }}</div>
+      <div class="cartcontentitems">
         <button mat-icon-button color="primary">
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
@@ -34,10 +43,16 @@
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
       </div>
+      <div class="cartcontentcontainer"></div>
+      <div class="cartcontentcontainer"></div>
+      <div class="cartcontentcontainer"></div>
+      <div class="cartcontentcontainer"></div>
+      <div class="cartcontentcontainer"></div>
+      <div class="cartcontentcontainer"></div>
     </ng-container>
   </div>
   <div gdArea="footer" class="cartfooter">
-    <div>
+    <div style="margin-left: -20px">
       <button mat-raised-button color="accent" class="btnCategory">
         Continue Shopping
       </button>
@@ -45,8 +60,12 @@
     <div></div>
     <div></div>
     <div></div>
-    <div>Total</div>
     <div>
+      <span style="font-size: x-large; font-weight: 300; margin-left: -45px"
+        >Total</span
+      >
+    </div>
+    <div style="margin-right: 40px">
       <button mat-raised-button color="primary" class="btnCategory">
         Checkout
       </button>
