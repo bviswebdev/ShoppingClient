@@ -3,6 +3,7 @@
   gdGap="25px"
   class="cartcontainer"
   [ngClass.lt-md]="{ cartcontainer: false }"
+  *ngIf="isFormGroupBuild"
 >
   <div gdArea="header" class="cartheader">
     <div>Product</div>
@@ -12,7 +13,8 @@
     <div style="margin-left: -20px">Subtotal</div>
     <div></div>
   </div>
-  <div gdArea="content" class="cartcontent">
+
+  <div gdArea="content" class="cartcontent" [formGroup]="formCartGroup">
     <ng-container *ngFor="let prod of prods" class="cartcontentcontainer">
       <div class="cartcontentitems" style="margin-left: 10px">
         <img
@@ -33,11 +35,51 @@
       <div class="cartcontentitems">
         {{ prod.productPrice }}
       </div>
-      <div class="cartcontentitems">{{ prod.productQtyAvailable }}</div>
+      <div class="cartcontentitems">
+        <input
+          type="number"
+          min="1"
+          max="3"
+          step="1"
+          [formControlName]="prod.productCode"
+          style="
+            padding: 5px;
+            text-align: center;
+            width: 50px;
+            margin-bottom: 10px;
+          "
+        />
+        <br />
+        <mat-error
+          *ngIf="
+            isFormGroupBuild &&
+            formCartGroup.get(prod.productCode)?.hasError('required')
+          "
+        >
+          Quantity required!
+        </mat-error>
+        <mat-error
+          *ngIf="
+            isFormGroupBuild &&
+            (formCartGroup.get(prod.productCode)?.hasError('min') ||
+              formCartGroup.get(prod.productCode)?.hasError('max'))
+          "
+        >
+          Maximum 3 quantities allowed.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            isFormGroupBuild &&
+            formCartGroup.get(prod.productCode)?.hasError('pattern')
+          "
+        >
+          Only whole numbers.
+        </mat-error>
+      </div>
       <div class="cartcontentitems">{{ prod.productPrice }}</div>
       <div class="cartcontentitems">
         <button mat-icon-button color="primary">
-          <mat-icon class="mat-18">delete</mat-icon>
+          <mat-icon class="mat-18">replay_circle_filled</mat-icon>
         </button>
         <button mat-icon-button color="warn">
           <mat-icon class="mat-18">delete</mat-icon>
@@ -51,6 +93,7 @@
       <div class="cartcontentcontainer"></div>
     </ng-container>
   </div>
+
   <div gdArea="footer" class="cartfooter">
     <div style="margin-left: -20px">
       <button mat-raised-button color="accent" class="btnCategory">

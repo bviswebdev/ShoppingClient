@@ -56,3 +56,15 @@
 .ctest {
   grid-column: "1 / span 3";
 }
+
+.errorcolor {
+  border-color: #f44336;
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid #f44336;
+}
+
+input.ng-invalid.ng-touched:focus-visible {
+  outline: 1px solid #f44336;
+}

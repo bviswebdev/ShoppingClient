@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
 import { Product } from 'src/app/Product/Model/product.model';
 import { ProductDataService } from 'src/app/Product/Service/productservice.service';
@@ -14,6 +15,10 @@ export interface ProductCartData {
   productQtyAvailable: number;
 }
 
+type formControlGroup = {
+  [key: string]: FormControl;
+};
+
 @Component({
   selector: 'app-user-cart',
   templateUrl: './user-cart.component.html',
@@ -21,9 +26,16 @@ export interface ProductCartData {
 })
 export class UserCartComponent implements OnInit {
   prods: Array<ProductCartData> = new Array<ProductCartData>();
+  formCartGroup!: FormGroup;
+  isFormGroupBuild: boolean = false;
+
   constructor(private productDataService: ProductDataService) {}
 
   ngOnInit(): void {
+    /*this.quantity = new FormControl('1', [
+      Validators.required,
+      Validators.pattern('^[0-9]+$'),
+    ]);*/
     this.subscribeProduct();
   }
 
@@ -50,10 +62,21 @@ export class UserCartComponent implements OnInit {
       )
       .subscribe((transactionList) => {
         this.prods = transactionList;
+        let controlGroup: formControlGroup = {};
+        this.prods.forEach((prod) => {
+          controlGroup[prod.productCode] = new FormControl('1', [
+            Validators.required,
+            Validators.pattern('^[0-9]+$'),
+          ]);
+        });
+        this.formCartGroup = new FormGroup(controlGroup);
+        this.isFormGroupBuild = true;
+        console.log(this.formCartGroup);
       });
   }
+}
 
-  /*
+/*
   map((prods: Array<Product>) => {
     return prods.map((product) => {
       product.imageUrl = `../../assets/images/${product.code}.jpg`;
@@ -69,4 +92,3 @@ export class UserCartComponent implements OnInit {
     });
   }),
   tap((data) => console.log(data))*/
-}
