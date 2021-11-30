@@ -58,10 +58,13 @@ export class AuthService {
   }
 
   getAuthFromSessionStorage(): void {
-    const sessionStore = JSON.parse(sessionStorage.getItem('medauth') || '{}');
-    //console.log('session storage = ' + sessionStore);
-    //console.log(sessionStorage.length);
-    if (sessionStorage.length !== 0) {
+    const sessionAuth = sessionStorage.getItem('medauth');
+    if (sessionAuth) {
+      const sessionStore = JSON.parse(sessionAuth);
+      //const sessionStore = JSON.parse(sessionStorage.getItem('medauth') || '{}');
+      //console.log('session storage = ' + sessionStore);
+      //console.log(sessionStorage.length);
+
       this.setIsAuthenticated = sessionStore.isAuthenticated;
       this.setIsAdmin = sessionStore.isAdmin;
       this.setIsUser = sessionStore.isUser;

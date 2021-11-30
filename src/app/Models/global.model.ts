@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Cart } from '../Cart/Model/cart.model';
 import { User } from '../User/Model/user.model';
 
 export class Breakpoints {
@@ -26,5 +27,5 @@ export class Auth {
   providedIn: 'root',
 })
 export class MedicareApp {
-  constructor(public user: User = new User()) {}
+  constructor(public user: User = new User(), public cart: Cart = new Cart()) {}
 }
