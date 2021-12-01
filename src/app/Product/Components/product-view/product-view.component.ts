@@ -112,8 +112,8 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
   }
 
   addToCart(prodEl: ProductData): void {
-    this.cartManager.handleCart(prodEl);
-    console.log(prodEl);
+    //this.cartManager.handleCart(prodEl);
+    this.cartManager.handleCartTemp(prodEl);
   }
 
   openDeleteDialog(prodDelete: ProductData): void {

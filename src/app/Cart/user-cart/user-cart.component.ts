@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Product } from 'src/app/Product/Model/product.model';
 import { ProductDataService } from 'src/app/Product/Service/productservice.service';
+import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
+import { Cart } from '../Model/cart.model';
 
 export interface ProductCartData {
   productId: string;
@@ -28,15 +31,42 @@ export class UserCartComponent implements OnInit {
   prods: Array<ProductCartData> = new Array<ProductCartData>();
   formCartGroup!: FormGroup;
   isFormGroupBuild: boolean = false;
+  isCartEmpty: boolean = true;
+  userCart: Cart = new Cart();
 
-  constructor(private productDataService: ProductDataService) {}
+  constructor(
+    private productDataService: ProductDataService,
+    public medAppService: MedicareappService
+  ) {}
 
   ngOnInit(): void {
     /*this.quantity = new FormControl('1', [
       Validators.required,
       Validators.pattern('^[0-9]+$'),
     ]);*/
-    this.subscribeProduct();
+    this.userCart = this.medAppService.appUserCart;
+    if (this.userCart.cartItems.length > 0) {
+      let controlGroup: formControlGroup = {};
+      this.userCart.cartItems.forEach((cartItem) => {
+        controlGroup[cartItem.productId] = new FormControl(
+          cartItem.productCount.toString(),
+          [Validators.required, Validators.pattern('^[0-9]+$')]
+        );
+      });
+      this.formCartGroup = new FormGroup(controlGroup);
+      this.isCartEmpty = false;
+      this.isFormGroupBuild = true;
+    }
+
+    //this.subscribeProduct();
+  }
+
+  subscribeCartItemProduct(productId: string): Observable<Array<Product>> {
+    return this.productDataService.getProductsJson().pipe(
+      map((products: Array<Product>) => {
+        return products.filter((prod) => prod.code === productId);
+      })
+    );
   }
 
   subscribeProduct() {

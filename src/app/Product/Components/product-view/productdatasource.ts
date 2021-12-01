@@ -12,6 +12,7 @@ export interface ProductData {
   productBrand: string;
   productPrice: number;
   productQtyAvailable: number;
+  productDescription: string;
 }
 
 export class Productdatasource extends MatTableDataSource<ProductData> {
@@ -60,6 +61,7 @@ export class Productdatasource extends MatTableDataSource<ProductData> {
               productBrand: product.brand,
               productPrice: product.unitPrice,
               productQtyAvailable: product.quantity,
+              productDescription: product.description,
             };
           });
         }),

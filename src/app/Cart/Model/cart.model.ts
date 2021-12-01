@@ -14,6 +14,19 @@ export class CartItem {
     public productId: string = '',
     public productCount: number = 0,
     public buyingPrice: number = 0,
-    public isAvailable: boolean = false
+    public isAvailable: boolean = false,
+    public cartItemProduct: CartItemProduct = new CartItemProduct()
+  ) {}
+}
+
+export class CartItemProduct {
+  constructor(
+    public productCode: string = '',
+    public productImageUrl: string = '',
+    public productName: string = '',
+    public productBrand: string = '',
+    public productDescription: string = '',
+    public productPrice: number = 0,
+    public productQtyAvailable = 0
   ) {}
 }

@@ -1,9 +1,19 @@
+<div fxLayout="row" fxLayoutAlign="center center" *ngIf="isCartEmpty">
+  <div
+    class="cartcontainer cartempty"
+    [ngClass.lt-md]="{ cartcontainer: false }"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+  >
+    <h1 style="font-size: xx-large; font-weight: 500">Cart is empty!!!</h1>
+  </div>
+</div>
 <div
   gdAreas="header | content | footer"
   gdGap="25px"
   class="cartcontainer"
   [ngClass.lt-md]="{ cartcontainer: false }"
-  *ngIf="isFormGroupBuild"
+  *ngIf="isFormGroupBuild && !isCartEmpty"
 >
   <div gdArea="header" class="cartheader">
     <div>Product</div>
@@ -15,25 +25,28 @@
   </div>
 
   <div gdArea="content" class="cartcontent" [formGroup]="formCartGroup">
-    <ng-container *ngFor="let prod of prods" class="cartcontentcontainer">
+    <ng-container
+      *ngFor="let cartItem of userCart.cartItems"
+      class="cartcontentcontainer"
+    >
       <div class="cartcontentitems" style="margin-left: 10px">
         <img
           mat-card-image
-          src="{{ prod.productImageUrl }}"
+          src="{{ cartItem.cartItemProduct.productImageUrl }}"
           alt="Photo of a Shiba Inu"
         />
       </div>
       <div class="cartproductdetail cartcontentitems">
         <div>
           <span style="font-size: x-large; font-weight: 400">{{
-            prod.productName
+            cartItem.cartItemProduct.productName
           }}</span>
         </div>
-        <div>Brand:{{ prod.productBrand }}</div>
-        <div>Description:{{ prod.productDescription }}</div>
+        <div>Brand:{{ cartItem.cartItemProduct.productBrand }}</div>
+        <div>Description:{{ cartItem.cartItemProduct.productDescription }}</div>
       </div>
       <div class="cartcontentitems">
-        {{ prod.productPrice }}
+        {{ cartItem.buyingPrice | currency: "&#8377;" }}
       </div>
       <div class="cartcontentitems">
         <input
@@ -41,7 +54,7 @@
           min="1"
           max="3"
           step="1"
-          [formControlName]="prod.productCode"
+          [formControlName]="cartItem.productId"
           style="
             padding: 5px;
             text-align: center;
@@ -53,7 +66,7 @@
         <mat-error
           *ngIf="
             isFormGroupBuild &&
-            formCartGroup.get(prod.productCode)?.hasError('required')
+            formCartGroup.get(cartItem.productId)?.hasError('required')
           "
         >
           Quantity required!
@@ -61,8 +74,8 @@
         <mat-error
           *ngIf="
             isFormGroupBuild &&
-            (formCartGroup.get(prod.productCode)?.hasError('min') ||
-              formCartGroup.get(prod.productCode)?.hasError('max'))
+            (formCartGroup.get(cartItem.productId)?.hasError('min') ||
+              formCartGroup.get(cartItem.productId)?.hasError('max'))
           "
         >
           Maximum 3 quantities allowed.
@@ -70,13 +83,15 @@
         <mat-error
           *ngIf="
             isFormGroupBuild &&
-            formCartGroup.get(prod.productCode)?.hasError('pattern')
+            formCartGroup.get(cartItem.productId)?.hasError('pattern')
           "
         >
           Only whole numbers.
         </mat-error>
       </div>
-      <div class="cartcontentitems">{{ prod.productPrice }}</div>
+      <div class="cartcontentitems">
+        {{ cartItem.itemTotal | currency: "&#8377;" }}
+      </div>
       <div class="cartcontentitems">
         <button mat-icon-button color="primary">
           <mat-icon class="mat-18">replay_circle_filled</mat-icon>
@@ -104,8 +119,8 @@
     <div></div>
     <div></div>
     <div>
-      <span style="font-size: x-large; font-weight: 300; margin-left: -45px"
-        >Total</span
+      <span style="font-size: x-large; font-weight: 500; margin-left: -45px"
+        >Total - {{ userCart.grandTotal | currency: "&#8377;" }}</span
       >
     </div>
     <div style="margin-right: 40px">
