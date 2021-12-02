@@ -1,0 +1,110 @@
+<section
+  fxLayout="row"
+  fxLayout.lt-md="column"
+  class="addresscontainer"
+  [ngClass.lt-md]="{ addresscontainer: false }"
+  *ngIf="isDataLoaded"
+>
+  <section fxFlex="35%" style="border: 1px solid blue">
+    <h1 style="text-align: center; margin-top: 35px">
+      Select Shipping Address
+    </h1>
+    <article
+      fxLayout="column"
+      style="width: 100%"
+      fxLayoutAlign="center center"
+    >
+      <mat-card *ngFor="let address of userObj.addresses" fxFlex="90%">
+        <mat-card-content>
+          <h1>{{ address.addressLineOne }}</h1>
+          <h1>{{ address.addressLineTwo }}</h1>
+          <h2>{{ address.city }} - {{ address.postalCode }}</h2>
+          <h2>{{ address.state }} - {{ address.country }}</h2>
+          <button
+            mat-raised-button
+            color="primary"
+            class="btnaddress"
+            (click)="selectAddress(address.id)"
+          >
+            Select
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </article>
+  </section>
+  <section fxFlex="65%" class="registeraddr" style="border: 1px solid blue">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="formAddress">
+          <h1>Signup - Address</h1>
+          <mat-form-field class="full-width-input">
+            <input
+              matInput
+              placeholder="Address Line One"
+              formControlName="addrlineone"
+            />
+            <mat-error *ngIf="addrlineone?.errors?.['required']">
+              Address Line One is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width-input">
+            <input
+              matInput
+              placeholder="Address Line Two"
+              formControlName="addrlinetwo"
+            />
+            <mat-error *ngIf="addrlinetwo?.errors?.['required']">
+              Address Line Two is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width-input">
+            <input matInput placeholder="City" formControlName="city" />
+            <mat-error *ngIf="city?.errors?.['required']">
+              City required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width-input">
+            <input
+              matInput
+              placeholder="Postal Code"
+              formControlName="postalcode"
+              (keypress)="keyPasscodePress($event)"
+            />
+            <mat-error *ngIf="postalcode?.errors?.['required']">
+              Postal code required
+            </mat-error>
+            <mat-error
+              *ngIf="postalcode?.errors?.['pattern'] || postalcode?.errors?.['minlength'] || postalcode?.errors?.['maxlength']"
+            >
+              Please enter a valid postalcode
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width-input">
+            <input matInput placeholder="State" formControlName="state" />
+            <mat-error *ngIf="state?.errors?.['required']">
+              State required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width-input">
+            <input matInput placeholder="Country" formControlName="country" />
+            <mat-error *ngIf="country?.errors?.['required']">
+              Country required
+            </mat-error>
+          </mat-form-field>
+          <button
+            mat-raised-button
+            color="primary"
+            class="btnaddress"
+            (click)="submitForm()"
+          >
+            Add Address
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </section>
+</section>

@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { AppSharedModule } from '../Shared/app-shared.module';
 import { UserModule } from '../User/user.module';
 import { CartModule } from '../Cart/cart.module';
+import { PaymentModule } from '../Payment/payment.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { CartModule } from '../Cart/cart.module';
     AppSharedModule,
     UserModule,
     CartModule,
+    PaymentModule,
   ],
   exports: [
     PubAboutComponent,

@@ -55,6 +55,52 @@ export class CartManager {
     return true;
   }
 
+  deleteCartItem(cartDeleteItem: CartItem, cartDelete: Cart) {
+    cartDelete.grandTotal = cartDelete.grandTotal - cartDeleteItem.itemTotal;
+    let cartItemExistsIndex: number = cartDelete.cartItems.findIndex(
+      (item) => item.productId === cartDeleteItem.productId
+    );
+    cartDelete.cartItems.splice(cartItemExistsIndex, 1);
+    return cartDelete;
+  }
+
+  updateCartItem(
+    cartUpdateItem: CartItem,
+    cartUpdate: Cart,
+    updateCount: number
+  ): Cart {
+    let cartItemUpdateObj: CartItem = new CartItem();
+    cartItemUpdateObj.productId = cartUpdateItem.productId;
+    cartItemUpdateObj.buyingPrice = cartUpdateItem.buyingPrice;
+    cartItemUpdateObj.isAvailable =
+      Number(cartUpdateItem.cartItemProduct.productQtyAvailable) > 0
+        ? true
+        : false;
+    if (updateCount > cartUpdateItem.productCount) {
+      cartUpdate.grandTotal =
+        cartUpdate.grandTotal +
+        cartUpdateItem.cartItemProduct.productPrice *
+          (updateCount - cartUpdateItem.productCount);
+    } else {
+      cartUpdate.grandTotal =
+        cartUpdate.grandTotal -
+        cartUpdateItem.cartItemProduct.productPrice *
+          (cartUpdateItem.productCount - updateCount);
+    }
+    let cartItemExistsIndex: number = cartUpdate.cartItems.findIndex(
+      (item) => item.productId === cartUpdateItem.productId
+    );
+    cartItemUpdateObj.productCount = updateCount;
+    cartItemUpdateObj.itemTotal =
+      cartUpdateItem.cartItemProduct.productPrice * updateCount;
+    cartItemUpdateObj.cartItemProduct = cartUpdateItem.cartItemProduct;
+    cartItemUpdateObj.itemId = cartUpdateItem.itemId;
+    cartUpdate.cartItems.splice(cartItemExistsIndex, 1);
+    cartUpdate.cartItems.splice(cartItemExistsIndex, 0, cartItemUpdateObj);
+    //cartUpdate.cartItems.push(cartItemUpdateObj);
+    return cartUpdate;
+  }
+
   updateCart(prodEl: ProductData, cartUpdate: Cart): Cart {
     let cartItemUpdateObj: CartItem = new CartItem();
     let cartItemUpdatePrevObj: CartItem = new CartItem();
@@ -72,22 +118,26 @@ export class CartManager {
       cartItemUpdateObj.productCount = cartItemUpdatePrevObj.productCount + 1;
       cartItemUpdateObj.itemTotal =
         cartItemUpdatePrevObj.itemTotal + prodEl.productPrice;
+      cartItemUpdateObj.cartItemProduct = cartItemUpdatePrevObj.cartItemProduct;
+      cartItemUpdateObj.itemId = cartItemUpdatePrevObj.itemId;
 
       cartUpdate.cartItems.splice(cartItemExistsIndex, 1);
     } else {
       cartItemUpdateObj.productCount = 1;
       cartItemUpdateObj.itemTotal = prodEl.productPrice;
+      let cartItemProductData: CartItemProduct = new CartItemProduct();
+      cartItemProductData.productCode = prodEl.productCode;
+      cartItemProductData.productBrand = prodEl.productBrand;
+      cartItemProductData.productDescription = prodEl.productDescription;
+      cartItemProductData.productImageUrl = prodEl.productImageUrl;
+      cartItemProductData.productName = prodEl.productName;
+      cartItemProductData.productPrice = prodEl.productPrice;
+      cartItemProductData.productQtyAvailable = prodEl.productQtyAvailable;
+      cartItemUpdateObj.cartItemProduct = cartItemProductData;
     }
-    let cartItemProductData: CartItemProduct = new CartItemProduct();
-    cartItemProductData.productCode = prodEl.productCode;
-    cartItemProductData.productBrand = prodEl.productBrand;
-    cartItemProductData.productDescription = prodEl.productDescription;
-    cartItemProductData.productImageUrl = prodEl.productImageUrl;
-    cartItemProductData.productName = prodEl.productName;
-    cartItemProductData.productPrice = prodEl.productPrice;
-    cartItemProductData.productQtyAvailable = prodEl.productQtyAvailable;
-    cartItemUpdateObj.cartItemProduct = cartItemProductData;
-    cartUpdate.cartItems.push(cartItemUpdateObj);
+
+    cartUpdate.cartItems.splice(cartItemExistsIndex, 0, cartItemUpdateObj);
+    //cartUpdate.cartItems.push(cartItemUpdateObj);
     return cartUpdate;
   }
 

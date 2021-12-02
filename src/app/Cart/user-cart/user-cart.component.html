@@ -61,6 +61,7 @@
             width: 50px;
             margin-bottom: 10px;
           "
+          (blur)="updateCart(cartItem)"
         />
         <br />
         <mat-error
@@ -93,10 +94,10 @@
         {{ cartItem.itemTotal | currency: "&#8377;" }}
       </div>
       <div class="cartcontentitems">
-        <button mat-icon-button color="primary">
+        <button mat-icon-button color="primary" (click)="updateCart(cartItem)">
           <mat-icon class="mat-18">replay_circle_filled</mat-icon>
         </button>
-        <button mat-icon-button color="warn">
+        <button mat-icon-button color="warn" (click)="deleteCart(cartItem)">
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
       </div>

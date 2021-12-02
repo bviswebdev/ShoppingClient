@@ -8,7 +8,7 @@
     "password": "admin",
     "email": "vk@gmail.com",
     "contactNumber": "8888888888",
-    "address": null
+    "addresses": null
   },
   {
     "_id": "2",
@@ -19,7 +19,7 @@
     "password": "supplier",
     "email": "rj@gmail.com",
     "contactNumber": "9999999999",
-    "address": null
+    "addresses": null
   },
   {
     "_id": "3",
@@ -30,7 +30,7 @@
     "password": "supplier",
     "email": "ra@gmail.com",
     "contactNumber": "7777777777",
-    "address": null
+    "addresses": null
   },
   {
     "_id": "4",
@@ -41,7 +41,7 @@
     "password": "user",
     "email": "kn@gmail.com",
     "contactNumber": "7777777777",
-    "address": [
+    "addresses": [
       {
         "addrId": "1",
         "addressLineOne": "102 Sabarmati Society, Mahatma Gandhi Road",
