@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cart } from 'src/app/Cart/Model/cart.model';
+import { Order, OrderItem } from 'src/app/Order/Model/order.model';
 import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
+import { User } from 'src/app/User/Model/user.model';
 
 @Component({
   selector: 'app-payment-cart',
@@ -13,6 +15,8 @@ export class PaymentCartComponent implements OnInit {
   userCart: Cart = new Cart();
   isDataLoaded: boolean = false;
   formPayment!: FormGroup;
+  orderObj: Order = new Order();
+  userObj: User = new User();
 
   constructor(
     public medAppService: MedicareappService,
@@ -23,6 +27,7 @@ export class PaymentCartComponent implements OnInit {
 
   ngOnInit(): void {
     this.userCart = this.medAppService.appUserCart;
+    this.userObj = this.medAppService.appUser;
     this.formPayment = this.fb.group({
       paymentname: [''],
       paymentcard: [''],
@@ -33,5 +38,28 @@ export class PaymentCartComponent implements OnInit {
     this.isDataLoaded = true;
   }
 
-  payForm() {}
+  payForm() {
+    if (this.userCart) {
+      this.orderObj.orderCount = this.userCart.cartItems.reduce<number>(
+        (acc, ct, i, arr) => {
+          acc = acc + ct.productCount;
+          return acc;
+        },
+        0
+      );
+      this.orderObj.orderDate = new Date().toString();
+      this.orderObj.orderTotal = this.userCart.grandTotal;
+      this.orderObj.userId = this.userObj.id;
+      this.userCart.cartItems.forEach((item) => {
+        let orderItem: OrderItem = new OrderItem();
+        orderItem.productCount = item.productCount;
+        orderItem.productId = item.productId;
+        orderItem.productName = item.cartItemProduct.productName;
+        orderItem.total = item.itemTotal;
+        orderItem.buyingPrice = item.buyingPrice;
+        this.orderObj.orderItems.push(orderItem);
+      });
+    }
+    this.medAppService.setAppUserOrder = this.orderObj;
+  }
 }

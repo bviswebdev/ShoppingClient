@@ -1,4 +1,8 @@
-<section class="ordercontainer" [ngClass.lt-md]="{ ordercontainer: false }">
+<section
+  class="ordercontainer"
+  [ngClass.lt-md]="{ ordercontainer: false }"
+  *ngIf="isDataLoaded"
+>
   <section style="height: 100px; border: 1px solid blue">
     <article>
       <p>
@@ -78,7 +82,28 @@
       <span style="font-weight: 500">Order Summary:</span><br />
     </article>
   </section>
-  <section style="border: 1px solid blue"></section>
+  <section style="border: 1px solid blue">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Totals</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let orderItem of orderObj.orderItems">
+          <th scope="row" style="text-align: left">
+            {{ orderItem.productName }}
+          </th>
+          <td>{{ orderItem.buyingPrice }}</td>
+          <td>{{ orderItem.productCount }}</td>
+          <td style="text-align: right">{{ orderItem.total }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
   <section
     style="height: 100px; border: 1px solid blue"

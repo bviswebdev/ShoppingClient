@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Cart } from 'src/app/Cart/Model/cart.model';
 import { MedicareApp } from 'src/app/Models/global.model';
+import { Order } from 'src/app/Order/Model/order.model';
 import { User } from 'src/app/User/Model/user.model';
 
 @Injectable({
@@ -25,6 +26,14 @@ export class MedicareappService {
 
   get appUserCart(): Cart {
     return this.medApp.cart;
+  }
+
+  set setAppUserOrder(val: Order) {
+    this.medApp.order = val;
+  }
+
+  get appUserOrder(): Order {
+    return this.medApp.order;
   }
 
   setCartToSessionStorage(sessionCart: Cart): void {

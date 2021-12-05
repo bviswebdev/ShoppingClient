@@ -11,14 +11,16 @@
       "total": 18.0,
       "productId": "1",
       "productCount": 1,
-      "buyingPrice": 18.0
+      "buyingPrice": 18.0,
+      "productName": "Paracetemol"
     },
     {
       "itemId": "2",
       "total": 22.0,
       "productId": "2",
       "productCount": 1,
-      "buyingPrice": 22.0
+      "buyingPrice": 22.0,
+      "productName": "Combiflame"
     }
   ],
   "orderDate": null
