@@ -91,7 +91,7 @@
           <button
             mat-icon-button
             color="accent"
-            (click)="editProduct(element.id)"
+            [routerLink]="['/admin/update', element.productId]"
           >
             <mat-icon class="mat-18">edit</mat-icon>
           </button>

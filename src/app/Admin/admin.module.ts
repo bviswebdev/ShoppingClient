@@ -7,6 +7,7 @@ import { AppPublicModule } from '../Public/app-public.module';
 import { AdminProductaddComponent } from './Components/admin-productadd/admin-productadd.component';
 import { AdminProductupdateComponent } from './Components/admin-productupdate/admin-productupdate.component';
 import { ProductModule } from '../Product/product.module';
+import { AppSharedModule } from '../Shared/app-shared.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { ProductModule } from '../Product/product.module';
     AdminComponent,
     AdminProductaddComponent,
     AdminProductupdateComponent,
+    AppSharedModule,
   ],
   imports: [CommonModule, AdminRoutingModule, AppPublicModule, ProductModule],
   exports: [],

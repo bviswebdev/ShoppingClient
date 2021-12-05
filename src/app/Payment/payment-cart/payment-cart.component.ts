@@ -61,5 +61,6 @@ export class PaymentCartComponent implements OnInit {
       });
     }
     this.medAppService.setAppUserOrder = this.orderObj;
+    this.router.navigate(['/customer/orderconfirm']);
   }
 }

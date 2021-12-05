@@ -7,6 +7,7 @@ import { AuthadminGuard } from '../Guards/authadmin.guard';
 import { PubHomeComponent } from '../Public/PublicComp/pub-home/pub-home.component';
 import { AdminProductaddComponent } from './Components/admin-productadd/admin-productadd.component';
 import { AdminProductupdateComponent } from './Components/admin-productupdate/admin-productupdate.component';
+import { AppNotfoundComponent } from '../Shared/ComponentGlobals/app-notfound/app-notfound.component';
 
 const routes: Routes = [
   {
@@ -28,7 +29,13 @@ const routes: Routes = [
       },
       {
         path: 'update',
-        component: AdminProductupdateComponent,
+        children: [
+          { path: '', component: AppNotfoundComponent },
+          {
+            path: ':productId',
+            component: AdminProductupdateComponent,
+          },
+        ],
       },
     ],
   },

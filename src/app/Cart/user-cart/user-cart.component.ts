@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Product } from 'src/app/Product/Model/product.model';
@@ -38,7 +39,8 @@ export class UserCartComponent implements OnInit {
   constructor(
     private productDataService: ProductDataService,
     public medAppService: MedicareappService,
-    public cartManager: CartManager
+    public cartManager: CartManager,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +73,10 @@ export class UserCartComponent implements OnInit {
     }
 
     //this.subscribeProduct();
+  }
+
+  cartCheckout() {
+    this.router.navigate(['/customer/checkout']);
   }
 
   updateCart(cartUpdateItem: CartItem) {

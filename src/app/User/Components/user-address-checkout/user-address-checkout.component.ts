@@ -102,6 +102,7 @@ export class UserAddressCheckoutComponent implements OnInit {
   selectAddress(addressId: string) {
     this.userObj.addresses[0].isShipping = true;
     this.med.setAppUser = this.userObj;
+    this.router.navigate(['/customer/payment']);
 
     /*let addrIndex = this.userObj.addresses.findIndex((addr) => {
       addr.id === addressId;

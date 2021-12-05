@@ -86,6 +86,7 @@
         <button
           mat-raised-button
           color="primary"
+          routerLink="/customer/cart"
           *ngIf="!authService.IsAuthenticated && !authService.IsAdmin"
         >
           Add to Cart
@@ -93,6 +94,7 @@
         <button
           mat-raised-button
           color="accent"
+          routerLink="/medicare/viewproducts"
           *ngIf="!authService.IsAuthenticated && !authService.IsAdmin"
         >
           Continue Shopping
@@ -100,6 +102,7 @@
         <button
           mat-raised-button
           color="primary"
+          routerLink="/admin/update"
           *ngIf="authService.IsAuthenticated && authService.IsAdmin"
         >
           Edit
@@ -107,6 +110,7 @@
         <button
           mat-raised-button
           color="accent"
+          routerLink="/medicare/viewproducts"
           *ngIf="authService.IsAuthenticated && authService.IsAdmin"
         >
           Back
