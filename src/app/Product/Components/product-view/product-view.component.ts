@@ -34,6 +34,7 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
   dataSource!: MatTableDataSource<ProductData>;
   products!: Productdatasource;
   productsDataSource: Array<ProductData> = new Array<ProductData>();
+  isAdmin: boolean = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -52,6 +53,9 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    if (this.authService.IsAuthenticated && this.authService.IsAdmin) {
+      this.isAdmin = true;
+    }
     this.products = this.productDataSource;
     this.displayedColumns = this.productDataSource.getDisplayColumnsRoleBased();
   }

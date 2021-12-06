@@ -1,13 +1,30 @@
 <section>
-  <mat-form-field appearance="standard">
-    <mat-label>Filter</mat-label>
-    <input
-      matInput
-      (keyup)="applyFilter($event)"
-      placeholder="Ex. Mia"
-      #input
-    />
-  </mat-form-field>
+  <section fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-form-field
+      appearance="standard"
+      [ngClass]="{
+        'mat-form-field-admin': isAdmin,
+        'mat-form-field': !isAdmin
+      }"
+    >
+      <mat-label>Filter</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Ex. Mia"
+        #input
+      />
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      class="btnregister"
+      routerLink="/admin/add"
+      *ngIf="authService.IsAuthenticated && authService.IsAdmin"
+    >
+      Add New Product
+    </button>
+  </section>
 
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="products" matSort>

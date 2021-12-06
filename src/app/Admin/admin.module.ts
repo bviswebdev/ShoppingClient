@@ -15,9 +15,14 @@ import { AppSharedModule } from '../Shared/app-shared.module';
     AdminComponent,
     AdminProductaddComponent,
     AdminProductupdateComponent,
+  ],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    AppPublicModule,
+    ProductModule,
     AppSharedModule,
   ],
-  imports: [CommonModule, AdminRoutingModule, AppPublicModule, ProductModule],
   exports: [],
 })
 export class AdminModule {}

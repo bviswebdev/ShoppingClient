@@ -48,6 +48,8 @@ export class ProductEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const routeParams = this.route.snapshot.paramMap;
+    const productIdFromRoute = routeParams.get('productId');
     this.pdbrndValidator.productService = this.productDataService;
     this.formProductEdit = this.fb.group(
       {
