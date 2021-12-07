@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, tap } from 'rxjs/operators';
+import { CartManager } from 'src/app/Cart/user-cart/cart-manager';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
 import { Product } from '../../Model/product.model';
 import { ProductDataService } from '../../Service/productservice.service';
+import { ProductData } from '../product-view/productdatasource';
 
 @Component({
   selector: 'app-product-detail',
@@ -17,7 +19,8 @@ export class ProductDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private productDataService: ProductDataService,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    public cartManager: CartManager
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +44,38 @@ export class ProductDetailComponent implements OnInit {
 
     // Find the product that correspond with the id provided in route.
     //this.product = products.find(product => product.id === productIdFromRoute);
+  }
+
+  addToCart(prodData: Product): void {
+    //this.cartManager.handleCart(prodEl);
+    let prodEl: ProductData = {
+      productId: '',
+      productCode: '',
+      productDescription: '',
+      productBrand: '',
+      productImageUrl: '',
+      productName: '',
+      productPrice: 0,
+      productQtyAvailable: 0,
+    };
+    prodEl.productId = prodData._id;
+    prodEl.productCode = prodData.code;
+    prodEl.productDescription = prodData.description;
+    prodEl.productBrand = prodData.brand;
+    prodEl.productImageUrl = prodData.imageUrl;
+    prodEl.productName = prodData.name;
+    prodEl.productPrice = prodData.unitPrice;
+    prodEl.productQtyAvailable = prodData.quantity;
+    this.cartManager.handleCartTemp(prodEl);
+    /* productId: string;
+    productCode: string;
+    productImageUrl: string;
+    productName: string;
+    productBrand: string;
+    productPrice: number;
+    productQtyAvailable: number;
+    productDescription: string;*/
+    this.router.navigate(['/customer/cart']);
   }
 
   /*.pipe(

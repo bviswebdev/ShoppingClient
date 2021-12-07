@@ -4,15 +4,25 @@
   class="paymentcontainer"
   [ngClass.lt-md]="{ paymentcontainer: false }"
   *ngIf="isDataLoaded"
+  style="background-color: lavender"
 >
-  <section fxFlex="35%" style="border: 1px solid blue">
+  <section fxFlex="35%">
+    <p>
+      <mat-toolbar color="primary">
+        <span>Final Items</span>
+      </mat-toolbar>
+    </p>
     <article
       fxLayout="column"
       style="width: 100%"
       fxLayoutAlign="center center"
     >
-      <mat-card *ngFor="let cartItem of userCart.cartItems" fxFlex="90%">
-        <mat-card-content style="margin-top: -30px">
+      <mat-card
+        *ngFor="let cartItem of userCart.cartItems"
+        fxFlex="90%"
+        class="matitem"
+      >
+        <mat-card-content>
           <h1>
             {{ cartItem.cartItemProduct.productName }}
           </h1>
@@ -25,14 +35,14 @@
       </mat-card>
     </article>
   </section>
-  <section fxFlex="65%" class="registeraddr" style="border: 1px solid blue">
+  <section fxFlex="65%" class="registeraddr">
     <p>
       <mat-toolbar color="primary">
         <span>Payment</span>
       </mat-toolbar>
     </p>
     <mat-card
-      style="background-color: lavender"
+      style="background-color: lavender; margin-top: -10px"
       [ngClass.lt-md]="{ 'mat-card-ltmd': true }"
     >
       <mat-card-content fxLayout="row" fxLayoutAlign="space-between center">
@@ -42,7 +52,10 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <mat-card [ngClass.lt-md]="{ 'mat-card-ltmd': true }">
+    <mat-card
+      [ngClass.lt-md]="{ 'mat-card-ltmd': true }"
+      style="margin-top: -20px"
+    >
       <mat-card-content>
         <form [formGroup]="formPayment">
           <mat-form-field class="full-width-input" style="width: 100%">

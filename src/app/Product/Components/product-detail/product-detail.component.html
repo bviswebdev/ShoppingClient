@@ -85,24 +85,30 @@
       <mat-card-actions>
         <button
           mat-raised-button
-          color="primary"
-          routerLink="/customer/cart"
-          *ngIf="!authService.IsAuthenticated && !authService.IsAdmin"
-        >
-          Add to Cart
-        </button>
-        <button
-          mat-raised-button
           color="accent"
           routerLink="/medicare/viewproducts"
-          *ngIf="!authService.IsAuthenticated && !authService.IsAdmin"
+          *ngIf="
+            !authService.IsAuthenticated ||
+            (authService.IsAuthenticated && authService.IsUser)
+          "
         >
           Continue Shopping
         </button>
         <button
           mat-raised-button
           color="primary"
-          routerLink="/admin/update"
+          (click)="addToCart(product)"
+          *ngIf="
+            !authService.IsAuthenticated ||
+            (authService.IsAuthenticated && authService.IsUser)
+          "
+        >
+          Add to Cart
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          [routerLink]="['/admin/update', product._id]"
           *ngIf="authService.IsAuthenticated && authService.IsAdmin"
         >
           Edit
