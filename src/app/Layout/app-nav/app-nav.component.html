@@ -64,13 +64,28 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="appSignOut()">
-          <mat-icon style="font-size: large">Logout</mat-icon>
-          <span>Logout</span>
+        <button
+          mat-menu-item
+          *ngIf="authService.IsAuthenticated && authService.IsUser"
+          routerLink="/customer/cart"
+        >
+          <mat-icon
+            [matBadge]="medAppService.appUserCart?.cartItems?.length"
+            matBadgeColor="warn"
+          >
+            shopping_cart</mat-icon
+          >
+
+          <span
+            >-
+            {{
+              medAppService.appUserCart?.grandTotal | currency: "&#8377;"
+            }}</span
+          >
         </button>
-        <button mat-menu-item>
-          <mat-icon>notifications_off</mat-icon>
-          <span>Disable alerts</span>
+        <button mat-menu-item (click)="appSignOut()">
+          <mat-icon style="font-size: large; margin-left: 5px">Logout</mat-icon>
+          <span>Logout</span>
         </button>
       </mat-menu>
     </div>
