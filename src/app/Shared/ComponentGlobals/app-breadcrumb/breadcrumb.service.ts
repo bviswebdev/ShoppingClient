@@ -20,7 +20,7 @@ export class BreadcrumbService {
         .pipe(
           //tap((data) => console.log(data)),
           map((prods: Array<Product>) =>
-            prods.filter((prod) => prod.category.id === labelId)
+            prods.filter((prod) => prod.category._id === labelId)
           ),
           tap((data) => console.log(data))
         )

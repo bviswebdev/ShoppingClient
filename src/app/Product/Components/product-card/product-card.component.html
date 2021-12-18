@@ -7,11 +7,17 @@
     fxLayoutGap="10px"
   >
     <mat-card class="example-card">
-      <img
-        mat-card-image
-        src="{{ product.imageUrl }}"
-        alt="Photo of a Shiba Inu"
-      />
+      <ng-container *ngIf="product?.productImage?.fileUrl">
+        <img
+          mat-card-image
+          [src]="
+            domSanitizer.bypassSecurityTrustResourceUrl(
+              product.productImage.fileUrl
+            )
+          "
+          alt="Photo of a Shiba Inu"
+        />
+      </ng-container>
       <mat-card-content>
         <h4>
           <b>{{ product.name }}</b>

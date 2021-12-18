@@ -1,8 +1,9 @@
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenavContainer } from '@angular/material/sidenav';
-import { map } from 'rxjs/operators';
-import { Product } from 'src/app/Product/Model/product.model';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Product, ProductsData } from 'src/app/Product/Model/product.model';
+import { BlobService } from 'src/app/Product/Service/blob.service';
 import { ProductDataService } from 'src/app/Product/Service/productservice.service';
 
 @Component({
@@ -17,15 +18,103 @@ export class PubHomeComponent implements OnInit {
   //  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
   @ViewChild(MatSidenavContainer) sidenavContainer!: MatSidenavContainer;
 
-  constructor(private productDataService: ProductDataService) {}
+  constructor(
+    private productDataService: ProductDataService,
+    private blogService: BlobService
+  ) {}
 
   ngOnInit(): void {
-    this.subscribeMostViewedProduct();
-    this.subscribeMostPopularProduct();
+    console.log('rest api begins');
+    this.subscribeMvProducts();
+    this.subscribeMpProducts();
+    //this.subscribeMostViewedProduct();
+    //this.subscribeMostPopularProduct();
   }
 
   ngAfterViewInit() {
     //console.log(this.sidenavContainer.scrollable);
+  }
+
+  /*
+
+ console.log('inside map method');
+            
+            const mimeType = `image/${product.productImage.fileType}`; // e.g., image/png
+            let blob = new Blob(product.productImage.fileSource, {
+              type: mimeType,
+            });
+            /*const imageUrlBase64 = `data:${mimeType};base64,${encode(
+              product.productImage.fileSource
+            )}` return {
+              ...product,
+            };*/
+
+  private subscribeMvProducts(): void {
+    this.productDataService
+      .getMostViewedProductsJson()
+      .pipe(
+        map((productsData: ProductsData) => {
+          let productsResData = { ...productsData };
+          if (productsResData.data) {
+            productsResData.data.map((product) => {
+              product.productImage.fileUrl = this.blogService.getBlobUrl(
+                product.productImage.fileSource,
+                product.productImage.fileType
+              );
+              return product;
+            });
+          }
+          return productsResData;
+        }),
+        catchError((err) => {
+          throw 'error in source. Details: ' + err;
+        })
+      )
+      .subscribe(
+        (data) => {
+          console.log(data);
+          if (data.statusMsg === 'success') {
+            if (data.data) this.viewedProducts = data.data;
+          }
+        },
+        (err) => {
+          console.error('Oops:', err.message);
+        }
+      );
+  }
+
+  private subscribeMpProducts(): void {
+    this.productDataService
+      .getMostPurchasedProductsJson()
+      .pipe(
+        map((productsData: ProductsData) => {
+          let productsResData = { ...productsData };
+          if (productsResData.data) {
+            productsResData.data.map((product) => {
+              product.productImage.fileUrl = this.blogService.getBlobUrl(
+                product.productImage.fileSource,
+                product.productImage.fileType
+              );
+              return product;
+            });
+          }
+          return productsResData;
+        }),
+        catchError((err) => {
+          throw 'error in source. Details: ' + err;
+        })
+      )
+      .subscribe(
+        (data) => {
+          console.log(data);
+          if (data.statusMsg === 'success') {
+            if (data.data) this.popularProducts = data.data;
+          }
+        },
+        (err) => {
+          console.error('Oops:', err.message);
+        }
+      );
   }
 
   private subscribeMostViewedProduct(): void {

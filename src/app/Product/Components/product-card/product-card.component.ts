@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { map, tap } from 'rxjs/operators';
 import { Product } from '../../Model/product.model';
 import { ProductDataService } from '../../Service/productservice.service';
@@ -33,7 +34,10 @@ export class ProductCardComponent implements OnInit {
     views: 0,
   };
 
-  constructor(private productDataService: ProductDataService) {}
+  constructor(
+    private productDataService: ProductDataService,
+    public domSanitizer: DomSanitizer
+  ) {}
 
   ngOnInit(): void {}
 }

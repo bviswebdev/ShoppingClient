@@ -46,7 +46,7 @@ export class Productdatasource extends MatTableDataSource<ProductData> {
       .pipe(
         map((products: Array<Product>) => {
           if (categoryId) {
-            return products.filter((prod) => prod.category.id === categoryId);
+            return products.filter((prod) => prod.category._id === categoryId);
           }
           return products;
         }),

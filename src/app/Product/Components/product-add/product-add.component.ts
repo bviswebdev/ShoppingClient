@@ -204,10 +204,10 @@ export class ProductAddComponent implements OnInit {
       this.productObj.quantity = this.quantity?.value;
       this.productObj.unitPrice = this.unitprice?.value;
       this.productObj.category = this.category?.value;
-      this.productObj.fileSource = this.filesource?.value;
-      this.productObj.fileName = this.filesource?.value.name;
-      this.productObj.fileSize = this.filesource?.value.size;
-      this.productObj.fileType = this.filesource?.value.type;
+      this.productObj.productImage.fileSource = this.filesource?.value;
+      this.productObj.productImage.fileName = this.filesource?.value.name;
+      this.productObj.productImage.fileSize = this.filesource?.value.size;
+      this.productObj.productImage.fileType = this.filesource?.value.type;
       console.log(this.productObj);
       this.addSnackBar.openFromComponent(ProductSnackComponent, {
         duration: 3000,

@@ -3,7 +3,7 @@
   <mat-list-item *ngFor="let category of categories" class="cat-item">
     <a
       matLine
-      [routerLink]="['/medicare/viewproducts/category', category.id]"
+      [routerLink]="['/medicare/viewproducts/category', category._id]"
       >{{ category.catName }}</a
     >
   </mat-list-item>

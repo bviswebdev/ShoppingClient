@@ -1,3 +1,13 @@
+export interface ProductsData {
+  statusMsg?: string;
+  data?: Array<Product>;
+}
+
+export interface ProductData {
+  statusMsg?: string;
+  data?: Array<Product>;
+}
+
 export class Product {
   constructor(
     public _id: string = '',
@@ -7,10 +17,7 @@ export class Product {
     public description: string = '',
     public unitPrice: number = 0.0,
     public quantity: number = 0,
-    public fileName: string = '',
-    public fileType: string = '',
-    public fileSize: number = 0,
-    public fileSource: any = '',
+    public productImage: FileInfo = new FileInfo(),
     public isActive: boolean = false,
     public category: Category = new Category(),
     public supplierId: string = '',
@@ -20,9 +27,20 @@ export class Product {
   ) {}
 }
 
+export class FileInfo {
+  constructor(
+    public _id: string = '',
+    public fileName: string = '',
+    public fileType: string = '',
+    public fileSize: string = '',
+    public fileUrl: string = '',
+    public fileSource: any = ''
+  ) {}
+}
+
 export class Category {
   constructor(
-    public id: string = '',
+    public _id: string = '',
     public catName: string = '',
     public catDesc: string = '',
     public catImgUrl: string = '',
