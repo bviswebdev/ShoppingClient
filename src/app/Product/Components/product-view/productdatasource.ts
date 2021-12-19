@@ -49,27 +49,33 @@ export class Productdatasource extends MatTableDataSource<ProductData> {
         map((productsData: ProductsData) => {
           let productsResData = { ...productsData };
           if (categoryId) {
+            console.log(`categoryid is - ${categoryId}`);
+            console.log(productsResData);
+
             if (productsResData.data) {
-              productsResData.data.filter(
+              productsResData.data = productsResData.data.filter(
                 (prod) => prod.category.catName === categoryId
               );
+              console.log(`categoryid is - ${categoryId}`);
+              console.log(productsResData);
               return productsResData;
             }
           }
           return productsResData;
         }),
         map((prods: ProductsData) => {
-          let productsResData: Array<Product> = new Array<Product>();
+          let productsResData: Array<ProductData> = new Array<ProductData>();
+          let productsResDataMap: Array<Product> = new Array<Product>();
           if (prods.data) {
-            productsResData = { ...prods.data };
+            productsResDataMap = [...prods.data];
           }
-          let productsResDataMap = productsResData.map((product) => {
+
+          productsResDataMap.forEach((product) => {
             product.productImage.fileUrl = this.blogService.getBlobUrl(
               product.productImage.fileSource,
               product.productImage.fileType
             );
-            //return product;
-            return {
+            let productData: ProductData = {
               productId: product._id,
               productCode: product.code,
               productImageUrl: product.productImage.fileUrl,
@@ -79,11 +85,12 @@ export class Productdatasource extends MatTableDataSource<ProductData> {
               productQtyAvailable: product.quantity,
               productDescription: product.description,
             };
+            productsResData.push(productData);
           });
 
           return {
             statusMsg: prods.statusMsg,
-            data: productsResDataMap,
+            data: productsResData,
           };
         }),
         catchError((err) => {

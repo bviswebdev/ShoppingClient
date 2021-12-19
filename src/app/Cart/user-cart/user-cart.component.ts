@@ -114,15 +114,18 @@ export class UserCartComponent implements OnInit {
     }
     this.medAppService.setAppCart = this.userCart;
   }
+}
 
+/*
   subscribeCartItemProduct(productId: string): Observable<Array<Product>> {
     return this.productDataService.getProductsJson().pipe(
       map((products: Array<Product>) => {
         return products.filter((prod) => prod.code === productId);
       })
     );
-  }
+  }*/
 
+/*
   subscribeProduct() {
     this.productDataService
       .getProductsJson()
@@ -158,7 +161,7 @@ export class UserCartComponent implements OnInit {
         console.log(this.formCartGroup);
       });
   }
-}
+}*/
 
 /*
   map((prods: Array<Product>) => {

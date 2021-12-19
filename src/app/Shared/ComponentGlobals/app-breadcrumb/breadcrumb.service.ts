@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Product, ProductsData } from 'src/app/Product/Model/product.model';
+import {
+  Product,
+  ProductItemData,
+  ProductsData,
+} from 'src/app/Product/Model/product.model';
 import { ProductDataService } from 'src/app/Product/Service/productservice.service';
 
 @Injectable({
@@ -58,14 +62,11 @@ export class BreadcrumbService {
     return new Promise((resolve, reject) => {
       let retStr = '';
       this.productDataService
-        .getProductsJson()
+        .getProductItemJson(labelId)
         .pipe(
           //tap((data) => console.log(data)),
-          map((prods: ProductsData) => {
-            if (prods.data) {
-              prods.data.filter((prod) => prod._id === labelId);
-            }
-            return prods;
+          map((prod: ProductItemData) => {
+            return prod;
           }),
           catchError((err) => {
             throw 'error in source. Details: ' + err;
@@ -76,7 +77,7 @@ export class BreadcrumbService {
           (data) => {
             if (data.statusMsg === 'success') {
               if (data.data) {
-                retStr = data.data[0].name;
+                retStr = data.data.name;
               }
             }
 

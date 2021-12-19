@@ -93,10 +93,11 @@ export class AppBreadcrumbComponent implements OnInit {
           path = path.replace(lastRoutePart, route.snapshot.params[paramName]);
           if (labelDynamickey) {
             if (labelDynamickey === 'category') {
-              label = await this.breadCrumbService.getCategoryNameById(
+              label = route.snapshot.params[paramName];
+              /*label = await this.breadCrumbService.getCategoryNameById(
                 route.snapshot.params[paramName],
                 labelDynamickey
-              );
+              );*/
             }
             if (labelDynamickey === 'product') {
               label = await this.breadCrumbService.getProductNameById(

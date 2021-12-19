@@ -37,6 +37,8 @@ export class ProductDetailComponent implements OnInit {
       .pipe(
         //tap((data) => console.log(data)),
         map((product: ProductItemData) => {
+          console.log('checkpoint');
+          console.log(product);
           if (product.data) {
             product.data.productImage.fileUrl = this.blogService.getBlobUrl(
               product.data.productImage.fileSource,

@@ -20,7 +20,7 @@ export const productServiceFactory = (
   });*/
   const routeParams = route.snapshot.paramMap;
   const categoryIdFromRoute = routeParams.get('categoryId');
-  // console.log(`categoryid is - ${categoryIdFromRoute}`);
+  console.log(`categoryid is - ${categoryIdFromRoute}`);
   const productstream$ = productDataService.getProductsJson();
 
   if (categoryIdFromRoute) {
