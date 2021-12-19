@@ -4,9 +4,9 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
-import { Category, Product } from '../../Model/product.model';
+import { CategoriesData, Category, Product } from '../../Model/product.model';
 import { DtsErrorStateMatcher } from '../../Service/errorstatematcher';
 import { PdbrandasyncValidator } from '../../Service/pdbrandasync-validator.service';
 import { Productasyncvalidators } from '../../Service/productasyncvalidators';
@@ -33,7 +33,8 @@ export class ProductAddComponent implements OnInit {
   public fileUploadAttempt!: boolean;
   fileName = '';
   selectMatcher = new DtsErrorStateMatcher();
-  categories: Array<Category> = new Array<Category>();
+  categories: Array<string> = new Array<string>();
+  categoryDesc: string = '';
   public productObj: Product = new Product();
 
   constructor(
@@ -89,7 +90,8 @@ export class ProductAddComponent implements OnInit {
     );
 
     this.categories = [];
-    this.subscribeCategory();
+    //this.subscribeCategory();
+    this.subscribeCategoryNew();
   }
 
   openDialog() {
@@ -101,10 +103,12 @@ export class ProductAddComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`); // Pizza!
       if (result && result.categoryname) {
-        let categoryTemp: Category = new Category();
+        this.categories.push(result.categoryname);
+        this.categoryDesc = result.description;
+        /* let categoryTemp: Category = new Category();
         categoryTemp.catName = result.categoryname;
         categoryTemp.catDesc = result.description;
-        this.categories.push(categoryTemp);
+        this.categories.push(categoryTemp);*/
       }
     });
   }
@@ -136,6 +140,33 @@ export class ProductAddComponent implements OnInit {
     }*/
   }
 
+  private subscribeCategoryNew(): void {
+    this.productDataService
+      .getCategoriesJson()
+      .pipe(
+        map((categoriesData: CategoriesData) => {
+          return categoriesData;
+        }),
+        catchError((err) => {
+          throw 'error in source. Details: ' + err;
+        })
+      )
+      .subscribe(
+        (data) => {
+          if (data.statusMsg === 'success') {
+            if (data.data) {
+              this.categories = data.data;
+              console.log(this.categories);
+            }
+          }
+        },
+        (err) => {
+          console.error('Oops:', err.message);
+        }
+      );
+  }
+
+  /*
   private subscribeCategory(): void {
     this.productDataService
       .getProductsJson()
@@ -151,7 +182,7 @@ export class ProductAddComponent implements OnInit {
         //.log('categories');
         //console.log(resultArr);
       });
-  }
+  }*/
 
   get productname() {
     return this.formProductAdd.get('productname');
@@ -203,7 +234,10 @@ export class ProductAddComponent implements OnInit {
       this.productObj.isActive = true;
       this.productObj.quantity = this.quantity?.value;
       this.productObj.unitPrice = this.unitprice?.value;
-      this.productObj.category = this.category?.value;
+      let catNew: Category = new Category();
+      catNew.catName = this.category?.value;
+      catNew.catDesc = this.categoryDesc;
+      this.productObj.category = catNew;
       this.productObj.productImage.fileSource = this.filesource?.value;
       this.productObj.productImage.fileName = this.filesource?.value.name;
       this.productObj.productImage.fileSize = this.filesource?.value.size;

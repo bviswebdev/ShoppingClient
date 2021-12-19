@@ -16,6 +16,7 @@ import { Cart, CartItem } from 'src/app/Cart/Model/cart.model';
 import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
 import { CartManager } from 'src/app/Cart/user-cart/cart-manager';
 import { BlobService } from '../../Service/blob.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-view',
@@ -47,7 +48,8 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
     private addSnackBar: MatSnackBar,
     public authService: AuthService,
     public medAppService: MedicareappService,
-    public cartManager: CartManager
+    public cartManager: CartManager,
+    public domSanitizer: DomSanitizer
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     //console.log('hello world');

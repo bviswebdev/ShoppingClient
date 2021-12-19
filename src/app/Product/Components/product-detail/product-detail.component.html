@@ -1,11 +1,17 @@
 <section fxLayout="row wrap" fxLayoutGap="10px">
   <article fxFlex="30%" fxFlex.lt-md="100%">
     <mat-card class="example-image-card">
-      <img
-        mat-card-image
-        src="{{ product?.imageUrl }}"
-        alt="Photo of a Shiba Inu"
-      />
+      <ng-container *ngIf="product?.productImage?.fileUrl">
+        <img
+          mat-card-image
+          [src]="
+            domSanitizer.bypassSecurityTrustResourceUrl(
+              product.productImage.fileUrl
+            )
+          "
+          alt="Photo of a Shiba Inu"
+        />
+      </ng-container>
     </mat-card>
   </article>
   <article fxFlex="66%" fxFlex.lt-md="100%">

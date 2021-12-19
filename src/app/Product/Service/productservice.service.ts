@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CategoriesData, Product, ProductsData } from '../Model/product.model';
+import {
+  CategoriesData,
+  Product,
+  ProductItemData,
+  ProductsData,
+} from '../Model/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +22,12 @@ http://localhost:8626/api/v1/product/categories*/
 
   public getProductsJson(): Observable<ProductsData> {
     return this.http.get<ProductsData>(`${this.productBaseUri}`);
+  }
+
+  public getProductItemJson(productId: string): Observable<ProductItemData> {
+    return this.http.get<ProductItemData>(
+      `${this.productBaseUri}/${productId}`
+    );
   }
 
   public getMostViewedProductsJson(): Observable<ProductsData> {

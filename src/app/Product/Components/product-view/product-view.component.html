@@ -44,9 +44,12 @@
       <ng-container matColumnDef="productImageUrl">
         <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
         <td mat-cell *matCellDef="let row">
+          <ng-container *ngIf="row?.productImageUrl"></ng-container>
           <img
             mat-card-image
-            src="{{ row.productImageUrl }}"
+            [src]="
+              domSanitizer.bypassSecurityTrustResourceUrl(row.productImageUrl)
+            "
             alt="Photo of a Shiba Inu"
           /></td
       ></ng-container>

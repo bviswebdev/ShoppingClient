@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map, tap } from 'rxjs/operators';
+import { catchError, filter, map, tap } from 'rxjs/operators';
 import { CartManager } from 'src/app/Cart/user-cart/cart-manager';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
-import { Product } from '../../Model/product.model';
+import { Product, ProductItemData } from '../../Model/product.model';
+import { BlobService } from '../../Service/blob.service';
 import { ProductDataService } from '../../Service/productservice.service';
 import { ProductData } from '../product-view/productdatasource';
 
@@ -14,33 +16,52 @@ import { ProductData } from '../product-view/productdatasource';
 })
 export class ProductDetailComponent implements OnInit {
   product!: Product;
+  productIdFromRoute: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private productDataService: ProductDataService,
     public authService: AuthService,
     private router: Router,
-    public cartManager: CartManager
+    public cartManager: CartManager,
+    private blogService: BlobService,
+    public domSanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
-    const productIdFromRoute = routeParams.get('productId');
-    console.log(productIdFromRoute);
+    this.productIdFromRoute = routeParams.get('productId') || '';
+    console.log(this.productIdFromRoute);
     this.productDataService
-      .getProductsJson()
+      .getProductItemJson(this.productIdFromRoute)
       .pipe(
         //tap((data) => console.log(data)),
-        map((prods: Array<Product>) =>
-          prods.filter((prod) => prod._id === productIdFromRoute)
-        )
+        map((product: ProductItemData) => {
+          if (product.data) {
+            product.data.productImage.fileUrl = this.blogService.getBlobUrl(
+              product.data.productImage.fileSource,
+              product.data.productImage.fileType
+            );
+          }
+          return product;
+        }),
+        catchError((err) => {
+          throw 'error in source. Details: ' + err;
+        })
         //tap((data) => console.log(data))
       )
-      .subscribe((data) => {
-        this.product = data[0];
-        this.product.imageUrl = `../../assets/images/${this.product.code}.jpg`;
-        //console.log(this.product);
-      });
+      .subscribe(
+        (data) => {
+          if (data.statusMsg === 'success') {
+            if (data.data) this.product = data.data;
+          }
+
+          //console.log(this.product);
+        },
+        (err) => {
+          console.error('Oops:', err.message);
+        }
+      );
 
     // Find the product that correspond with the id provided in route.
     //this.product = products.find(product => product.id === productIdFromRoute);

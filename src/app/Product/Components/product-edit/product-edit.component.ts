@@ -7,7 +7,12 @@ import * as _ from 'lodash';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
-import { Category, Product } from '../../Model/product.model';
+import {
+  CategoriesData,
+  Category,
+  Product,
+  ProductItemData,
+} from '../../Model/product.model';
 import { DtsErrorStateMatcher } from '../../Service/errorstatematcher';
 import { PdbrandasyncValidator } from '../../Service/pdbrandasync-validator.service';
 import { Productasyncvalidators } from '../../Service/productasyncvalidators';
@@ -30,11 +35,12 @@ export class ProductEditComponent implements OnInit {
   public fileUploadAttempt!: boolean;
   fileName = '';
   selectMatcher = new DtsErrorStateMatcher();
-  categories: Array<Category> = new Array<Category>();
+  categories: Array<string> = new Array<string>();
   public productObj: Product = new Product();
   public selectedCategory: string = '';
   defalutProductName: string = '';
   defaultBrandName: string = '';
+  productIdFromRoute: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -49,7 +55,8 @@ export class ProductEditComponent implements OnInit {
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
-    const productIdFromRoute = routeParams.get('productId');
+
+    this.productIdFromRoute = routeParams.get('productId') || '';
     this.pdbrndValidator.productService = this.productDataService;
     this.formProductEdit = this.fb.group(
       {
@@ -90,7 +97,8 @@ export class ProductEditComponent implements OnInit {
     this.categories = [];
     //this.subscribeCategory();
     //this.subscribeProduct();
-    this.forkProductAndCategory();
+    //this.forkProductAndCategory();
+    this.forkProductAndCategoryNew();
   }
 
   buildForm() {}
@@ -103,10 +111,11 @@ export class ProductEditComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result.categoryname) {
-        let categoryTemp: Category = new Category();
+        this.categories.push(result.categoryname);
+        /*let categoryTemp: Category = new Category();
         categoryTemp.catName = result.categoryname;
         categoryTemp.catDesc = result.description;
-        this.categories.push(categoryTemp);
+        this.categories.push(categoryTemp);*/
       }
     });
   }
@@ -137,6 +146,54 @@ export class ProductEditComponent implements OnInit {
     }*/
   }
 
+  private forkProductAndCategoryNew(): void {
+    forkJoin([
+      this.forkSubscribeCategoryNew(),
+      this.forkSubscribeProductNew(this.productIdFromRoute),
+    ]).subscribe(
+      (res) => {
+        if (res[0]) {
+          /*let resultArr = _.uniqBy(res[0], (obj) => obj.catName);
+          resultArr = _.sortBy(resultArr, 'catName');*/
+          if (res[0].statusMsg === 'success') {
+            if (res[0].data) {
+              this.categories = res[0].data;
+              console.log(this.categories);
+            }
+          }
+        }
+        if (res[1] && res[1].data) {
+          this.productObj = res[1].data;
+          console.log(this.productObj);
+          this.fileName =
+            this.productObj.productImage.fileName || 'testfile.png';
+          this.defalutProductName = this.productObj.name;
+          this.defaultBrandName = this.productObj.brand;
+          // this.buildForm();
+          this.formProductEdit.patchValue({
+            productname: this.productObj.name,
+            brandname: this.productObj.brand,
+            description: this.productObj.description,
+            unitprice: this.productObj.unitPrice,
+            quantity: this.productObj.quantity,
+            category: this.productObj.category.catName,
+          });
+          this.formProductEdit.addAsyncValidators(
+            Productasyncvalidators.createProductBrandValidator(
+              this.productDataService,
+              this.defalutProductName,
+              this.defaultBrandName
+            )
+          );
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
+  /*
   private forkProductAndCategory(): void {
     forkJoin([
       this.forkSubscribeCategory(),
@@ -177,9 +234,33 @@ export class ProductEditComponent implements OnInit {
         console.log(err);
       }
     );
+  }*/
+
+  private forkSubscribeProductNew(
+    productId: string
+  ): Observable<ProductItemData> {
+    return this.productDataService.getProductItemJson(productId).pipe(
+      map((prod: ProductItemData) => {
+        return prod;
+      }),
+      catchError((err) => {
+        throw 'error in source. Details: ' + err;
+      })
+    );
   }
 
-  private forkSubscribeProduct(): Observable<Array<Product>> {
+  private forkSubscribeCategoryNew(): Observable<CategoriesData> {
+    return this.productDataService.getCategoriesJson().pipe(
+      map((categoriesData: CategoriesData) => {
+        return categoriesData;
+      }),
+      catchError((err) => {
+        throw 'error in source. Details: ' + err;
+      })
+    );
+  }
+
+  /* private forkSubscribeProduct(): Observable<Array<Product>> {
     return this.productDataService.getProductsJson().pipe(
       map((prods: Array<Product>) => {
         return prods.filter(
@@ -195,7 +276,7 @@ export class ProductEditComponent implements OnInit {
         return products.map((product) => product.category);
       })
     );
-  }
+  }*/
 
   get productname() {
     return this.formProductEdit.get('productname');
