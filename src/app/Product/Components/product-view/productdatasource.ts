@@ -1,8 +1,9 @@
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
-import { Category, Product } from '../../Model/product.model';
+import { Category, Product, ProductsData } from '../../Model/product.model';
+import { BlobService } from '../../Service/blob.service';
 
 export interface ProductData {
   productId: string;
@@ -37,26 +38,41 @@ export class Productdatasource extends MatTableDataSource<ProductData> {
   private transactions$: Subscription;
 
   constructor(
-    transactions: Observable<Array<Product>>,
+    transactions: Observable<ProductsData>,
     public authService: AuthService,
-    categoryId: string | null
+    categoryId: string | null,
+    private blogService: BlobService
   ) {
     super();
     this.transactions$ = transactions
       .pipe(
-        map((products: Array<Product>) => {
+        map((productsData: ProductsData) => {
+          let productsResData = { ...productsData };
           if (categoryId) {
-            return products.filter((prod) => prod.category._id === categoryId);
+            if (productsResData.data) {
+              productsResData.data.filter(
+                (prod) => prod.category.catName === categoryId
+              );
+              return productsResData;
+            }
           }
-          return products;
+          return productsResData;
         }),
-        map((prods: Array<Product>) => {
-          return prods.map((product) => {
-            product.imageUrl = `../../assets/images/${product.code}.jpg`;
+        map((prods: ProductsData) => {
+          let productsResData: Array<Product> = new Array<Product>();
+          if (prods.data) {
+            productsResData = { ...prods.data };
+          }
+          let productsResDataMap = productsResData.map((product) => {
+            product.productImage.fileUrl = this.blogService.getBlobUrl(
+              product.productImage.fileSource,
+              product.productImage.fileType
+            );
+            //return product;
             return {
               productId: product._id,
               productCode: product.code,
-              productImageUrl: product.imageUrl,
+              productImageUrl: product.productImage.fileUrl,
               productName: product.name,
               productBrand: product.brand,
               productPrice: product.unitPrice,
@@ -64,12 +80,29 @@ export class Productdatasource extends MatTableDataSource<ProductData> {
               productDescription: product.description,
             };
           });
+
+          return {
+            statusMsg: prods.statusMsg,
+            data: productsResDataMap,
+          };
+        }),
+        catchError((err) => {
+          throw 'error in source. Details: ' + err;
         }),
         tap((data) => console.log(data))
       )
-      .subscribe((transactionList) => {
-        this.data = transactionList;
-      });
+      .subscribe(
+        (data) => {
+          if (data.statusMsg === 'success') {
+            if (data.data) {
+              this.data = data.data;
+            }
+          }
+        },
+        (err) => {
+          console.error('Oops:', err.message);
+        }
+      );
   }
 
   disconnect() {
@@ -114,3 +147,33 @@ export class Productdatasource extends MatTableDataSource<ProductData> {
     return dpColumns;
   }
 }
+
+/*
+this.transactions$ = transactions
+.pipe(
+  map((products: Array<Product>) => {
+    if (categoryId) {
+      return products.filter((prod) => prod.category._id === categoryId);
+    }
+    return products;
+  }),
+  map((prods: Array<Product>) => {
+    return prods.map((product) => {
+      product.imageUrl = `../../assets/images/${product.code}.jpg`;
+      return {
+        productId: product._id,
+        productCode: product.code,
+        productImageUrl: product.imageUrl,
+        productName: product.name,
+        productBrand: product.brand,
+        productPrice: product.unitPrice,
+        productQtyAvailable: product.quantity,
+        productDescription: product.description,
+      };
+    });
+  }),
+  tap((data) => console.log(data))
+)
+.subscribe((transactionList) => {
+  this.data = transactionList;
+});*/

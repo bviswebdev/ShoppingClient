@@ -15,6 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Cart, CartItem } from 'src/app/Cart/Model/cart.model';
 import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
 import { CartManager } from 'src/app/Cart/user-cart/cart-manager';
+import { BlobService } from '../../Service/blob.service';
 
 @Component({
   selector: 'app-product-view',
@@ -25,7 +26,7 @@ import { CartManager } from 'src/app/Cart/user-cart/cart-manager';
     {
       provide: Productdatasource,
       useFactory: productServiceFactory,
-      deps: [ProductDataService, AuthService, ActivatedRoute],
+      deps: [ProductDataService, AuthService, ActivatedRoute, BlobService],
     },
   ],
 })

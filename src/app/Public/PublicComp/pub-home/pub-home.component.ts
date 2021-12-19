@@ -117,7 +117,7 @@ export class PubHomeComponent implements OnInit {
       );
   }
 
-  private subscribeMostViewedProduct(): void {
+  /*private subscribeMostViewedProduct(): void {
     this.productDataService
       .getProductsJson()
       .pipe(
@@ -147,5 +147,5 @@ export class PubHomeComponent implements OnInit {
       .subscribe((data) => {
         this.popularProducts = data.slice(0, 5);
       });
-  }
+  }*/
 }

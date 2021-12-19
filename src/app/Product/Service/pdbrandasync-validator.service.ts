@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Product } from '../Model/product.model';
+import { Product, ProductsData } from '../Model/product.model';
 import { ProductDataService } from './productservice.service';
 
 @Injectable({
@@ -27,16 +27,21 @@ export class PdbrandasyncValidator implements AsyncValidator {
     console.log(this.productService);
     return this.productService.getProductsJson().pipe(
       //tap((data) => console.log(data)),
-      map((prods: Array<Product>) =>
-        prods.filter(
-          (prod) =>
-            prod.name === ctrl.get('productname')?.value &&
-            prod.brand === ctrl.get('brandname')?.value
-        )
-      ),
+      map((prods: ProductsData) => {
+        if (prods.data) {
+          prods.data.filter(
+            (prod) =>
+              prod.name === ctrl.get('productname')?.value &&
+              prod.brand === ctrl.get('brandname')?.value
+          );
+        }
+        return prods;
+      }),
       tap((data) => console.log(data)),
-      map((pd: Array<Product>) => {
-        return pd && pd.length > 0 ? { productBrandExists: true } : null;
+      map((pd: ProductsData) => {
+        return pd.data && pd.data.length > 0
+          ? { productBrandExists: true }
+          : null;
       }),
       catchError(() => of(null))
       //tap((data) => console.log(data))

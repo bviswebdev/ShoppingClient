@@ -1,5 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
+import { BlobService } from '../../Service/blob.service';
 import { ProductDataService } from '../../Service/productservice.service';
 import { Productdatasource } from './productdatasource';
 
@@ -8,7 +9,8 @@ export class Productfactory {}
 export const productServiceFactory = (
   productDataService: ProductDataService,
   authService: AuthService,
-  route: ActivatedRoute
+  route: ActivatedRoute,
+  blogService: BlobService
 ) => {
   //let categoryIdFromRoute!: string | null;
   //console.log('router');
@@ -25,10 +27,11 @@ export const productServiceFactory = (
     return new Productdatasource(
       productstream$,
       authService,
-      categoryIdFromRoute
+      categoryIdFromRoute,
+      blogService
     );
   }
   //this.products = new Productdatasource(productstream$);
   //this.displayedColumns = this.productView.getDisplayColumnsRoleBased();
-  return new Productdatasource(productstream$, authService, null);
+  return new Productdatasource(productstream$, authService, null, blogService);
 };

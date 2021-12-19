@@ -3,9 +3,14 @@ export interface ProductsData {
   data?: Array<Product>;
 }
 
-export interface ProductData {
+export interface ProductItemData {
   statusMsg?: string;
-  data?: Array<Product>;
+  data?: Product;
+}
+
+export interface CategoriesData {
+  statusMsg?: string;
+  data?: Array<string>;
 }
 
 export class Product {

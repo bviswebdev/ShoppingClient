@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { map, tap } from 'rxjs/operators';
-import { Product } from 'src/app/Product/Model/product.model';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Product, ProductsData } from 'src/app/Product/Model/product.model';
 import { ProductDataService } from 'src/app/Product/Service/productservice.service';
 
 @Injectable({
@@ -19,21 +19,34 @@ export class BreadcrumbService {
         .getProductsJson()
         .pipe(
           //tap((data) => console.log(data)),
-          map((prods: Array<Product>) =>
-            prods.filter((prod) => prod.category._id === labelId)
-          ),
+          map((prods: ProductsData) => {
+            if (prods.data) {
+              prods.data.filter((prod) => prod.category._id === labelId);
+            }
+            return prods;
+          }),
+          catchError((err) => {
+            throw 'error in source. Details: ' + err;
+          }),
           tap((data) => console.log(data))
         )
         .subscribe(
           (data) => {
-            retStr = data[0].category.catName;
+            if (data.statusMsg === 'success') {
+              if (data.data) {
+                retStr = data.data[0].category.catName;
+              }
+            }
             if (retStr) {
               resolve(retStr);
             } else {
               reject('Name not found');
             }
           },
-          (err) => reject(err)
+          (err) => {
+            console.error('Oops:', err.message);
+            reject(err);
+          }
         );
     });
   }
@@ -48,14 +61,24 @@ export class BreadcrumbService {
         .getProductsJson()
         .pipe(
           //tap((data) => console.log(data)),
-          map((prods: Array<Product>) =>
-            prods.filter((prod) => prod._id === labelId)
-          ),
+          map((prods: ProductsData) => {
+            if (prods.data) {
+              prods.data.filter((prod) => prod._id === labelId);
+            }
+            return prods;
+          }),
+          catchError((err) => {
+            throw 'error in source. Details: ' + err;
+          }),
           tap((data) => console.log(data))
         )
         .subscribe(
           (data) => {
-            retStr = data[0].name;
+            if (data.statusMsg === 'success') {
+              if (data.data) {
+                retStr = data.data[0].name;
+              }
+            }
 
             if (retStr) {
               resolve(retStr);
@@ -63,7 +86,11 @@ export class BreadcrumbService {
               reject('Name not found');
             }
           },
-          (err) => reject(err)
+
+          (err) => {
+            console.error('Oops:', err.message);
+            reject(err);
+          }
         );
     });
   }
