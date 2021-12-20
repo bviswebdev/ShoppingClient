@@ -1,17 +1,21 @@
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { HttpResponse } from '@angular/common/http';
 import { IfStmt } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, map } from 'rxjs/operators';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
 import { BreakpointService } from 'src/app/Services/GlobalService/breakpoint.service';
 import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
-import { Address, User } from '../../Model/user.model';
+import { Address, User, UserSignup } from '../../Model/user.model';
 import { AddressService } from '../../Service/addressservice.service';
 import { UserService } from '../../Service/userservice.service';
 import { identityRevealedValidator } from '../user-register/confpass.validator';
 import { PasswordErrorStateMatcher } from '../user-register/passerrorstate.matcher';
+import { UserSnackComponent } from '../user-snack/user-snack.component';
 
 @Component({
   selector: 'app-user-signup',
@@ -39,7 +43,8 @@ export class UserSignupComponent implements OnInit {
     public breakPointService: BreakpointService,
     public userService: UserService,
     public addressService: AddressService,
-    public med: MedicareappService
+    public med: MedicareappService,
+    private addSnackBar: MatSnackBar
   ) {
     console.log(med.appUser);
   }
@@ -217,14 +222,14 @@ export class UserSignupComponent implements OnInit {
 
     if (stepper.selectedIndex === 0 && this.formRegister.valid) {
       console.log('Personal Details tab clicked before');
-      this.userObj.id = '';
+      //this.userObj._id = '';
       this.userObj.firstName = this.firstname?.value;
       this.userObj.lastName = this.lastname?.value;
       this.userObj.email = this.email?.value;
       this.userObj.contactNumber = this.contactnumber?.value;
       this.userObj.password = this.password?.value;
       this.userObj.enabled = true;
-      this.userObj.role = this.selectrole?.value;
+      this.userObj.role = this.selectrole?.value.toUpperCase();
 
       console.log(this.userObj);
       return;
@@ -233,7 +238,7 @@ export class UserSignupComponent implements OnInit {
     if (stepper.selectedIndex === 1 && this.formAddress.valid) {
       console.log('Address Details tab clicked before');
       this.userObj.addresses = [];
-      this.addrObj.id = '';
+      //this.addrObj._id = '';
       this.addrObj.addressLineOne = this.addrlineone?.value;
       this.addrObj.addressLineTwo = this.addrlinetwo?.value;
       this.addrObj.city = this.city?.value;
@@ -257,13 +262,39 @@ export class UserSignupComponent implements OnInit {
       return;
     }
 
-    try {
-      console.log(this.userObj);
-      //this.router.navigate(['/medicare']);
+    console.log(this.userObj);
+    this.userService
+      .postUserJson(this.userObj)
+      .pipe(
+        map((data: UserSignup) => {
+          return data;
+        }),
+        catchError((err) => {
+          throw 'error in source. Details: ' + err;
+        })
+      )
+      .subscribe(
+        (data) => {
+          console.log('Response from signingup user');
+          console.log(data);
+          if (data) {
+            if (data.statusMsg === 'success') {
+              this.addSnackBar.openFromComponent(UserSnackComponent, {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom',
+                data: 'Succesfully registered please login to continue.',
+              });
+              this.router.navigate(['/medicare/signin']);
+            }
+          }
+        },
+        (err) => {
+          console.error('Oops:', err.message);
+        }
+      );
+    //this.router.navigate(['/medicare']);
 
-      // await this.authService.login(username, password);
-    } catch (err) {
-      console.log(err);
-    }
+    // await this.authService.login(username, password);
   }
 }

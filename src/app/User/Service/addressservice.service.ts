@@ -9,11 +9,11 @@ export class AddressService {
   constructor() {}
 
   set setId(val: string) {
-    this.addr.id = val;
+    this.addr._id = val;
   }
 
   get id(): string {
-    return this.addr.id;
+    return this.addr._id || '';
   }
 
   set setAddressLineOne(val: string) {

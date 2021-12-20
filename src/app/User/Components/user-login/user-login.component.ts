@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, map } from 'rxjs/operators';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
+import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
+import { UserLoginInfo, UserLoginRes } from '../../Model/user.model';
+import { UserService } from '../../Service/userservice.service';
 
 @Component({
   selector: 'app-user-login',
@@ -18,7 +22,9 @@ export class UserLoginComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    public userService: UserService,
+    public medAppService: MedicareappService
   ) {}
 
   get username() {
@@ -65,36 +71,65 @@ export class UserLoginComponent implements OnInit {
     console.log(this.form);
 
     if (this.form.valid) {
-      try {
-        console.log(this.form);
-        if (
-          this.username?.value === 'admin@abc.com' &&
-          this.password?.value === 'password'
-        ) {
-          this.authService.setAdminToSessionStorage(
-            'admin',
-            'test',
-            this.username.value
-          );
-          this.router.navigate(['/admin']);
-        } else if (
-          this.username?.value === 'user@abc.com' &&
-          this.password?.value === 'password'
-        ) {
-          this.authService.setUserToSessionStorage(
-            'user',
-            'test',
-            this.username.value
-          );
-          this.router.navigate(['/customer']);
-        } else {
-          this.loginInvalid = true;
-        }
+      let userLoginInfo: UserLoginInfo;
+      userLoginInfo = {
+        email: this.username?.value,
+        password: this.password?.value,
+      };
 
-        // await this.authService.login(username, password);
-      } catch (err) {
-        this.loginInvalid = true;
-      }
+      this.userService
+        .postUserLoginJson(userLoginInfo)
+        .pipe(
+          map((data: UserLoginRes) => {
+            return data;
+          }),
+          catchError((err) => {
+            throw 'error in source. Details: ' + err;
+          })
+        )
+        .subscribe(
+          (data) => {
+            console.log('Response from logging user');
+            console.log(data);
+            if (data) {
+              if (data.statusMsg === 'success') {
+                if (data.data.user.role === 'ADMIN') {
+                  this.authService.setAdminToSessionStorage(
+                    data.data.role,
+                    data.data.token,
+                    data.data.email,
+                    data.data.userName
+                  );
+                  this.medAppService.setAppUser = data.data.user;
+                  if (data.data.cart) {
+                    this.medAppService.setAppCart = data.data.cart;
+                  }
+                  this.router.navigate(['/admin']);
+                }
+                //this.router.navigate(['/medicare/signin']);
+              } else if (data.data.user.role === 'USER') {
+                this.authService.setUserToSessionStorage(
+                  data.data.role,
+                  data.data.token,
+                  data.data.email,
+                  data.data.userName
+                );
+                this.medAppService.setAppUser = data.data.user;
+                if (data.data.cart) {
+                  this.medAppService.setAppCart = data.data.cart;
+                }
+                this.router.navigate(['/customer']);
+              }
+              //this.router.navigate(['/medicare/signin']);
+              else {
+                this.loginInvalid = true;
+              }
+            }
+          },
+          (err) => {
+            console.error('Oops:', err.message);
+          }
+        );
     } else {
       this.formSubmitAttempt = true;
     }

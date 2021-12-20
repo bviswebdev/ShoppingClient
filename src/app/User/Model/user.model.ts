@@ -1,6 +1,21 @@
+export interface UserSignup {
+  statusMsg?: string;
+  data?: User;
+}
+
+export interface UserLoginInfo {
+  email: string;
+  password: string;
+}
+
+export interface UserLoginRes {
+  statusMsg?: string;
+  data?: any;
+}
+
 export class User {
   constructor(
-    public id: string = '',
+    public _id?: string,
     public firstName: string = '',
     public lastName: string = '',
     public role: string = '',
@@ -14,7 +29,7 @@ export class User {
 
 export class Address {
   constructor(
-    public id: string = '',
+    public _id?: string,
     public addressLineOne: string = '',
     public addressLineTwo: string = '',
     public city: string = '',

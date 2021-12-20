@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
-import { distinctUntilChanged, tap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { AuthService } from './Services/GlobalService/auth.service';
 import { BreakpointService } from './Services/GlobalService/breakpoint.service';
 import { MedicareappService } from './Services/GlobalService/medicareapp.service';
+import { UserLoginRes } from './User/Model/user.model';
 import { UserService } from './User/Service/userservice.service';
 
 @Component({
@@ -39,7 +40,38 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.authService.getAuthFromSessionStorage();
-    this.subscribeUser();
+    if (
+      this.authService.IsAuthenticated &&
+      this.authService.AuthToken &&
+      this.authService.Email
+    ) {
+      this.userService
+        .getUserLoginJson(this.authService.Email)
+        .pipe(
+          map((data: UserLoginRes) => {
+            return data;
+          }),
+          catchError((err) => {
+            throw 'error in source. Details: ' + err;
+          })
+        )
+        .subscribe(
+          (data) => {
+            if (data) {
+              if (data.statusMsg === 'success') {
+                this.med.setAppUser = data.data.user;
+                if (data.data.cart) {
+                  this.med.setAppCart = data.data.cart;
+                }
+              } //this.router.navigate(['/medicare/signin']);
+            }
+          },
+          (err) => {
+            console.error('Oops:', err.message);
+          }
+        );
+    }
+    //this.subscribeUser();
 
     const getAlias = (MediaChange: MediaChange[]) => {
       return MediaChange[0].mqAlias;

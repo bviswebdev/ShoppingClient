@@ -20,6 +20,7 @@ export class Auth {
     public isUser: boolean = false,
     public isAdmin: boolean = false,
     public authToken: string = '',
+    public email: string = '',
     public userName: string = ''
   ) {}
 }

@@ -26,6 +26,10 @@ export class AuthService {
     this.auth.authToken = val;
   }
 
+  set setEmail(val: string) {
+    this.auth.email = val;
+  }
+
   set setUserName(val: string) {
     this.auth.userName = val;
   }
@@ -43,6 +47,10 @@ export class AuthService {
 
   get IsAdmin() {
     return this.auth.isAdmin;
+  }
+
+  get Email() {
+    return this.auth.email;
   }
 
   get UserName() {
@@ -70,6 +78,7 @@ export class AuthService {
       this.setIsUser = sessionStore.isUser;
       this.setRole = sessionStore.role;
       this.setAuthToken = sessionStore.authToken;
+      this.setEmail = sessionStore.email;
       this.setUserName = sessionStore.userName;
     }
   }
@@ -80,6 +89,7 @@ export class AuthService {
     this.setIsUser = loggedAuth.isUser;
     this.setRole = loggedAuth.role;
     this.setAuthToken = loggedAuth.authToken;
+    this.setEmail = loggedAuth.email;
     this.setUserName = loggedAuth.userName;
     sessionStorage.setItem('medauth', JSON.stringify(this.auth));
   }
@@ -87,6 +97,7 @@ export class AuthService {
   setAdminToSessionStorage(
     role: string,
     token: string,
+    email: string,
     userName: string
   ): void {
     this.setIsAuthenticated = true;
@@ -94,16 +105,23 @@ export class AuthService {
     this.setIsUser = false;
     this.setRole = role;
     this.setAuthToken = token;
+    this.setEmail = email;
     this.setUserName = userName;
     sessionStorage.setItem('medauth', JSON.stringify(this.auth));
   }
 
-  setUserToSessionStorage(role: string, token: string, userName: string): void {
+  setUserToSessionStorage(
+    role: string,
+    token: string,
+    email: string,
+    userName: string
+  ): void {
     this.setIsAuthenticated = true;
     this.setIsAdmin = false;
     this.setIsUser = true;
     this.setRole = role;
     this.setAuthToken = token;
+    this.setEmail = email;
     this.setUserName = userName;
     sessionStorage.setItem('medauth', JSON.stringify(this.auth));
   }
@@ -114,6 +132,7 @@ export class AuthService {
     this.setIsUser = false;
     this.setRole = '';
     this.setAuthToken = '';
+    this.setEmail = '';
     this.setUserName = '';
     sessionStorage.clear();
   }

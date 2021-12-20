@@ -49,7 +49,7 @@ export class PaymentCartComponent implements OnInit {
       );
       this.orderObj.orderDate = new Date().toString();
       this.orderObj.orderTotal = this.userCart.grandTotal;
-      this.orderObj.userId = this.userObj.id;
+      this.orderObj.userId = this.userObj._id || '';
       this.userCart.cartItems.forEach((item) => {
         let orderItem: OrderItem = new OrderItem();
         orderItem.productCount = item.productCount;
