@@ -6,7 +6,11 @@ import {
 } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Product, ProductsData } from '../Model/product.model';
+import {
+  Product,
+  ProductCountData,
+  ProductsData,
+} from '../Model/product.model';
 import { ProductDataService } from './productservice.service';
 
 @Injectable()
@@ -34,27 +38,20 @@ export class Productasyncvalidators {
         return of(null);
       }
 
-      return productDataService.getProductsJson().pipe(
-        //tap((data) => console.log(data)),
-        map((prods: ProductsData) => {
-          if (prods.data) {
-            prods.data.filter(
-              (prod) =>
-                prod.name === control.get('productname')?.value &&
-                prod.brand === control.get('brandname')?.value
-            );
-          }
-          return prods;
-        }),
-        tap((data) => console.log(data)),
-        map((pd: ProductsData) => {
-          return pd.data && pd.data.length > 0
-            ? { productBrandExists: true }
-            : null;
-        }),
-        catchError(() => of(null))
-        //tap((data) => console.log(data))
-      );
+      return productDataService
+        .getProductBrandNameCountJson(
+          control.get('productname')?.value,
+          control.get('brandname')?.value
+        )
+        .pipe(
+          map((pd: ProductCountData) => {
+            return pd.statusMsg === 'success' && pd.data && pd.data > 0
+              ? { productBrandExists: true }
+              : null;
+          }),
+          catchError(() => of(null))
+          //tap((data) => console.log(data))
+        );
     };
   }
 

@@ -6,7 +6,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { catchError, map } from 'rxjs/operators';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
-import { CategoriesData, Category, Product } from '../../Model/product.model';
+import {
+  CategoriesData,
+  Category,
+  Product,
+  ProductItemData,
+} from '../../Model/product.model';
 import { DtsErrorStateMatcher } from '../../Service/errorstatematcher';
 import { PdbrandasyncValidator } from '../../Service/pdbrandasync-validator.service';
 import { Productasyncvalidators } from '../../Service/productasyncvalidators';
@@ -18,6 +23,7 @@ import {
 import { ProductAddcategoryComponent } from '../product-addcategory/product-addcategory.component';
 import { ProductSnackComponent } from '../product-snack/product-snack.component';
 import { v4 as uuidv4 } from 'uuid';
+import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
 
 @Component({
   selector: 'app-product-add',
@@ -45,7 +51,8 @@ export class ProductAddComponent implements OnInit {
     private pdbrndValidator: PdbrandasyncValidator,
     private productDataService: ProductDataService,
     public dialog: MatDialog,
-    private addSnackBar: MatSnackBar
+    private addSnackBar: MatSnackBar,
+    public medAppService: MedicareappService
   ) {}
 
   ngOnInit(): void {
@@ -225,35 +232,58 @@ export class ProductAddComponent implements OnInit {
       return;
     }
 
-    try {
-      console.log(this.formProductAdd);
-      this.productObj.code = uuidv4();
-      this.productObj.brand = this.brandname?.value;
-      this.productObj.description = this.description?.value;
-      this.productObj.name = this.productname?.value;
-      this.productObj.isActive = true;
-      this.productObj.quantity = this.quantity?.value;
-      this.productObj.unitPrice = this.unitprice?.value;
-      let catNew: Category = new Category();
-      catNew.catName = this.category?.value;
-      catNew.catDesc = this.categoryDesc;
-      this.productObj.category = catNew;
-      this.productObj.productImage.fileSource = this.filesource?.value;
-      this.productObj.productImage.fileName = this.filesource?.value.name;
-      this.productObj.productImage.fileSize = this.filesource?.value.size;
-      this.productObj.productImage.fileType = this.filesource?.value.type;
-      console.log(this.productObj);
-      this.addSnackBar.openFromComponent(ProductSnackComponent, {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom',
-        data: 'Product added press cancel to go back to view changes.',
-      });
-      //this.router.navigate(['/medicare']);
+    console.log(this.formProductAdd);
+    this.productObj.code = uuidv4();
+    this.productObj.brand = this.brandname?.value;
+    this.productObj.description = this.description?.value;
+    this.productObj.name = this.productname?.value;
+    this.productObj.isActive = true;
+    this.productObj.quantity = this.quantity?.value;
+    this.productObj.unitPrice = this.unitprice?.value;
+    let catNew: Category = new Category();
+    catNew.catName = this.category?.value;
+    catNew.catDesc = this.categoryDesc || 'test category';
+    this.productObj.category = catNew;
+    this.productObj.productImage.fileSource = this.filesource?.value;
+    this.productObj.productImage.fileName = this.filesource?.value.name;
+    this.productObj.productImage.fileSize = this.filesource?.value.size;
+    this.productObj.productImage.fileType = this.filesource?.value.type;
+    this.productObj.productImage.fileUrl = `assets/productimages/${this.productObj.code}`;
+    this.productObj.supplierId = this.medAppService.appUser._id || '';
+    console.log(this.productObj);
 
-      // await this.authService.login(username, password);
-    } catch (err) {
-      console.log(err);
-    }
+    this.productDataService
+      .postProductJson(this.productObj)
+      .pipe(
+        map((data: ProductItemData) => {
+          return data;
+        }),
+        catchError((err) => {
+          throw 'error in source. Details: ' + err;
+        })
+      )
+      .subscribe(
+        (data) => {
+          console.log('Response from signingup user');
+          console.log(data);
+          if (data) {
+            if (data.statusMsg === 'success') {
+              this.addSnackBar.openFromComponent(ProductSnackComponent, {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom',
+                data: 'Product added successfully.',
+              });
+              this.router.navigate(['/medicare/viewproducts']);
+              //this.formProductAdd.reset();
+            }
+          }
+        },
+        (err) => {
+          console.error('Oops:', err.message);
+        }
+      );
+    //this.router.navigate(['/medicare']);
+    // await this.authService.login(username, password);
   }
 }

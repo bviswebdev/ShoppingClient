@@ -114,7 +114,7 @@
         <button
           mat-raised-button
           color="primary"
-          [routerLink]="['/admin/update', product._id]"
+          [routerLink]="['/admin/update', product?._id]"
           *ngIf="authService.IsAuthenticated && authService.IsAdmin"
         >
           Edit

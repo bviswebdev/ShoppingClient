@@ -13,6 +13,11 @@ export interface CategoriesData {
   data?: Array<string>;
 }
 
+export interface ProductCountData {
+  statusMsg?: string;
+  data?: number;
+}
+
 export class Product {
   constructor(
     public _id: string = '',

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {
   CategoriesData,
   Product,
+  ProductCountData,
   ProductItemData,
   ProductsData,
 } from '../Model/product.model';
@@ -41,4 +42,36 @@ http://localhost:8626/api/v1/product/categories*/
   public getCategoriesJson(): Observable<CategoriesData> {
     return this.http.get<CategoriesData>(`${this.productBaseUri}/categories`);
   }
+
+  public getProductBrandNameCountJson(
+    productName: string,
+    productBrand: string
+  ): Observable<ProductCountData> {
+    return this.http.get<ProductCountData>(
+      `${this.productBaseUri}/count?name=${productName}&brand=${productBrand}`
+    );
+  }
+
+  ///path/filename?id=123&option=456
+
+  public postProductJson(productData: Product): Observable<ProductItemData> {
+    //const headers = { 'content-type': 'application/json' };
+
+    //const headers = { 'content-type': 'multipart/form-data' };
+
+    const jsonBlob = JSON.stringify(productData);
+    let formData: any = new FormData();
+    //formData.append('jsonData', jsonBlob);
+    formData.append('fileSource', productData.productImage.fileSource);
+    formData.append('jsonData', jsonBlob);
+
+    //const body = JSON.stringify(productData);
+
+    return this.http.post<ProductItemData>(`${this.productBaseUri}`, formData);
+  }
 }
+
+/*
+{
+  headers: headers,
+}*/
