@@ -104,7 +104,7 @@ export class CartManager {
   updateCart(prodEl: ProductData, cartUpdate: Cart): Cart {
     let cartItemUpdateObj: CartItem = new CartItem();
     let cartItemUpdatePrevObj: CartItem = new CartItem();
-    cartItemUpdateObj.productId = prodEl.productCode;
+    cartItemUpdateObj.productId = prodEl.productId;
     cartItemUpdateObj.buyingPrice = Number(prodEl.productPrice);
     cartItemUpdateObj.isAvailable =
       Number(prodEl.productQtyAvailable) > 0 ? true : false;
@@ -143,10 +143,10 @@ export class CartManager {
 
   createNewCart(prodNew: ProductData, isSessionCart: boolean): Cart {
     let cartNew: Cart = new Cart();
-    cartNew.userId = isSessionCart ? '' : this.authService.UserName;
+    cartNew.userId = isSessionCart ? '' : this.medAppService.appUser._id || '';
     cartNew.grandTotal = Number(prodNew.productPrice);
     let cartNewItemObj: CartItem = new CartItem();
-    cartNewItemObj.productId = prodNew.productCode;
+    cartNewItemObj.productId = prodNew.productId;
     cartNewItemObj.productCount = 1;
     cartNewItemObj.buyingPrice = Number(prodNew.productPrice);
     cartNewItemObj.itemTotal = Number(prodNew.productPrice);

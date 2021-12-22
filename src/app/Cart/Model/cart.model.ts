@@ -1,6 +1,11 @@
+export interface CartItemData {
+  statusMsg?: string;
+  data?: Cart;
+}
+
 export class Cart {
   constructor(
-    public id: string = '',
+    public _id: string = '',
     public userId: string = '',
     public grandTotal: number = 0,
     public cartItems: Array<CartItem> = new Array<CartItem>()

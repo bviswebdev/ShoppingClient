@@ -102,7 +102,7 @@ export class ProductViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createNewCart(prodNew: ProductData, isSessionCart: boolean): Cart {
     let cartNew: Cart = new Cart();
-    cartNew.userId = isSessionCart ? '' : this.authService.UserName;
+    cartNew.userId = isSessionCart ? '' : this.medAppService.appUser._id || '';
     cartNew.grandTotal = Number(prodNew.productPrice);
     let cartNewItemObj: CartItem = new CartItem();
     cartNewItemObj.productId = prodNew.productCode;

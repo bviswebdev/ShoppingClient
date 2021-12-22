@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { Product } from 'src/app/Product/Model/product.model';
+import { from, Observable } from 'rxjs';
+import { catchError, concatMap, map, tap } from 'rxjs/operators';
+import { Product, ProductItemData } from 'src/app/Product/Model/product.model';
+import { BlobService } from 'src/app/Product/Service/blob.service';
 import { ProductDataService } from 'src/app/Product/Service/productservice.service';
 import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
 import { Cart, CartItem } from '../Model/cart.model';
@@ -34,13 +35,15 @@ export class UserCartComponent implements OnInit {
   formCartGroup!: FormGroup;
   isFormGroupBuild: boolean = false;
   isCartEmpty: boolean = true;
+  isCartDataLoaded: boolean = false;
   userCart: Cart = new Cart();
 
   constructor(
     private productDataService: ProductDataService,
     public medAppService: MedicareappService,
     public cartManager: CartManager,
-    private router: Router
+    private router: Router,
+    private blobService: BlobService
   ) {}
 
   ngOnInit(): void {
@@ -51,13 +54,70 @@ export class UserCartComponent implements OnInit {
     this.userCart = this.medAppService.appUserCart;
     if (this.userCart.cartItems.length > 0) {
       let controlGroup: formControlGroup = {};
+
       this.userCart.cartItems.forEach((cartItem) => {
         controlGroup[cartItem.productId] = new FormControl(
           cartItem.productCount.toString(),
           [Validators.required, Validators.pattern('^[0-9]+$')]
         );
+        //start
+
+        //end
       });
       this.formCartGroup = new FormGroup(controlGroup);
+
+      const cartItemObservable = from(this.userCart.cartItems);
+
+      cartItemObservable
+        .pipe(
+          concatMap((cItem) => {
+            return this.productDataService
+              .getProductItemJson(cItem.productId)
+              .pipe(
+                //tap((data) => console.log(data)),
+                map((product: ProductItemData) => {
+                  console.log('checkpoint');
+                  console.log(product);
+                  if (product.data) {
+                    product.data.productImage.fileUrl =
+                      this.blobService.getBlobUrl(
+                        product.data.productImage.fileSource,
+                        product.data.productImage.fileType
+                      );
+                  }
+                  return product;
+                }),
+                catchError((err) => {
+                  throw 'error in source. Details: ' + err;
+                })
+              );
+          })
+        )
+        .subscribe(
+          (data) => {
+            if (data.statusMsg === 'success') {
+              if (data.data) {
+                let cartItemIndex: number = this.userCart.cartItems.findIndex(
+                  (item) => item.productId === data.data?._id
+                );
+                if (cartItemIndex !== -1) {
+                  this.userCart.cartItems[
+                    cartItemIndex
+                  ].cartItemProduct.productImageUrl =
+                    data.data?.productImage.fileUrl;
+                }
+              }
+            }
+            //console.log(this.product);
+          },
+          (err) => {
+            console.error('Oops:', err.message);
+          },
+          () => {
+            this.isCartDataLoaded = true;
+          }
+        );
+
       /*this.formCartGroup.valueChanges.subscribe((x) => {
         console.log('firstname value changed');
         console.log(x);
@@ -68,6 +128,7 @@ export class UserCartComponent implements OnInit {
           console.log(x);
         });
       });*/
+
       this.isCartEmpty = false;
       this.isFormGroupBuild = true;
     }

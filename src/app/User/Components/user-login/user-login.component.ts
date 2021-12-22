@@ -112,22 +112,23 @@ export class UserLoginComponent implements OnInit {
                   this.router.navigate(['/admin']);
                 }
                 //this.router.navigate(['/medicare/signin']);
-              } else if (data.data.user.role === 'USER') {
-                this.authService.setUserToSessionStorage(
-                  data.data.role,
-                  data.data.token,
-                  data.data.email,
-                  data.data.userName
-                );
-                this.medAppService.setAppUser = data.data.user;
-                if (data.data.cart) {
-                  this.medAppService.setAppCart = data.data.cart;
+                else if (data.data.user.role === 'USER') {
+                  this.authService.setUserToSessionStorage(
+                    data.data.role,
+                    data.data.token,
+                    data.data.email,
+                    data.data.userName
+                  );
+                  this.medAppService.setAppUser = data.data.user;
+                  if (data.data.cart) {
+                    this.medAppService.setAppCart = data.data.cart;
+                  }
+                  this.router.navigate(['/customer']);
                 }
-                this.router.navigate(['/customer']);
-              }
-              //this.router.navigate(['/medicare/signin']);
-              else {
-                this.loginInvalid = true;
+                //this.router.navigate(['/medicare/signin']);
+                else {
+                  this.loginInvalid = true;
+                }
               }
             }
           },

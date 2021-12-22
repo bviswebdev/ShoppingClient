@@ -13,7 +13,7 @@
   gdGap="25px"
   class="cartcontainer"
   [ngClass.lt-md]="{ cartcontainer: false }"
-  *ngIf="isFormGroupBuild && !isCartEmpty"
+  *ngIf="isFormGroupBuild && !isCartEmpty && isCartDataLoaded"
 >
   <div gdArea="header" class="cartheader">
     <div>Product</div>
