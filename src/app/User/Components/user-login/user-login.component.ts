@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -84,6 +85,10 @@ export class UserLoginComponent implements OnInit {
             return data;
           }),
           catchError((err) => {
+            console.log(err);
+            if (err.error.msg === 'Invalid Credentials') {
+              this.loginInvalid = true;
+            }
             throw 'error in source. Details: ' + err;
           })
         )
@@ -127,7 +132,7 @@ export class UserLoginComponent implements OnInit {
             }
           },
           (err) => {
-            console.error('Oops:', err.message);
+            console.error('Oops:', err);
           }
         );
     } else {

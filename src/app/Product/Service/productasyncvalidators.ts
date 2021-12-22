@@ -7,6 +7,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import {
+  CategoryCountData,
   Product,
   ProductCountData,
   ProductsData,
@@ -73,20 +74,10 @@ export class Productasyncvalidators {
     ):
       | Promise<ValidationErrors | null>
       | Observable<ValidationErrors | null> => {
-      return productDataService.getProductsJson().pipe(
+      return productDataService.getCategoryNameCountJson(control.value).pipe(
         //tap((data) => console.log(data)),
-        map((prods: ProductsData) => {
-          if (prods.data) {
-            prods.data.filter(
-              (prod) => prod.category.catName === control.value
-            );
-          }
-          return prods;
-          // prods.filter((prod) => prod.category.catName === control.value)
-        }),
-        tap((data) => console.log(data)),
-        map((pd: ProductsData) => {
-          return pd.data && pd.data.length > 0
+        map((pd: CategoryCountData) => {
+          return pd.statusMsg === 'success' && pd.data && pd.data > 0
             ? { categoryNameExists: true }
             : null;
         }),

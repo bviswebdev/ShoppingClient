@@ -12,6 +12,7 @@ import { BreakpointService } from 'src/app/Services/GlobalService/breakpoint.ser
 import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
 import { Address, User, UserSignup } from '../../Model/user.model';
 import { AddressService } from '../../Service/addressservice.service';
+import { Userasyncvalidators } from '../../Service/userasyncValidators';
 import { UserService } from '../../Service/userservice.service';
 import { identityRevealedValidator } from '../user-register/confpass.validator';
 import { PasswordErrorStateMatcher } from '../user-register/passerrorstate.matcher';
@@ -167,7 +168,16 @@ export class UserSignupComponent implements OnInit {
       {
         firstname: ['', [Validators.required]],
         lastname: ['', [Validators.required]],
-        email: ['', [Validators.required, Validators.email]],
+        email: [
+          '',
+          {
+            validators: [Validators.required, Validators.email],
+            asyncValidators: Userasyncvalidators.createEmailExistsValidator(
+              this.userService
+            ),
+            updateOn: 'blur',
+          },
+        ],
         contactnumber: [
           '',
           [

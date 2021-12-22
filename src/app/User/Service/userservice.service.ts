@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   Address,
+  EmailCountData,
   User,
   UserLoginInfo,
   UserLoginRes,
@@ -27,6 +28,12 @@ export class UserService {
 
   public getUserLoginJson(email: string): Observable<UserLoginRes> {
     return this.http.get<UserLoginRes>(`${this.userBaseUri}/${email}`);
+  }
+
+  public getUserEmailCountJson(email: string): Observable<EmailCountData> {
+    return this.http.get<EmailCountData>(
+      `${this.userBaseUri}/count?email=${email}`
+    );
   }
 
   public postUserJson(userPostData: User): Observable<UserSignup> {

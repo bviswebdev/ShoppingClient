@@ -18,6 +18,11 @@ export interface ProductCountData {
   data?: number;
 }
 
+export interface CategoryCountData {
+  statusMsg?: string;
+  data?: number;
+}
+
 export class Product {
   constructor(
     public _id: string = '',

@@ -41,6 +41,7 @@ export class ProductEditComponent implements OnInit {
   defalutProductName: string = '';
   defaultBrandName: string = '';
   productIdFromRoute: string = '';
+  categoryDesc: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -112,6 +113,7 @@ export class ProductEditComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result.categoryname) {
         this.categories.push(result.categoryname);
+        this.categoryDesc = result.description;
         /*let categoryTemp: Category = new Category();
         categoryTemp.catName = result.categoryname;
         categoryTemp.catDesc = result.description;
@@ -165,10 +167,10 @@ export class ProductEditComponent implements OnInit {
         if (res[1] && res[1].data) {
           this.productObj = res[1].data;
           console.log(this.productObj);
-          this.fileName =
-            this.productObj.productImage.fileName || 'testfile.png';
+          this.fileName = this.productObj.productImage.fileName || '';
           this.defalutProductName = this.productObj.name;
           this.defaultBrandName = this.productObj.brand;
+          this.productObj.productImage.fileSource = {};
           // this.buildForm();
           this.formProductEdit.patchValue({
             productname: this.productObj.name,
@@ -319,30 +321,61 @@ export class ProductEditComponent implements OnInit {
       return;
     }
 
-    try {
-      this.productObj.brand = this.brandname?.value;
-      this.productObj.description = this.description?.value;
-      this.productObj.name = this.productname?.value;
-      this.productObj.isActive = true;
-      this.productObj.quantity = this.quantity?.value;
-      this.productObj.unitPrice = this.unitprice?.value;
-      this.productObj.category = this.category?.value;
-      this.productObj.productImage.fileSource = this.filesource?.value;
-      this.productObj.productImage.fileName = this.filesource?.value.name;
-      this.productObj.productImage.fileSize = this.filesource?.value.size;
-      this.productObj.productImage.fileType = this.filesource?.value.type;
-      console.log(this.productObj);
-      this.addSnackBar.openFromComponent(ProductSnackComponent, {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom',
-        data: 'Product updated press cancel to go back to view changes.',
-      });
-      //this.router.navigate(['/medicare']);
+    this.productObj.brand = this.brandname?.value;
+    this.productObj.description = this.description?.value;
+    this.productObj.name = this.productname?.value;
+    this.productObj.isActive = true;
+    this.productObj.quantity = this.quantity?.value;
+    this.productObj.unitPrice = this.unitprice?.value;
+    //this.productObj.category = this.category?.value;
+    let catNew: Category = new Category();
+    catNew.catName = this.category?.value;
+    catNew.catDesc = this.categoryDesc || 'updateddescription';
+    catNew.catImgUrl = this.productObj.category.catImgUrl;
+    catNew.catActive = this.productObj.category.catActive;
+    this.productObj.category = catNew;
+    this.productObj.productImage.fileSource = this.filesource?.value;
+    this.productObj.productImage.fileName = this.filesource?.value.name;
+    this.productObj.productImage.fileSize = this.filesource?.value.size;
+    this.productObj.productImage.fileType = this.filesource?.value.type;
+    console.log(this.productObj);
 
-      // await this.authService.login(username, password);
-    } catch (err) {
-      console.log(err);
-    }
+    this.productDataService
+      .updateProductJson(this.productObj)
+      .pipe(
+        map((data: ProductItemData) => {
+          return data;
+        }),
+        catchError((err) => {
+          throw 'error in source. Details: ' + err;
+        })
+      )
+      .subscribe(
+        (data) => {
+          console.log('Response from signingup user');
+          console.log(data);
+          if (data) {
+            if (data.statusMsg === 'success') {
+              this.addSnackBar.openFromComponent(ProductSnackComponent, {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom',
+                data: 'Product updated successfully.',
+              });
+              this.router.navigate(['/medicare/viewproducts']);
+              //this.formProductAdd.reset();
+            }
+          }
+        },
+        (err) => {
+          console.error('Oops:', err.message);
+        }
+      );
+    //this.router.navigate(['/medicare']);
+    // await this.authService.login(username, password);
+
+    //this.router.navigate(['/medicare']);
+
+    // await this.authService.login(username, password);
   }
 }

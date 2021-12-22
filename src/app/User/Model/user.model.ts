@@ -13,6 +13,11 @@ export interface UserLoginRes {
   data?: any;
 }
 
+export interface EmailCountData {
+  statusMsg?: string;
+  data?: number;
+}
+
 export class User {
   constructor(
     public _id?: string,

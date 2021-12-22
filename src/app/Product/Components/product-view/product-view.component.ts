@@ -1,13 +1,19 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ProductView } from './productview';
 import { ProductDataService } from '../../Service/productservice.service';
 import { ProductData, Productdatasource } from './productdatasource';
 import { productServiceFactory } from './productfactory';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductDeleteComponent } from '../product-delete/product-delete.component';
 import { ProductSnackComponent } from '../product-snack/product-snack.component';
@@ -17,6 +23,8 @@ import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.s
 import { CartManager } from 'src/app/Cart/user-cart/cart-manager';
 import { BlobService } from '../../Service/blob.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { catchError, map } from 'rxjs/operators';
+import { ProductItemData } from '../../Model/product.model';
 
 @Component({
   selector: 'app-product-view',
@@ -31,15 +39,17 @@ import { DomSanitizer } from '@angular/platform-browser';
     },
   ],
 })
-export class ProductViewComponent implements OnInit, AfterViewInit {
+export class ProductViewComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns: string[] = [];
   dataSource!: MatTableDataSource<ProductData>;
   products!: Productdatasource;
   productsDataSource: Array<ProductData> = new Array<ProductData>();
   isAdmin: boolean = false;
+  mySubscription: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatTable) productsTable!: MatTable<any>;
 
   constructor(
     public productDataSource: Productdatasource,
@@ -49,9 +59,16 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
     public authService: AuthService,
     public medAppService: MedicareappService,
     public cartManager: CartManager,
-    public domSanitizer: DomSanitizer
+    public domSanitizer: DomSanitizer,
+    private productDataService: ProductDataService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.mySubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+      }
+    });
     //console.log('hello world');
   }
 
@@ -66,6 +83,12 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.products.paginator = this.paginator;
     this.products.sort = this.sort;
+  }
+
+  ngOnDestroy() {
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
+    }
   }
 
   applyFilter(event: Event) {
@@ -132,13 +155,44 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
       if (result) {
         console.log('Yes clicked');
         console.log(prodDelete);
+
+        this.productDataService
+          .deleteProductJson(prodDelete.productId)
+          .pipe(
+            map((data: ProductItemData) => {
+              return data;
+            }),
+            catchError((err) => {
+              throw 'error in source. Details: ' + err;
+            })
+          )
+          .subscribe(
+            (data) => {
+              console.log('Response from signingup user');
+              console.log(data);
+              if (data) {
+                if (data.statusMsg === 'success') {
+                  this.addSnackBar.openFromComponent(ProductSnackComponent, {
+                    duration: 2000,
+                    horizontalPosition: 'center',
+                    verticalPosition: 'bottom',
+                    data: 'Product deleted sucessfully!!!',
+                  });
+
+                  //this.productsTable.renderRows();
+                  //this.ngOnInit();
+                  this.router.navigate(['/medicare/viewproducts']);
+
+                  //this.formProductAdd.reset();
+                }
+              }
+            },
+            (err) => {
+              console.error('Oops:', err.message);
+            }
+          );
+
         // DO SOMETHING
-        this.addSnackBar.openFromComponent(ProductSnackComponent, {
-          duration: 2000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-          data: 'Product deleted sucessfully!!!',
-        });
       }
     });
   }
