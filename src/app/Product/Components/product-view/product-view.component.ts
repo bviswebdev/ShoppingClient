@@ -144,7 +144,7 @@ export class ProductViewComponent implements OnInit, AfterViewInit, OnDestroy {
   addToCart(prodEl: ProductData): void {
     //this.cartManager.handleCart(prodEl);
     this.cartManager.handleCartTemp(prodEl);
-    this.router.navigate(['/customer/cart']);
+    //this.router.navigate(['/customer/cart']);
   }
 
   openDeleteDialog(prodDelete: ProductData): void {

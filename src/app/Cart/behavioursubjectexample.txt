@@ -1,0 +1,30 @@
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { Storage } from '@ionic/storage-angular';
+import { SomeType } from '../interfaces/movie-category';
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+  private myData: BehaviorSubject<SomeType[]> = new BehaviorSubject<SomeType[]>([]);
+  private _storage: Storage | null = null;
+  constructor(private storage: Storage) { 
+  }
+  async init(){
+    const storage = await this.storage.create();
+    this._storage = storage;
+  }
+  async load(): void {
+    await this.init();
+    const data = await this._storage.get('myData');
+    this.myData.next(data);
+  }
+  updateData(data): void {
+    this._storage.set('myData', data);
+    this.myData.next(data);
+  }
+  getData(): Observable<SomeType[]> {
+    return this.myData;
+  }
+}
+First, we initialise our BehaviorS

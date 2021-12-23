@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError, map } from 'rxjs/operators';
 import { ProductData } from 'src/app/Product/Components/product-view/productdatasource';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
 import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
-import { Cart, CartItem, CartItemProduct } from '../Model/cart.model';
+import {
+  Cart,
+  CartItem,
+  CartItemData,
+  CartItemProduct,
+} from '../Model/cart.model';
+import { CartServiceService } from '../Service/cart-service.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,19 +18,73 @@ import { Cart, CartItem, CartItemProduct } from '../Model/cart.model';
 export class CartManager {
   constructor(
     public authService: AuthService,
-    public medAppService: MedicareappService
+    public medAppService: MedicareappService,
+    private cartService: CartServiceService,
+    private router: Router
   ) {}
 
   handleCartTemp(prodEl: ProductData): boolean {
     let cartObj: Cart = new Cart();
     if (!this.medAppService.medApp.cart) {
       cartObj = this.createNewCart(prodEl, false);
+
+      this.cartService
+        .postCartJson(cartObj)
+        .pipe(
+          map((data: CartItemData) => {
+            return data;
+          }),
+          catchError((err) => {
+            throw 'error in source. Details: ' + err;
+          })
+        )
+        .subscribe(
+          (data) => {
+            console.log('Response from cart adding');
+            console.log(data);
+            if (data) {
+              if (data.statusMsg === 'success') {
+                this.medAppService.medApp.cart = cartObj;
+                this.router.navigate(['/customer/cart']);
+              }
+            }
+          },
+          (err) => {
+            console.error('Oops:', err.message);
+          }
+        );
+
       console.log(this.medAppService.medApp.cart);
     } else {
       cartObj = this.medAppService.medApp.cart;
       cartObj = this.updateCart(prodEl, cartObj);
+
+      this.cartService
+        .updateCartJson(cartObj)
+        .pipe(
+          map((data: CartItemData) => {
+            return data;
+          }),
+          catchError((err) => {
+            throw 'error in source. Details: ' + err;
+          })
+        )
+        .subscribe(
+          (data) => {
+            console.log('Response from cart updating');
+            console.log(data);
+            if (data) {
+              if (data.statusMsg === 'success') {
+                this.medAppService.medApp.cart = cartObj;
+                this.router.navigate(['/customer/cart']);
+              }
+            }
+          },
+          (err) => {
+            console.error('Oops:', err.message);
+          }
+        );
     }
-    this.medAppService.medApp.cart = cartObj;
     return true;
   }
 

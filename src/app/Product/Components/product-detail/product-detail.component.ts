@@ -98,7 +98,7 @@ export class ProductDetailComponent implements OnInit {
     productPrice: number;
     productQtyAvailable: number;
     productDescription: string;*/
-    this.router.navigate(['/customer/cart']);
+    //this.router.navigate(['/customer/cart']);
   }
 
   /*.pipe(

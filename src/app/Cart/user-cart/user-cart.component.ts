@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map, tap } from 'rxjs/operators';
@@ -7,7 +8,8 @@ import { Product, ProductItemData } from 'src/app/Product/Model/product.model';
 import { BlobService } from 'src/app/Product/Service/blob.service';
 import { ProductDataService } from 'src/app/Product/Service/productservice.service';
 import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
-import { Cart, CartItem } from '../Model/cart.model';
+import { Cart, CartItem, CartItemData } from '../Model/cart.model';
+import { CartServiceService } from '../Service/cart-service.service';
 import { CartManager } from './cart-manager';
 
 export interface ProductCartData {
@@ -43,7 +45,9 @@ export class UserCartComponent implements OnInit {
     public medAppService: MedicareappService,
     public cartManager: CartManager,
     private router: Router,
-    private blobService: BlobService
+    private blobService: BlobService,
+    private cartService: CartServiceService,
+    public domSanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -158,22 +162,97 @@ export class UserCartComponent implements OnInit {
         this.formCartGroup.controls[cartUpdateItem.productId].value
       );
       console.log(this.userCart);
-      this.medAppService.setAppCart = this.userCart;
+
+      this.cartService
+        .updateCartJson(this.userCart)
+        .pipe(
+          map((data: CartItemData) => {
+            return data;
+          }),
+          catchError((err) => {
+            throw 'error in source. Details: ' + err;
+          })
+        )
+        .subscribe(
+          (data) => {
+            console.log('Response from cart updating');
+            console.log(data);
+            if (data) {
+              if (data.statusMsg === 'success') {
+                this.medAppService.setAppCart = this.userCart;
+                //this.router.navigate(['/customer/cart']);
+              }
+            }
+          },
+          (err) => {
+            console.error('Oops:', err.message);
+          }
+        );
     }
   }
 
   deleteCart(cartDeleteItem: CartItem) {
     console.log('indise delete');
     console.log(cartDeleteItem);
-    this.userCart = this.cartManager.deleteCartItem(
-      cartDeleteItem,
-      this.userCart
-    );
-    console.log(this.userCart);
-    if (this.userCart.cartItems.length === 0) {
-      this.isCartEmpty = true;
+    if (this.userCart.cartItems.length > 1) {
+      this.userCart = this.cartManager.deleteCartItem(
+        cartDeleteItem,
+        this.userCart
+      );
+
+      this.cartService
+        .updateCartJson(this.userCart)
+        .pipe(
+          map((data: CartItemData) => {
+            return data;
+          }),
+          catchError((err) => {
+            throw 'error in source. Details: ' + err;
+          })
+        )
+        .subscribe(
+          (data) => {
+            console.log('Response from cart updating');
+            console.log(data);
+            if (data) {
+              if (data.statusMsg === 'success') {
+                this.medAppService.setAppCart = this.userCart;
+                //this.router.navigate(['/customer/cart']);
+              }
+            }
+          },
+          (err) => {
+            console.error('Oops:', err.message);
+          }
+        );
+    } else {
+      this.cartService
+        .deleteCartJson(this.userCart)
+        .pipe(
+          map((data: CartItemData) => {
+            return data;
+          }),
+          catchError((err) => {
+            throw 'error in source. Details: ' + err;
+          })
+        )
+        .subscribe(
+          (data) => {
+            console.log('Response from cart deleting');
+            console.log(data);
+            if (data) {
+              if (data.statusMsg === 'success') {
+                this.medAppService.setAppCart = new Cart();
+                this.isCartEmpty = true;
+                //this.router.navigate(['/customer/cart']);
+              }
+            }
+          },
+          (err) => {
+            console.error('Oops:', err.message);
+          }
+        );
     }
-    this.medAppService.setAppCart = this.userCart;
   }
 }
 

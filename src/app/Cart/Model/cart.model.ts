@@ -14,6 +14,7 @@ export class Cart {
 
 export class CartItem {
   constructor(
+    public _id: string = '',
     public itemId: string = '',
     public itemTotal: number = 0,
     public productId: string = '',
@@ -26,6 +27,7 @@ export class CartItem {
 
 export class CartItemProduct {
   constructor(
+    public _id: string = '',
     public productCode: string = '',
     public productImageUrl: string = '',
     public productName: string = '',
