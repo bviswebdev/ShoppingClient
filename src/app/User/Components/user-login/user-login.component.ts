@@ -120,9 +120,12 @@ export class UserLoginComponent implements OnInit {
                     data.data.userName
                   );
                   this.medAppService.setAppUser = data.data.user;
+
                   if (data.data.cart) {
                     this.medAppService.setAppCart = data.data.cart;
                   }
+                  console.log('initial cart');
+                  console.log(this.medAppService.appUserCart);
                   this.router.navigate(['/customer']);
                 }
                 //this.router.navigate(['/medicare/signin']);

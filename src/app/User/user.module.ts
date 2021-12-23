@@ -11,6 +11,7 @@ import { UserWelcomeComponent } from './Components/user-welcome/user-welcome.com
 import { UserSignupComponent } from './Components/user-signup/user-signup.component';
 import { UserAddressCheckoutComponent } from './Components/user-address-checkout/user-address-checkout.component';
 import { UserSnackComponent } from './Components/user-snack/user-snack.component';
+import { OrderModule } from '../Order/order.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,13 @@ import { UserSnackComponent } from './Components/user-snack/user-snack.component
     UserAddressCheckoutComponent,
     UserSnackComponent,
   ],
-  imports: [CommonModule, AppMaterialModule, RouterModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    AppMaterialModule,
+    RouterModule,
+    ReactiveFormsModule,
+    OrderModule,
+  ],
   exports: [
     UserLoginComponent,
     UserRegisterComponent,

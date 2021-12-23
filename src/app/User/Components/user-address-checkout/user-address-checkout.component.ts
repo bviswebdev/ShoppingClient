@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Order } from 'src/app/Order/Model/order.model';
+import { OrderConfirmComponent } from 'src/app/Order/order-confirm/order-confirm.component';
 import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
-import { Address, User } from '../../Model/user.model';
+import { Address, User, UserInfo } from '../../Model/user.model';
 import { AddressService } from '../../Service/addressservice.service';
 import { UserService } from '../../Service/userservice.service';
 
@@ -17,6 +19,8 @@ export class UserAddressCheckoutComponent implements OnInit {
   public formSubmitAttempt!: boolean;
   formAddressSubmitAttempt!: boolean;
   public userObj: User = new User();
+  public orderObj: Order = new Order();
+
   public isDataLoaded: boolean = false;
 
   public formError!: boolean;
@@ -100,8 +104,9 @@ export class UserAddressCheckoutComponent implements OnInit {
   }
 
   selectAddress(addressId: string) {
-    this.userObj.addresses[0].isShipping = true;
-    this.med.setAppUser = this.userObj;
+    this.orderObj.shippingId = addressId;
+    this.orderObj.billingId = addressId;
+    this.med.setAppUserOrder = this.orderObj;
     this.router.navigate(['/customer/payment']);
 
     /*let addrIndex = this.userObj.addresses.findIndex((addr) => {
@@ -123,25 +128,52 @@ export class UserAddressCheckoutComponent implements OnInit {
       return;
     }
 
-    try {
-      //this.userObj.addresses = [];
-      let addrObj: Address = new Address();
-      addrObj._id = '';
-      addrObj.addressLineOne = this.addrlineone?.value;
-      addrObj.addressLineTwo = this.addrlinetwo?.value;
-      addrObj.city = this.city?.value;
-      addrObj.country = this.country?.value;
-      addrObj.state = this.state?.value;
-      addrObj.postalCode = this.postalcode?.value;
-      addrObj.isBilling = true;
-      addrObj.isShipping = true;
-      this.userObj.addresses.push(addrObj);
-      console.log(this.userObj);
-      //this.router.navigate(['/medicare']);
+    //this.userObj.addresses = [];
+    let addrObj: Address = new Address();
+    addrObj._id = '';
+    addrObj.addressLineOne = this.addrlineone?.value;
+    addrObj.addressLineTwo = this.addrlinetwo?.value;
+    addrObj.city = this.city?.value;
+    addrObj.country = this.country?.value;
+    addrObj.state = this.state?.value;
+    addrObj.postalCode = this.postalcode?.value;
+    addrObj.isBilling = true;
+    addrObj.isShipping = true;
+    let userUpdateObj: User = new User();
+    userUpdateObj = this.userObj;
+    userUpdateObj.addresses.push(addrObj);
 
-      // await this.authService.login(username, password);
-    } catch (err) {
-      console.log(err);
-    }
+    console.log(this.userObj);
+    //this.router.navigate(['/medicare']);
+
+    this.userService
+      .updateUserJson(userUpdateObj)
+      .pipe(
+        map((data: UserInfo) => {
+          return data;
+        }),
+        catchError((err) => {
+          throw 'error in source. Details: ' + err;
+        })
+      )
+      .subscribe(
+        (data) => {
+          console.log('Response from signingup user');
+          console.log(data);
+          if (data) {
+            if (data.statusMsg === 'success') {
+              //this.formProductAdd.reset();
+
+              this.userObj.addresses.push(addrObj);
+              this.med.setAppUser = this.userObj;
+            }
+          }
+        },
+        (err) => {
+          console.error('Oops:', err.message);
+        }
+      );
+
+    // await this.authService.login(username, password);
   }
 }

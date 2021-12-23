@@ -25,8 +25,11 @@ export class CartManager {
 
   handleCartTemp(prodEl: ProductData): boolean {
     let cartObj: Cart = new Cart();
-    if (!this.medAppService.medApp.cart) {
+
+    if (!this.medAppService.medApp.cart.userId) {
       cartObj = this.createNewCart(prodEl, false);
+      console.log('cart checkpoint');
+      console.log(this.medAppService.medApp.cart);
 
       this.cartService
         .postCartJson(cartObj)
@@ -58,6 +61,9 @@ export class CartManager {
     } else {
       cartObj = this.medAppService.medApp.cart;
       cartObj = this.updateCart(prodEl, cartObj);
+
+      console.log('cart update checkpoint');
+      console.log(cartObj);
 
       this.cartService
         .updateCartJson(cartObj)
@@ -172,7 +178,7 @@ export class CartManager {
       Number(prodEl.productQtyAvailable) > 0 ? true : false;
     cartUpdate.grandTotal = cartUpdate.grandTotal + Number(prodEl.productPrice);
     let cartItemExistsIndex: number = cartUpdate.cartItems.findIndex(
-      (item) => item.productId === prodEl.productCode
+      (item) => item.productId === prodEl.productId
     );
     console.log(cartItemExistsIndex);
     if (cartItemExistsIndex !== -1) {
@@ -205,6 +211,8 @@ export class CartManager {
 
   createNewCart(prodNew: ProductData, isSessionCart: boolean): Cart {
     let cartNew: Cart = new Cart();
+    console.log('userid checkpoint');
+    console.log(this.medAppService.appUser._id);
     cartNew.userId = isSessionCart ? '' : this.medAppService.appUser._id || '';
     cartNew.grandTotal = Number(prodNew.productPrice);
     let cartNewItemObj: CartItem = new CartItem();
@@ -218,7 +226,7 @@ export class CartManager {
     cartItemProductData.productCode = prodNew.productCode;
     cartItemProductData.productBrand = prodNew.productBrand;
     cartItemProductData.productDescription = prodNew.productDescription;
-    cartItemProductData.productImageUrl = prodNew.productImageUrl;
+    cartItemProductData.productImageUrl = '';
     cartItemProductData.productName = prodNew.productName;
     cartItemProductData.productPrice = prodNew.productPrice;
     cartItemProductData.productQtyAvailable = prodNew.productQtyAvailable;

@@ -28,6 +28,7 @@ export class PaymentCartComponent implements OnInit {
   ngOnInit(): void {
     this.userCart = this.medAppService.appUserCart;
     this.userObj = this.medAppService.appUser;
+    this.orderObj = this.medAppService.appUserOrder;
     this.formPayment = this.fb.group({
       paymentname: [''],
       paymentcard: [''],

@@ -29,9 +29,10 @@
       *ngFor="let cartItem of userCart.cartItems"
       class="cartcontentcontainer"
     >
-      <div class="cartcontentitems" style="margin-left: 10px">
+      <div class="cartcontentitems cartimage">
         <ng-container *ngIf="cartItem?.cartItemProduct?.productImageUrl">
           <img
+            class="mat-card-image"
             [src]="
               domSanitizer.bypassSecurityTrustResourceUrl(
                 cartItem.cartItemProduct.productImageUrl
@@ -40,7 +41,7 @@
             alt="Photo of a Shiba Inu"
         /></ng-container>
       </div>
-      <div class="cartproductdetail cartcontentitems">
+      <div class="cartproductdetail cartcontentitems" style="margin-top: -5px">
         <div>
           <span style="font-size: x-large; font-weight: 400">{{
             cartItem.cartItemProduct.productName
@@ -97,7 +98,7 @@
       <div class="cartcontentitems">
         {{ cartItem.itemTotal | currency: "&#8377;" }}
       </div>
-      <div class="cartcontentitems">
+      <div class="cartcontentitems" style="margin-top: -10px">
         <button mat-icon-button color="primary" (click)="updateCart(cartItem)">
           <mat-icon class="mat-18">replay_circle_filled</mat-icon>
         </button>

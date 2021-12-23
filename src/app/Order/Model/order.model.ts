@@ -1,3 +1,8 @@
+export interface OrderItemData {
+  statusMsg?: string;
+  data?: Order;
+}
+
 export class Order {
   constructor(
     public id: string = '',

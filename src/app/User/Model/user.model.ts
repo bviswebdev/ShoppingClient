@@ -3,6 +3,11 @@ export interface UserSignup {
   data?: User;
 }
 
+export interface UserInfo {
+  statusMsg?: string;
+  data?: User;
+}
+
 export interface UserLoginInfo {
   email: string;
   password: string;

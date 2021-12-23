@@ -63,6 +63,8 @@ export class AppComponent {
                 if (data.data.cart) {
                   this.med.setAppCart = data.data.cart;
                 }
+                console.log('after refresh cart');
+                console.log(this.med.appUserCart);
               } //this.router.navigate(['/medicare/signin']);
             }
           },

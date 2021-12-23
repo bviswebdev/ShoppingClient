@@ -5,6 +5,7 @@ import {
   Address,
   EmailCountData,
   User,
+  UserInfo,
   UserLoginInfo,
   UserLoginRes,
   UserSignup,
@@ -42,6 +43,18 @@ export class UserService {
     return this.http.post<UserSignup>(`${this.userBaseUri}/register`, body, {
       headers: headers,
     });
+  }
+
+  public updateUserJson(userUpdateData: User): Observable<UserInfo> {
+    const headers = { 'content-type': 'application/json' };
+    const body = JSON.stringify(userUpdateData);
+    return this.http.patch<UserInfo>(
+      `${this.userBaseUri}/${userUpdateData._id}`,
+      body,
+      {
+        headers: headers,
+      }
+    );
   }
 
   public postUserLoginJson(
