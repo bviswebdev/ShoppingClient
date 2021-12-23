@@ -1,0 +1,19 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div
+    class="errorcontainer errorempty"
+    [ngClass.lt-md]="{ errorcontainer: false }"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+  >
+    <div>
+      <h1 style="font-size: xx-large; font-weight: 500">
+        Unexpected error occured processing the request!!!
+      </h1>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <button color="primary" mat-raised-button routerLink="/medicare/home">
+          Medicare Home
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

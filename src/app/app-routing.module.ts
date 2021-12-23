@@ -15,6 +15,7 @@ import { PubProductsComponent } from './Public/PublicComp/pub-products/pub-produ
 import { PubRegisterComponent } from './Public/PublicComp/pub-register/pub-register.component';
 import { PubViewprodComponent } from './Public/PublicComp/pub-viewprod/pub-viewprod.component';
 import { AppSharedModule } from './Shared/app-shared.module';
+import { AppErrorComponent } from './Shared/ComponentGlobals/app-error/app-error.component';
 import { AppNotfoundComponent } from './Shared/ComponentGlobals/app-notfound/app-notfound.component';
 
 const routes: Routes = [
@@ -122,6 +123,7 @@ const routes: Routes = [
       import('./Customer/customer.module').then((mod) => mod.CustomerModule),
     canLoad: [AuthcustomerGuard],
   },
+  { path: 'apperror', component: AppErrorComponent },
   { path: '', redirectTo: '/medicare/home', pathMatch: 'full' },
   { path: '**', component: AppNotfoundComponent },
 ];

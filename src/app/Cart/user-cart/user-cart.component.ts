@@ -4,10 +4,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map, tap } from 'rxjs/operators';
+import { Order } from 'src/app/Order/Model/order.model';
 import { Product, ProductItemData } from 'src/app/Product/Model/product.model';
 import { BlobService } from 'src/app/Product/Service/blob.service';
 import { ProductDataService } from 'src/app/Product/Service/productservice.service';
 import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
+import { Address } from 'src/app/User/Model/user.model';
 import { Cart, CartItem, CartItemData } from '../Model/cart.model';
 import { CartServiceService } from '../Service/cart-service.service';
 import { CartManager } from './cart-manager';
@@ -141,6 +143,7 @@ export class UserCartComponent implements OnInit {
   }
 
   cartCheckout() {
+    this.medAppService.setAppUserOrder = new Order();
     this.router.navigate(['/customer/checkout']);
   }
 

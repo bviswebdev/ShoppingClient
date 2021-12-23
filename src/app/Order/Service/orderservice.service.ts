@@ -18,7 +18,7 @@ export class OrderserviceService {
     return this.http.get<OrderItemData>(`${this.orderBaseUri}/${orderId}`);
   }
 
-  public postCartJson(orderData: Order): Observable<OrderItemData> {
+  public postOrderJson(orderData: Order): Observable<OrderItemData> {
     const headers = { 'content-type': 'application/json' };
 
     const body = JSON.stringify(orderData);

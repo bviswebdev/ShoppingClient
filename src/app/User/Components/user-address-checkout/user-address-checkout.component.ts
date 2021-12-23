@@ -139,15 +139,12 @@ export class UserAddressCheckoutComponent implements OnInit {
     addrObj.postalCode = this.postalcode?.value;
     addrObj.isBilling = true;
     addrObj.isShipping = true;
-    let userUpdateObj: User = new User();
-    userUpdateObj = this.userObj;
-    userUpdateObj.addresses.push(addrObj);
 
     console.log(this.userObj);
     //this.router.navigate(['/medicare']);
 
     this.userService
-      .updateUserJson(userUpdateObj)
+      .updateUserAddressJson(addrObj, this.userObj._id || '')
       .pipe(
         map((data: UserInfo) => {
           return data;

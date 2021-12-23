@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, map } from 'rxjs/operators';
 import { Cart } from 'src/app/Cart/Model/cart.model';
-import { Order, OrderItem } from 'src/app/Order/Model/order.model';
+import {
+  Order,
+  OrderItem,
+  OrderItemData,
+} from 'src/app/Order/Model/order.model';
+import { OrderserviceService } from 'src/app/Order/Service/orderservice.service';
 import { MedicareappService } from 'src/app/Services/GlobalService/medicareapp.service';
 import { User } from 'src/app/User/Model/user.model';
 
@@ -22,7 +28,8 @@ export class PaymentCartComponent implements OnInit {
     public medAppService: MedicareappService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private orderService: OrderserviceService
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +68,33 @@ export class PaymentCartComponent implements OnInit {
         this.orderObj.orderItems.push(orderItem);
       });
     }
-    this.medAppService.setAppUserOrder = this.orderObj;
-    this.router.navigate(['/customer/orderconfirm']);
+
+    this.orderService
+      .postOrderJson(this.orderObj)
+      .pipe(
+        map((data: OrderItemData) => {
+          return data;
+        }),
+        catchError((err) => {
+          throw 'error in source. Details: ' + err;
+        })
+      )
+      .subscribe(
+        (data) => {
+          console.log('Response from order creating');
+          console.log(data);
+          if (data) {
+            if (data.statusMsg === 'success') {
+              //this.medAppService.setAppCart = this.userCart;
+              this.medAppService.setAppUserOrder = this.orderObj;
+              this.router.navigate(['/customer/orderconfirm']);
+              //this.router.navigate(['/customer/cart']);
+            }
+          }
+        },
+        (err) => {
+          console.error('Oops:', err.message);
+        }
+      );
   }
 }

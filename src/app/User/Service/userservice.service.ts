@@ -45,11 +45,14 @@ export class UserService {
     });
   }
 
-  public updateUserJson(userUpdateData: User): Observable<UserInfo> {
+  public updateUserAddressJson(
+    userUpdateData: Address,
+    userId: string
+  ): Observable<UserInfo> {
     const headers = { 'content-type': 'application/json' };
     const body = JSON.stringify(userUpdateData);
     return this.http.patch<UserInfo>(
-      `${this.userBaseUri}/${userUpdateData._id}`,
+      `${this.userBaseUri}/address/${userId}`,
       body,
       {
         headers: headers,

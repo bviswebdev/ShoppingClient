@@ -28,7 +28,7 @@
         <span style="font-size: x-large; font-weight: 500">Invoice</span>
       </div>
       <div>
-        <span style="font-size: x-large; font-weight: 500">Order # 12</span>
+        <span style="font-size: x-large; font-weight: 500">Order # 1</span>
       </div>
     </article>
   </section>
@@ -38,24 +38,34 @@
     fxLayoutAlign="space-between center"
   >
     <article style="font-size: large">
-      <span style="font-weight: 500">Biled To:</span><br />
-      <span style="font-weight: 300">Kavita Nigam</span><br />
-      <span style="font-weight: 300"
-        >102 Sabarmati Society, Mahatma Gandhi Road</span
+      <span style="font-weight: 500">Billed To:</span><br />
+      <span style="font-weight: 300">{{ authService.UserName }}</span
       ><br />
-      <span style="font-weight: 300">Near Salt Lake, Gandhi Nagar</span><br />
-      <span style="font-weight: 300">Ahmedabad - 111111</span><br />
-      <span style="font-weight: 300">Gujarat - India</span><br />
+      <span style="font-weight: 300">{{ billingAddress.addressLineOne }}</span
+      ><br />
+      <span style="font-weight: 300">{{ billingAddress.addressLineTwo }}</span
+      ><br />
+      <span style="font-weight: 300"
+        >{{ billingAddress.city }} - {{ billingAddress.postalCode }}</span
+      ><br />
+      <span style="font-weight: 300"
+        >{{ billingAddress.state }} - {{ billingAddress.country }}</span
+      ><br />
     </article>
     <article style="text-align: right; font-size: large">
       <span style="font-weight: 500">Shipped To:</span><br />
-      <span style="font-weight: 300">Kavita Nigam</span><br />
-      <span style="font-weight: 300"
-        >102 Sabarmati Society, Mahatma Gandhi Road</span
+      <span style="font-weight: 300">{{ authService.UserName }}</span
       ><br />
-      <span style="font-weight: 300">Near Salt Lake, Gandhi Nagar</span><br />
-      <span style="font-weight: 300">Ahmedabad - 111111</span><br />
-      <span style="font-weight: 300">Gujarat - India</span><br />
+      <span style="font-weight: 300">{{ shippingAddress.addressLineOne }}</span
+      ><br />
+      <span style="font-weight: 300">{{ shippingAddress.addressLineTwo }}</span
+      ><br />
+      <span style="font-weight: 300"
+        >{{ shippingAddress.city }} - {{ shippingAddress.postalCode }}</span
+      ><br />
+      <span style="font-weight: 300"
+        >{{ shippingAddress.state }} - {{ shippingAddress.country }}</span
+      ><br />
     </article>
   </section>
   <section
@@ -66,11 +76,13 @@
     <article style="font-size: large">
       <span style="font-weight: 500">Patment Method:</span><br />
       <span style="font-weight: 300">Card Payment</span><br />
-      <span style="font-weight: 300">kn@gmail.com</span><br />
+      <span style="font-weight: 300">{{ authService.Email }}</span
+      ><br />
     </article>
     <article style="text-align: right; font-size: large">
       <span style="font-weight: 500">Order Date:</span><br />
-      <span style="font-weight: 300">wed oct 20 18:02:59 IST 2021</span><br />
+      <span style="font-weight: 300">{{ orderObj.orderDate }}</span
+      ><br />
     </article>
   </section>
   <section
