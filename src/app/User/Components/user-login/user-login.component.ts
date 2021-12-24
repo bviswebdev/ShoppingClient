@@ -131,7 +131,9 @@ export class UserLoginComponent implements OnInit {
           },
           (err) => {
             console.error('Oops:', err);
-            this.router.navigate(['/apperror']);
+            if (!this.loginInvalid) {
+              this.router.navigate(['/apperror']);
+            }
           }
         );
     } else {
