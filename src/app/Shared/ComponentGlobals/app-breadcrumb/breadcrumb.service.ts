@@ -22,7 +22,6 @@ export class BreadcrumbService {
       this.productDataService
         .getProductsJson()
         .pipe(
-          //tap((data) => console.log(data)),
           map((prods: ProductsData) => {
             if (prods.data) {
               prods.data.filter((prod) => prod.category._id === labelId);
@@ -31,8 +30,7 @@ export class BreadcrumbService {
           }),
           catchError((err) => {
             throw 'error in source. Details: ' + err;
-          }),
-          tap((data) => console.log(data))
+          })
         )
         .subscribe(
           (data) => {
@@ -64,14 +62,12 @@ export class BreadcrumbService {
       this.productDataService
         .getProductItemJson(labelId)
         .pipe(
-          //tap((data) => console.log(data)),
           map((prod: ProductItemData) => {
             return prod;
           }),
           catchError((err) => {
             throw 'error in source. Details: ' + err;
-          }),
-          tap((data) => console.log(data))
+          })
         )
         .subscribe(
           (data) => {

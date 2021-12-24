@@ -12,7 +12,5 @@ export class AppHeaderComponent implements OnInit {
 
   constructor(public breakPoint: BreakpointService) {}
 
-  ngOnInit(): void {
-    console.log(this.viewWidth);
-  }
+  ngOnInit(): void {}
 }

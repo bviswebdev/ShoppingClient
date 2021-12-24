@@ -80,13 +80,8 @@ export class UserAddressComponent implements OnInit {
     }
 
     try {
-      console.log(this.form);
-
       //this.router.navigate(['/medicare']);
-
       // await this.authService.login(username, password);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }
 }

@@ -1,4 +1,5 @@
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/Services/GlobalService/auth.service';
@@ -49,15 +50,11 @@ export class Productdatasource extends MatTableDataSource<ProductData> {
         map((productsData: ProductsData) => {
           let productsResData = { ...productsData };
           if (categoryId) {
-            console.log(`categoryid is - ${categoryId}`);
-            console.log(productsResData);
-
             if (productsResData.data) {
               productsResData.data = productsResData.data.filter(
                 (prod) => prod.category.catName === categoryId
               );
-              console.log(`categoryid is - ${categoryId}`);
-              console.log(productsResData);
+
               return productsResData;
             }
           }
@@ -95,8 +92,7 @@ export class Productdatasource extends MatTableDataSource<ProductData> {
         }),
         catchError((err) => {
           throw 'error in source. Details: ' + err;
-        }),
-        tap((data) => console.log(data))
+        })
       )
       .subscribe(
         (data) => {
@@ -149,8 +145,6 @@ export class Productdatasource extends MatTableDataSource<ProductData> {
       dpColumns.splice(dpColumns.indexOf(e), 1);
     });
 
-    //console.log(dpColumns);
-
     return dpColumns;
   }
 }
@@ -179,7 +173,7 @@ this.transactions$ = transactions
       };
     });
   }),
-  tap((data) => console.log(data))
+  
 )
 .subscribe((transactionList) => {
   this.data = transactionList;

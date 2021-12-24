@@ -50,7 +50,6 @@ export class UserLoginComponent implements OnInit {
     });
 
     this.returnUrl = this.route.snapshot.queryParams.returnUrl;
-    console.log(`return url ${this.returnUrl}`);
 
     /* if (await this.authService.checkAuthenticated()) {
       await this.router.navigate([this.returnUrl]);
@@ -69,7 +68,6 @@ export class UserLoginComponent implements OnInit {
   async onSubmit() {
     this.loginInvalid = false;
     this.formSubmitAttempt = false;
-    console.log(this.form);
 
     if (this.form.valid) {
       let userLoginInfo: UserLoginInfo;
@@ -85,7 +83,6 @@ export class UserLoginComponent implements OnInit {
             return data;
           }),
           catchError((err) => {
-            console.log(err);
             if (err.error.msg === 'Invalid Credentials') {
               this.loginInvalid = true;
             }
@@ -94,8 +91,6 @@ export class UserLoginComponent implements OnInit {
         )
         .subscribe(
           (data) => {
-            console.log('Response from logging user');
-            console.log(data);
             if (data) {
               if (data.statusMsg === 'success') {
                 if (data.data.user.role === 'ADMIN') {
@@ -124,8 +119,7 @@ export class UserLoginComponent implements OnInit {
                   if (data.data.cart) {
                     this.medAppService.setAppCart = data.data.cart;
                   }
-                  console.log('initial cart');
-                  console.log(this.medAppService.appUserCart);
+
                   this.router.navigate(['/customer']);
                 }
                 //this.router.navigate(['/medicare/signin']);
@@ -137,6 +131,7 @@ export class UserLoginComponent implements OnInit {
           },
           (err) => {
             console.error('Oops:', err);
+            this.router.navigate(['/apperror']);
           }
         );
     } else {

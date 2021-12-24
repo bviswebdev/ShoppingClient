@@ -31,14 +31,11 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     this.productIdFromRoute = routeParams.get('productId') || '';
-    console.log(this.productIdFromRoute);
+
     this.productDataService
       .getProductItemJson(this.productIdFromRoute)
       .pipe(
-        //tap((data) => console.log(data)),
         map((product: ProductItemData) => {
-          console.log('checkpoint');
-          console.log(product);
           if (product.data) {
             product.data.productImage.fileUrl = this.blogService.getBlobUrl(
               product.data.productImage.fileSource,
@@ -50,18 +47,16 @@ export class ProductDetailComponent implements OnInit {
         catchError((err) => {
           throw 'error in source. Details: ' + err;
         })
-        //tap((data) => console.log(data))
       )
       .subscribe(
         (data) => {
           if (data.statusMsg === 'success') {
             if (data.data) this.product = data.data;
           }
-
-          //console.log(this.product);
         },
         (err) => {
           console.error('Oops:', err.message);
+          this.router.navigate(['/apperror']);
         }
       );
 
@@ -71,26 +66,30 @@ export class ProductDetailComponent implements OnInit {
 
   addToCart(prodData: Product): void {
     //this.cartManager.handleCart(prodEl);
-    let prodEl: ProductData = {
-      productId: '',
-      productCode: '',
-      productDescription: '',
-      productBrand: '',
-      productImageUrl: '',
-      productName: '',
-      productPrice: 0,
-      productQtyAvailable: 0,
-    };
-    prodEl.productId = prodData._id;
-    prodEl.productCode = prodData.code;
-    prodEl.productDescription = prodData.description;
-    prodEl.productBrand = prodData.brand;
-    prodEl.productImageUrl = prodData.imageUrl;
-    prodEl.productName = prodData.name;
-    prodEl.productPrice = prodData.unitPrice;
-    prodEl.productQtyAvailable = prodData.quantity;
-    this.cartManager.handleCartTemp(prodEl);
-    /* productId: string;
+
+    if (!this.authService.IsAuthenticated) {
+      this.router.navigate(['/medicare/signin']);
+    } else {
+      let prodEl: ProductData = {
+        productId: '',
+        productCode: '',
+        productDescription: '',
+        productBrand: '',
+        productImageUrl: '',
+        productName: '',
+        productPrice: 0,
+        productQtyAvailable: 0,
+      };
+      prodEl.productId = prodData._id;
+      prodEl.productCode = prodData.code;
+      prodEl.productDescription = prodData.description;
+      prodEl.productBrand = prodData.brand;
+      prodEl.productImageUrl = prodData.imageUrl;
+      prodEl.productName = prodData.name;
+      prodEl.productPrice = prodData.unitPrice;
+      prodEl.productQtyAvailable = prodData.quantity;
+      this.cartManager.handleCartTemp(prodEl);
+      /* productId: string;
     productCode: string;
     productImageUrl: string;
     productName: string;
@@ -98,7 +97,8 @@ export class ProductDetailComponent implements OnInit {
     productPrice: number;
     productQtyAvailable: number;
     productDescription: string;*/
-    //this.router.navigate(['/customer/cart']);
+      //this.router.navigate(['/customer/cart']);
+    }
   }
 
   /*.pipe(
@@ -116,7 +116,7 @@ export class ProductDetailComponent implements OnInit {
             };
           });
         }),
-        tap((data) => console.log(data))
+        
       )
       .subscribe((transactionList) => {
         this.data = transactionList;

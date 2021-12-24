@@ -70,8 +70,6 @@ export class AuthService {
     if (sessionAuth) {
       const sessionStore = JSON.parse(sessionAuth);
       //const sessionStore = JSON.parse(sessionStorage.getItem('medauth') || '{}');
-      //console.log('session storage = ' + sessionStore);
-      //console.log(sessionStorage.length);
 
       this.setIsAuthenticated = sessionStore.isAuthenticated;
       this.setIsAdmin = sessionStore.isAdmin;

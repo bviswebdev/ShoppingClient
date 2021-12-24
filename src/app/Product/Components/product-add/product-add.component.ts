@@ -56,14 +56,13 @@ export class ProductAddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(`form submit attempt ${this.formSubmitAttempt}`);
     this.pdbrndValidator.productService = this.productDataService;
     this.formProductAdd = this.fb.group(
       {
-        productname: ['test', [Validators.required, Validators.maxLength(30)]],
-        brandname: ['test', [Validators.required, Validators.maxLength(30)]],
+        productname: ['', [Validators.required, Validators.maxLength(30)]],
+        brandname: ['', [Validators.required, Validators.maxLength(30)]],
         description: [
-          'testtesttesttest',
+          '',
           [
             Validators.required,
             Validators.minLength(10),
@@ -108,7 +107,6 @@ export class ProductAddComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`); // Pizza!
       if (result && result.categoryname) {
         this.categories.push(result.categoryname);
         this.categoryDesc = result.description;
@@ -121,10 +119,8 @@ export class ProductAddComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    console.log('iam selected');
     const file: File = event.target.files[0];
     if (file) {
-      console.log(file);
       this.fileName = file.name;
       this.formProductAdd.patchValue({
         filesource: file,
@@ -163,12 +159,12 @@ export class ProductAddComponent implements OnInit {
           if (data.statusMsg === 'success') {
             if (data.data) {
               this.categories = data.data;
-              console.log(this.categories);
             }
           }
         },
         (err) => {
           console.error('Oops:', err.message);
+          this.router.navigate(['/apperror']);
         }
       );
   }
@@ -187,7 +183,7 @@ export class ProductAddComponent implements OnInit {
         resultArr = _.sortBy(resultArr, 'catName');
         this.categories = resultArr;
         //.log('categories');
-        //console.log(resultArr);
+        
       });
   }*/
 
@@ -225,14 +221,12 @@ export class ProductAddComponent implements OnInit {
 
   async onProductAddFormSubmit() {
     this.formSubmitAttempt = true;
-    console.log(this.formProductAdd);
 
     // stop here if form is invalid
     if (this.formProductAdd.invalid) {
       return;
     }
 
-    console.log(this.formProductAdd);
     this.productObj.code = uuidv4();
     this.productObj.brand = this.brandname?.value;
     this.productObj.description = this.description?.value;
@@ -250,7 +244,6 @@ export class ProductAddComponent implements OnInit {
     this.productObj.productImage.fileType = this.filesource?.value.type;
     this.productObj.productImage.fileUrl = `assets/productimages/${this.productObj.code}`;
     this.productObj.supplierId = this.medAppService.appUser._id || '';
-    console.log(this.productObj);
 
     this.productDataService
       .postProductJson(this.productObj)
@@ -264,8 +257,6 @@ export class ProductAddComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          console.log('Response from signingup user');
-          console.log(data);
           if (data) {
             if (data.statusMsg === 'success') {
               this.addSnackBar.openFromComponent(ProductSnackComponent, {
@@ -281,6 +272,7 @@ export class ProductAddComponent implements OnInit {
         },
         (err) => {
           console.error('Oops:', err.message);
+          this.router.navigate(['/apperror']);
         }
       );
     //this.router.navigate(['/medicare']);

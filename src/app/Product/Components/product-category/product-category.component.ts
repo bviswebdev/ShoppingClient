@@ -41,12 +41,12 @@ export class ProductCategoryComponent implements OnInit {
           if (data.statusMsg === 'success') {
             if (data.data) {
               this.categories = data.data;
-              console.log(this.categories);
             }
           }
         },
         (err) => {
           console.error('Oops:', err.message);
+          this.router.navigate(['/apperror']);
         }
       );
   }
@@ -64,7 +64,7 @@ export class ProductCategoryComponent implements OnInit {
         resultArr = _.sortBy(resultArr, 'catName');
         //this.categories = resultArr;
         //.log('categories');
-        //console.log(resultArr);
+        
       });
   }*/
 

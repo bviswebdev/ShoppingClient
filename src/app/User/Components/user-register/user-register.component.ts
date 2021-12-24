@@ -95,7 +95,6 @@ export class UserRegisterComponent implements OnInit {
     );
 
     this.returnUrl = this.route.snapshot.queryParams.returnUrl;
-    console.log(`return url ${this.returnUrl}`);
 
     /* if (await this.authService.checkAuthenticated()) {
       await this.router.navigate([this.returnUrl]);
@@ -111,13 +110,8 @@ export class UserRegisterComponent implements OnInit {
     }
 
     try {
-      console.log(this.form);
-
       //this.router.navigate(['/medicare']);
-
       // await this.authService.login(username, password);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }
 }

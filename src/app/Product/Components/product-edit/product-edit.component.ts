@@ -125,7 +125,6 @@ export class ProductEditComponent implements OnInit {
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
-      console.log(file);
       this.fileName = file.name;
       this.formProductEdit.patchValue({
         filesource: file,
@@ -160,13 +159,12 @@ export class ProductEditComponent implements OnInit {
           if (res[0].statusMsg === 'success') {
             if (res[0].data) {
               this.categories = res[0].data;
-              console.log(this.categories);
             }
           }
         }
         if (res[1] && res[1].data) {
           this.productObj = res[1].data;
-          console.log(this.productObj);
+
           this.fileName = this.productObj.productImage.fileName || '';
           this.defalutProductName = this.productObj.name;
           this.defaultBrandName = this.productObj.brand;
@@ -191,6 +189,7 @@ export class ProductEditComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        this.router.navigate(['/apperror']);
       }
     );
   }
@@ -209,7 +208,7 @@ export class ProductEditComponent implements OnInit {
         }
         if (res[1] && res[1][0]) {
           this.productObj = res[1][0];
-          console.log(this.productObj);
+          
           this.fileName =
             this.productObj.productImage.fileName || 'testfile.png';
           this.defalutProductName = this.productObj.name;
@@ -314,7 +313,6 @@ export class ProductEditComponent implements OnInit {
 
   async onProductEditFormSubmit() {
     this.formSubmitAttempt = true;
-    console.log(this.formProductEdit);
 
     // stop here if form is invalid
     if (this.formProductEdit.invalid) {
@@ -338,7 +336,6 @@ export class ProductEditComponent implements OnInit {
     this.productObj.productImage.fileName = this.filesource?.value.name;
     this.productObj.productImage.fileSize = this.filesource?.value.size;
     this.productObj.productImage.fileType = this.filesource?.value.type;
-    console.log(this.productObj);
 
     this.productDataService
       .updateProductJson(this.productObj)
@@ -352,8 +349,6 @@ export class ProductEditComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          console.log('Response from signingup user');
-          console.log(data);
           if (data) {
             if (data.statusMsg === 'success') {
               this.addSnackBar.openFromComponent(ProductSnackComponent, {
@@ -369,6 +364,7 @@ export class ProductEditComponent implements OnInit {
         },
         (err) => {
           console.error('Oops:', err.message);
+          this.router.navigate(['/apperror']);
         }
       );
     //this.router.navigate(['/medicare']);

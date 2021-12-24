@@ -59,8 +59,6 @@ export class OrderConfirmComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          console.log('Response from cart deleting');
-          console.log(data);
           if (data) {
             if (data.statusMsg === 'success') {
               this.medAppService.setAppCart = new Cart();
@@ -72,6 +70,7 @@ export class OrderConfirmComponent implements OnInit {
         },
         (err) => {
           console.error('Oops:', err.message);
+          this.router.navigate(['/apperror']);
         }
       );
 

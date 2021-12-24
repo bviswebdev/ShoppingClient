@@ -1,6 +1,7 @@
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenavContainer } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Product, ProductsData } from 'src/app/Product/Model/product.model';
 import { BlobService } from 'src/app/Product/Service/blob.service';
@@ -20,24 +21,22 @@ export class PubHomeComponent implements OnInit {
 
   constructor(
     private productDataService: ProductDataService,
-    private blogService: BlobService
+    private blogService: BlobService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    console.log('rest api begins');
     this.subscribeMvProducts();
     this.subscribeMpProducts();
     //this.subscribeMostViewedProduct();
     //this.subscribeMostPopularProduct();
   }
 
-  ngAfterViewInit() {
-    //console.log(this.sidenavContainer.scrollable);
-  }
+  ngAfterViewInit() {}
 
   /*
 
- console.log('inside map method');
+ 
             
             const mimeType = `image/${product.productImage.fileType}`; // e.g., image/png
             let blob = new Blob(product.productImage.fileSource, {
@@ -72,13 +71,13 @@ export class PubHomeComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          console.log(data);
           if (data.statusMsg === 'success') {
             if (data.data) this.viewedProducts = data.data;
           }
         },
         (err) => {
           console.error('Oops:', err.message);
+          this.router.navigate(['/apperror']);
         }
       );
   }
@@ -106,13 +105,13 @@ export class PubHomeComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          console.log(data);
           if (data.statusMsg === 'success') {
             if (data.data) this.popularProducts = data.data;
           }
         },
         (err) => {
           console.error('Oops:', err.message);
+          this.router.navigate(['/apperror']);
         }
       );
   }

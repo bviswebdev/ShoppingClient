@@ -81,8 +81,6 @@ export class PaymentCartComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          console.log('Response from order creating');
-          console.log(data);
           if (data) {
             if (data.statusMsg === 'success') {
               //this.medAppService.setAppCart = this.userCart;
@@ -94,6 +92,7 @@ export class PaymentCartComponent implements OnInit {
         },
         (err) => {
           console.error('Oops:', err.message);
+          this.router.navigate(['/apperror']);
         }
       );
   }

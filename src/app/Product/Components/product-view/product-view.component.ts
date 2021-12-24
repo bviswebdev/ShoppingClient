@@ -69,7 +69,6 @@ export class ProductViewComponent implements OnInit, AfterViewInit, OnDestroy {
         this.router.navigated = false;
       }
     });
-    //console.log('hello world');
   }
 
   ngOnInit(): void {
@@ -143,7 +142,11 @@ export class ProductViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addToCart(prodEl: ProductData): void {
     //this.cartManager.handleCart(prodEl);
-    this.cartManager.handleCartTemp(prodEl);
+    if (!this.authService.IsAuthenticated) {
+      this.router.navigate(['/medicare/signin']);
+    } else {
+      this.cartManager.handleCartTemp(prodEl);
+    }
     //this.router.navigate(['/customer/cart']);
   }
 
@@ -153,9 +156,6 @@ export class ProductViewComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('Yes clicked');
-        console.log(prodDelete);
-
         this.productDataService
           .deleteProductJson(prodDelete.productId)
           .pipe(
@@ -168,8 +168,6 @@ export class ProductViewComponent implements OnInit, AfterViewInit, OnDestroy {
           )
           .subscribe(
             (data) => {
-              console.log('Response from signingup user');
-              console.log(data);
               if (data) {
                 if (data.statusMsg === 'success') {
                   this.addSnackBar.openFromComponent(ProductSnackComponent, {
@@ -189,6 +187,7 @@ export class ProductViewComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             (err) => {
               console.error('Oops:', err.message);
+              this.router.navigate(['/apperror']);
             }
           );
 

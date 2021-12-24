@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { catchError, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { AuthService } from './Services/GlobalService/auth.service';
@@ -25,17 +26,14 @@ export class AppComponent {
     public breakPoint: BreakpointService,
     public authService: AuthService,
     public userService: UserService,
-    public med: MedicareappService
+    public med: MedicareappService,
+    public router: Router
   ) {}
 
   subscribeUser() {
-    this.userService
-      .getUsersJson()
-      .pipe(tap((data) => console.log(data)))
-      .subscribe((data) => {
-        this.med.setAppUser = data[3];
-        console.log(data[3]);
-      });
+    this.userService.getUsersJson().subscribe((data) => {
+      this.med.setAppUser = data[3];
+    });
   }
 
   ngOnInit(): void {
@@ -63,13 +61,12 @@ export class AppComponent {
                 if (data.data.cart) {
                   this.med.setAppCart = data.data.cart;
                 }
-                console.log('after refresh cart');
-                console.log(this.med.appUserCart);
               } //this.router.navigate(['/medicare/signin']);
             }
           },
           (err) => {
             console.error('Oops:', err.message);
+            this.router.navigate(['/apperror']);
           }
         );
     }
@@ -82,7 +79,6 @@ export class AppComponent {
     this.mediaSubscription = this.mediaObserver
       .asObservable()
       .subscribe((change) => {
-        console.log(change[0].mqAlias);
         this.showMobile = change[0].mqAlias;
         switch (change[0].mqAlias) {
           case 'xs':

@@ -20,14 +20,12 @@ export class Userasyncvalidators {
       | Promise<ValidationErrors | null>
       | Observable<ValidationErrors | null> => {
       return userDataService.getUserEmailCountJson(control.value).pipe(
-        //tap((data) => console.log(data)),
         map((pd: EmailCountData) => {
           return pd.statusMsg === 'success' && pd.data && pd.data > 0
             ? { emailExists: true }
             : null;
         }),
         catchError(() => of(null))
-        //tap((data) => console.log(data))
       );
     };
   }

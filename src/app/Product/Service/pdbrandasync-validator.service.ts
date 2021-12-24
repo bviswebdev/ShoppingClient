@@ -23,10 +23,7 @@ export class PdbrandasyncValidator implements AsyncValidator {
   validate(
     ctrl: AbstractControl
   ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
-    console.log('inside async');
-    console.log(this.productService);
     return this.productService.getProductsJson().pipe(
-      //tap((data) => console.log(data)),
       map((prods: ProductsData) => {
         if (prods.data) {
           prods.data.filter(
@@ -37,14 +34,13 @@ export class PdbrandasyncValidator implements AsyncValidator {
         }
         return prods;
       }),
-      tap((data) => console.log(data)),
+
       map((pd: ProductsData) => {
         return pd.data && pd.data.length > 0
           ? { productBrandExists: true }
           : null;
       }),
       catchError(() => of(null))
-      //tap((data) => console.log(data))
     );
   }
 }

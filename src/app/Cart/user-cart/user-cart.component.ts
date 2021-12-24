@@ -80,10 +80,7 @@ export class UserCartComponent implements OnInit {
             return this.productDataService
               .getProductItemJson(cItem.productId)
               .pipe(
-                //tap((data) => console.log(data)),
                 map((product: ProductItemData) => {
-                  console.log('checkpoint');
-                  console.log(product);
                   if (product.data) {
                     product.data.productImage.fileUrl =
                       this.blobService.getBlobUrl(
@@ -114,10 +111,10 @@ export class UserCartComponent implements OnInit {
                 }
               }
             }
-            //console.log(this.product);
           },
           (err) => {
             console.error('Oops:', err.message);
+            this.router.navigate(['/apperror']);
           },
           () => {
             this.isCartDataLoaded = true;
@@ -125,13 +122,11 @@ export class UserCartComponent implements OnInit {
         );
 
       /*this.formCartGroup.valueChanges.subscribe((x) => {
-        console.log('firstname value changed');
-        console.log(x);
+        
       });*/
       /* this.userCart.cartItems.forEach((item) => {
         this.formCartGroup.get(item.productId)?.valueChanges.subscribe((x) => {
-          console.log('firstname value changed');
-          console.log(x);
+          
         });
       });*/
 
@@ -148,11 +143,6 @@ export class UserCartComponent implements OnInit {
   }
 
   updateCart(cartUpdateItem: CartItem) {
-    console.log('indise update');
-    console.log(cartUpdateItem);
-
-    console.log(this.formCartGroup.controls[cartUpdateItem.productId]);
-    console.log(this.userCart);
     if (
       cartUpdateItem.productCount ===
       this.formCartGroup.controls[cartUpdateItem.productId].value
@@ -164,7 +154,6 @@ export class UserCartComponent implements OnInit {
         this.userCart,
         this.formCartGroup.controls[cartUpdateItem.productId].value
       );
-      console.log(this.userCart);
 
       this.cartService
         .updateCartJson(this.userCart)
@@ -178,8 +167,6 @@ export class UserCartComponent implements OnInit {
         )
         .subscribe(
           (data) => {
-            console.log('Response from cart updating');
-            console.log(data);
             if (data) {
               if (data.statusMsg === 'success') {
                 this.medAppService.setAppCart = this.userCart;
@@ -189,14 +176,13 @@ export class UserCartComponent implements OnInit {
           },
           (err) => {
             console.error('Oops:', err.message);
+            this.router.navigate(['/apperror']);
           }
         );
     }
   }
 
   deleteCart(cartDeleteItem: CartItem) {
-    console.log('indise delete');
-    console.log(cartDeleteItem);
     if (this.userCart.cartItems.length > 1) {
       this.userCart = this.cartManager.deleteCartItem(
         cartDeleteItem,
@@ -215,8 +201,6 @@ export class UserCartComponent implements OnInit {
         )
         .subscribe(
           (data) => {
-            console.log('Response from cart updating');
-            console.log(data);
             if (data) {
               if (data.statusMsg === 'success') {
                 this.medAppService.setAppCart = this.userCart;
@@ -226,6 +210,7 @@ export class UserCartComponent implements OnInit {
           },
           (err) => {
             console.error('Oops:', err.message);
+            this.router.navigate(['/apperror']);
           }
         );
     } else {
@@ -241,8 +226,6 @@ export class UserCartComponent implements OnInit {
         )
         .subscribe(
           (data) => {
-            console.log('Response from cart deleting');
-            console.log(data);
             if (data) {
               if (data.statusMsg === 'success') {
                 this.medAppService.setAppCart = new Cart();
@@ -253,6 +236,7 @@ export class UserCartComponent implements OnInit {
           },
           (err) => {
             console.error('Oops:', err.message);
+            this.router.navigate(['/apperror']);
           }
         );
     }
@@ -288,7 +272,7 @@ export class UserCartComponent implements OnInit {
             };
           });
         }),
-        tap((data) => console.log(data))
+        
       )
       .subscribe((transactionList) => {
         this.prods = transactionList;
@@ -301,7 +285,7 @@ export class UserCartComponent implements OnInit {
         });
         this.formCartGroup = new FormGroup(controlGroup);
         this.isFormGroupBuild = true;
-        console.log(this.formCartGroup);
+        
       });
   }
 }*/
@@ -321,4 +305,4 @@ export class UserCartComponent implements OnInit {
       };
     });
   }),
-  tap((data) => console.log(data))*/
+  */

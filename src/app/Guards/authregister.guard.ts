@@ -30,9 +30,8 @@ export class AuthregisterGuard
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('Activate Guard');
     this.authService.getAuthFromSessionStorage();
-    console.log(this.authService.AuthObj);
+
     if (!this.authService.IsAuthenticated) {
       return true;
     }

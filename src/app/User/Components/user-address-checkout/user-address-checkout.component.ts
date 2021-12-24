@@ -36,8 +36,7 @@ export class UserAddressCheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.userObj = this.med.appUser;
-    console.log('checking user obj');
-    console.log(this.med.appUser);
+
     //this.subscribeUser();
     this.formAddress = this.fb.group({
       addrlineone: ['', [Validators.required]],
@@ -55,19 +54,16 @@ export class UserAddressCheckoutComponent implements OnInit {
       state: ['', [Validators.required]],
       country: ['', [Validators.required]],
     });
-    console.log(this.userObj);
+
     this.isDataLoaded = true;
   }
 
   subscribeUser() {
-    this.userService
-      .getUsersJson()
-      .pipe(tap((data) => console.log(data)))
-      .subscribe((data) => {
-        this.userObj = data[3];
-        console.log(this.userObj);
-        this.isDataLoaded = true;
-      });
+    this.userService.getUsersJson().subscribe((data) => {
+      this.userObj = data[3];
+
+      this.isDataLoaded = true;
+    });
   }
 
   keyPasscodePress(event: any) {
@@ -140,7 +136,6 @@ export class UserAddressCheckoutComponent implements OnInit {
     addrObj.isBilling = true;
     addrObj.isShipping = true;
 
-    console.log(this.userObj);
     //this.router.navigate(['/medicare']);
 
     this.userService
@@ -155,8 +150,6 @@ export class UserAddressCheckoutComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          console.log('Response from signingup user');
-          console.log(data);
           if (data) {
             if (data.statusMsg === 'success') {
               //this.formProductAdd.reset();
@@ -168,6 +161,7 @@ export class UserAddressCheckoutComponent implements OnInit {
         },
         (err) => {
           console.error('Oops:', err.message);
+          this.router.navigate(['/apperror']);
         }
       );
 

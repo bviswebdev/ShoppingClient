@@ -18,7 +18,7 @@ export class BlobService {
     let byteArray = new Uint8Array(byteNumbers);
     let blob = new Blob([byteArray], { type: mimeType });
     let imageUrlBlob = URL.createObjectURL(blob);
-    //console.log(imageUrlBlob);
+
     return imageUrlBlob;
   }
 }

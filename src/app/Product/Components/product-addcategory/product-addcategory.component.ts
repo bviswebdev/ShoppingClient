@@ -57,14 +57,13 @@ export class ProductAddcategoryComponent implements OnInit {
       return;
     }
     try {
-      console.log(this.formCategoryAdd);
-
       //this.router.navigate(['/medicare']);
       this.dialogRef.close(this.formCategoryAdd.value);
 
       // await this.authService.login(username, password);
     } catch (err) {
       console.log(err);
+      this.router.navigate(['/apperror']);
     }
   }
 

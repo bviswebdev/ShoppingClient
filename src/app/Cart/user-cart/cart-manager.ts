@@ -28,8 +28,6 @@ export class CartManager {
 
     if (!this.medAppService.medApp.cart.userId) {
       cartObj = this.createNewCart(prodEl, false);
-      console.log('cart checkpoint');
-      console.log(this.medAppService.medApp.cart);
 
       this.cartService
         .postCartJson(cartObj)
@@ -43,8 +41,6 @@ export class CartManager {
         )
         .subscribe(
           (data) => {
-            console.log('Response from cart adding');
-            console.log(data);
             if (data) {
               if (data.statusMsg === 'success') {
                 this.medAppService.medApp.cart = cartObj;
@@ -54,16 +50,12 @@ export class CartManager {
           },
           (err) => {
             console.error('Oops:', err.message);
+            this.router.navigate(['/apperror']);
           }
         );
-
-      console.log(this.medAppService.medApp.cart);
     } else {
       cartObj = this.medAppService.medApp.cart;
       cartObj = this.updateCart(prodEl, cartObj);
-
-      console.log('cart update checkpoint');
-      console.log(cartObj);
 
       this.cartService
         .updateCartJson(cartObj)
@@ -77,8 +69,6 @@ export class CartManager {
         )
         .subscribe(
           (data) => {
-            console.log('Response from cart updating');
-            console.log(data);
             if (data) {
               if (data.statusMsg === 'success') {
                 this.medAppService.medApp.cart = cartObj;
@@ -88,6 +78,7 @@ export class CartManager {
           },
           (err) => {
             console.error('Oops:', err.message);
+            this.router.navigate(['/apperror']);
           }
         );
     }
@@ -99,7 +90,6 @@ export class CartManager {
       let cartObj: Cart = new Cart();
       if (!this.medAppService.medApp.cart) {
         cartObj = this.createNewCart(prodEl, false);
-        console.log(this.medAppService.medApp.cart);
       } else {
         cartObj = this.medAppService.medApp.cart;
         cartObj = this.updateCart(prodEl, cartObj);
@@ -118,7 +108,6 @@ export class CartManager {
       }
       this.medAppService.resetCartSessionStorage();
       this.medAppService.setCartToSessionStorage(cartSessionObj);
-      console.log(cartSessionObj);
     }
     return true;
   }
@@ -180,7 +169,7 @@ export class CartManager {
     let cartItemExistsIndex: number = cartUpdate.cartItems.findIndex(
       (item) => item.productId === prodEl.productId
     );
-    console.log(cartItemExistsIndex);
+
     if (cartItemExistsIndex !== -1) {
       cartItemUpdatePrevObj = cartUpdate.cartItems[cartItemExistsIndex];
       cartItemUpdateObj.productCount = cartItemUpdatePrevObj.productCount + 1;
@@ -211,8 +200,6 @@ export class CartManager {
 
   createNewCart(prodNew: ProductData, isSessionCart: boolean): Cart {
     let cartNew: Cart = new Cart();
-    console.log('userid checkpoint');
-    console.log(this.medAppService.appUser._id);
     cartNew.userId = isSessionCart ? '' : this.medAppService.appUser._id || '';
     cartNew.grandTotal = Number(prodNew.productPrice);
     let cartNewItemObj: CartItem = new CartItem();

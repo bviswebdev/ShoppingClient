@@ -32,8 +32,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         headers: request.headers.set('Content-Type', 'application/json'),
       });
     }*/
-    console.log('Auth Intercepter');
-    console.log(request);
+
     //request = request.clone({ headers: request.headers.set('Accept', 'application/json') });
 
     return next.handle(request);

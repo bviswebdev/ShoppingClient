@@ -21,8 +21,6 @@ export class AppBreadcrumbComponent implements OnInit {
     //this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
     this.buildBreadCrumb(this.activatedRoute.root).then((b) => {
       this.breadcrumbs = b;
-      console.log('breadcrumbs');
-      console.log(this.breadcrumbs);
     });
     /*this.breadcrumbs = [
       {
@@ -51,7 +49,7 @@ export class AppBreadcrumbComponent implements OnInit {
         distinctUntilChanged()
       )
       .subscribe(() => {
-        console.log(`url navigation ended ${this.activatedRoute.root}`);
+        
         //this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
       });*/
     //this.MatBreadcrumbService.updateBreadcrumbLabels(breadcrumb);

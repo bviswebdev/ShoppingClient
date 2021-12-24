@@ -46,9 +46,7 @@ export class UserSignupComponent implements OnInit {
     public addressService: AddressService,
     public med: MedicareappService,
     private addSnackBar: MatSnackBar
-  ) {
-    console.log(med.appUser);
-  }
+  ) {}
 
   get fullname() {
     return (
@@ -222,16 +220,11 @@ export class UserSignupComponent implements OnInit {
   }
 
   selectionChange(event: StepperSelectionEvent, stepper: MatStepper) {
-    console.log(`current index - ${stepper.selectedIndex}`);
-
     if (stepper.selectedIndex === 2) {
-      console.log('confirm tab clicked before');
-
       return;
     }
 
     if (stepper.selectedIndex === 0 && this.formRegister.valid) {
-      console.log('Personal Details tab clicked before');
       //this.userObj._id = '';
       this.userObj.firstName = this.firstname?.value;
       this.userObj.lastName = this.lastname?.value;
@@ -241,12 +234,10 @@ export class UserSignupComponent implements OnInit {
       this.userObj.enabled = true;
       this.userObj.role = this.selectrole?.value.toUpperCase();
 
-      console.log(this.userObj);
       return;
     }
 
     if (stepper.selectedIndex === 1 && this.formAddress.valid) {
-      console.log('Address Details tab clicked before');
       this.userObj.addresses = [];
       //this.addrObj._id = '';
       this.addrObj.addressLineOne = this.addrlineone?.value;
@@ -272,7 +263,6 @@ export class UserSignupComponent implements OnInit {
       return;
     }
 
-    console.log(this.userObj);
     this.userService
       .postUserJson(this.userObj)
       .pipe(
@@ -285,8 +275,6 @@ export class UserSignupComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          console.log('Response from signingup user');
-          console.log(data);
           if (data) {
             if (data.statusMsg === 'success') {
               this.addSnackBar.openFromComponent(UserSnackComponent, {
@@ -301,6 +289,7 @@ export class UserSignupComponent implements OnInit {
         },
         (err) => {
           console.error('Oops:', err.message);
+          this.router.navigate(['/apperror']);
         }
       );
     //this.router.navigate(['/medicare']);

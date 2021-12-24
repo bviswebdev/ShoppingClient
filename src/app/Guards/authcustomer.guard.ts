@@ -30,9 +30,8 @@ export class AuthcustomerGuard
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('Activate Guard');
     this.authService.getAuthFromSessionStorage();
-    console.log(this.authService.AuthObj);
+
     if (this.authService.IsAuthenticated && this.authService.IsUser) {
       return true;
     }
@@ -47,9 +46,8 @@ export class AuthcustomerGuard
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('Activate Child Guard');
     this.authService.getAuthFromSessionStorage();
-    console.log(this.authService.AuthObj);
+
     if (this.authService.IsAuthenticated && this.authService.IsUser) {
       return true;
     }
@@ -76,9 +74,8 @@ export class AuthcustomerGuard
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('Lazy Load Guard');
     this.authService.getAuthFromSessionStorage();
-    console.log(this.authService.AuthObj);
+
     if (this.authService.IsAuthenticated && this.authService.IsUser) {
       return true;
     }
