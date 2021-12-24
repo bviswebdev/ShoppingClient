@@ -6,6 +6,7 @@ import {
   CanDeactivate,
   CanLoad,
   Route,
+  Router,
   RouterStateSnapshot,
   UrlSegment,
   UrlTree,
@@ -19,7 +20,7 @@ import { AuthService } from '../Services/GlobalService/auth.service';
 export class AuthadminGuard
   implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad
 {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -35,6 +36,7 @@ export class AuthadminGuard
     if (this.authService.IsAuthenticated && this.authService.IsAdmin) {
       return true;
     }
+    this.router.navigateByUrl('/medicare/signin');
     return false;
   }
   canActivateChild(
@@ -51,7 +53,7 @@ export class AuthadminGuard
     if (this.authService.IsAuthenticated && this.authService.IsAdmin) {
       return true;
     }
-
+    this.router.navigateByUrl('/medicare/signin');
     return false;
   }
   canDeactivate(
@@ -80,6 +82,7 @@ export class AuthadminGuard
     if (this.authService.IsAuthenticated && this.authService.IsAdmin) {
       return true;
     }
+    this.router.navigateByUrl('/medicare/signin');
     return false;
   }
 }

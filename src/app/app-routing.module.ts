@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AuthadminGuard } from './Guards/authadmin.guard';
 import { AuthcustomerGuard } from './Guards/authcustomer.guard';
+import { AuthregisterGuard } from './Guards/authregister.guard';
 import { AppContentComponent } from './Layout/app-content/app-content.component';
 import { AppMedicareComponent } from './Layout/app-medicare/app-medicare.component';
 import { AppPublicModule } from './Public/app-public.module';
@@ -98,6 +99,7 @@ const routes: Routes = [
       {
         path: 'register',
         component: PubRegisterComponent,
+        canActivate: [AuthregisterGuard],
         data: {
           breadcrumb: 'Register',
         },
@@ -105,6 +107,7 @@ const routes: Routes = [
       {
         path: 'signin',
         component: PubLoginComponent,
+        canActivate: [AuthregisterGuard],
         data: {
           breadcrumb: 'Login',
         },

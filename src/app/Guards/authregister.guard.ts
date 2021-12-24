@@ -17,7 +17,7 @@ import { AuthService } from '../Services/GlobalService/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthcustomerGuard
+export class AuthregisterGuard
   implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad
 {
   constructor(private authService: AuthService, private router: Router) {}
@@ -33,10 +33,10 @@ export class AuthcustomerGuard
     console.log('Activate Guard');
     this.authService.getAuthFromSessionStorage();
     console.log(this.authService.AuthObj);
-    if (this.authService.IsAuthenticated && this.authService.IsUser) {
+    if (!this.authService.IsAuthenticated) {
       return true;
     }
-    this.router.navigateByUrl('/medicare/signin');
+    this.router.navigateByUrl('/medicare/home');
     return false;
   }
   canActivateChild(
@@ -47,14 +47,7 @@ export class AuthcustomerGuard
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('Activate Child Guard');
-    this.authService.getAuthFromSessionStorage();
-    console.log(this.authService.AuthObj);
-    if (this.authService.IsAuthenticated && this.authService.IsUser) {
-      return true;
-    }
-    this.router.navigateByUrl('/medicare/signin');
-    return false;
+    return true;
   }
   canDeactivate(
     component: unknown,
@@ -76,13 +69,6 @@ export class AuthcustomerGuard
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('Lazy Load Guard');
-    this.authService.getAuthFromSessionStorage();
-    console.log(this.authService.AuthObj);
-    if (this.authService.IsAuthenticated && this.authService.IsUser) {
-      return true;
-    }
-    this.router.navigateByUrl('/medicare/signin');
-    return false;
+    return true;
   }
 }
